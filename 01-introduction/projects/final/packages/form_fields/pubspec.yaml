@@ -1,0 +1,11 @@
+name: form_fields
+publish_to: none
+
+environment:
+  sdk: ">=2.13.0 <3.0.0"
+
+dependencies:
+  formz: ^0.4.0
+
+dev_dependencies:
+  lints: ^1.0.1
