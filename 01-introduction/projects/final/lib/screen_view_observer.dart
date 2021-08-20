@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:logging/logging.dart';
+import 'package:monitoring/monitoring.dart';
 import 'package:routemaster/routemaster.dart';
 
 typedef ScreenNameExtractor = String? Function(RouteSettings settings);

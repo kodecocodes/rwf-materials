@@ -29,8 +29,8 @@ dependencies:
   firebase: ^9.0.1
   firebase_dynamic_links: ^2.0.7
   package_info: ^2.0.2
-  logging:
-    path: packages/logging
+  monitoring:
+    path: packages/monitoring
   key_value_storage:
     path: packages/key_value_storage
   fav_qs_api:
@@ -69,10 +69,10 @@ dev_dependencies:
   flutter_lints: ^1.0.4
   
 flutter_icons:
-  android: "launcher_icon"
+  android: true
   ios: true
   remove_alpha_ios: true
-  image_path: "assets/logo.png"
+  image_path: "assets/logos/logo.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

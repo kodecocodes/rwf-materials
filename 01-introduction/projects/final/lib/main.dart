@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:forgot_my_password/forgot_my_password.dart';
 import 'package:key_value_storage/key_value_storage.dart';
-import 'package:logging/logging.dart';
+import 'package:monitoring/monitoring.dart';
 import 'package:profile_menu/profile_menu.dart';
 import 'package:quote_details/quote_details.dart';
 import 'package:quote_list/quote_list.dart';
@@ -30,7 +30,7 @@ void main() async {
       FlutterError.onError = (details) {
         log.e(
           details.exceptionAsString(),
-          details.stack,
+          details.stack.toString(),
         );
       };
       runApp(

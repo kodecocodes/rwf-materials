@@ -14,5 +14,5 @@ UserRM _$UserRMFromJson(Map<String, dynamic> json) {
       email: $checkedConvert(json, 'email', (v) => v as String),
     );
     return val;
-  }, fieldKeyMap: const {'sessionToken': 'User-Token', 'username': 'login'});
+  }, fieldKeyMap: const {'token': 'User-Token', 'username': 'login'});
 }

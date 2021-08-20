@@ -359,13 +359,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
-  logging:
-    dependency: "direct main"
-    description:
-      path: "packages/logging"
-      relative: true
-    source: path
-    version: "0.0.0"
   matcher:
     dependency: transitive
     description:
@@ -387,6 +380,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  monitoring:
+    dependency: "direct main"
+    description:
+      path: "packages/monitoring"
+      relative: true
+    source: path
+    version: "0.0.1"
   nested:
     dependency: transitive
     description:
@@ -706,7 +706,7 @@ packages:
       name: url_launcher_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.2"
   user_repository:
     dependency: "direct main"
     description:
