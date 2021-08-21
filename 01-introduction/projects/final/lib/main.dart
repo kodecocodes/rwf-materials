@@ -27,6 +27,7 @@ void main() async {
   runZonedGuarded(
     () {
       WidgetsFlutterBinding.ensureInitialized();
+      log.d('Initialized Logger');
       FlutterError.onError = (details) {
         log.e(
           details.exceptionAsString(),

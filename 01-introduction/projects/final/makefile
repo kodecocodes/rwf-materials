@@ -1,7 +1,6 @@
 PACKAGES := $(wildcard packages/*)
 FEATURES := $(wildcard packages/features/*)
 BUILD-RUNNER := packages/fav_qs_api packages/key_value_storage
-# ALL := $(FEATURES) $(PACKAGES)
 
 print:
 	for feature in $(FEATURES); do \
@@ -12,7 +11,7 @@ print:
 	done
 
 
-install-dependencies:
+get:
 	flutter pub get
 	for feature in $(FEATURES); do \
 		cd $${feature} ; \
@@ -26,6 +25,12 @@ install-dependencies:
 		flutter pub get ; \
 		cd ../../ ; \
 	done
+
+lint:
+	flutter analyze
+
+format:
+	flutter format --set-exit-if-changed .
 
 testing:
 	flutter test
@@ -54,21 +59,6 @@ test-coverage:
 		cd $${package} ; \
 		echo "Running test on $${package}" ; \
 		flutter test --coverage ; \
-		cd ../../ ; \
-	done
-
-lint:
-	flutter analyze
-	for feature in $(FEATURES); do \
-		cd $${feature} ; \
-		echo "Running analyze on $${feature}" ; \
-		flutter analyze ; \
-		cd ../../../ ; \
-	done
-	for package in $(PACKAGES); do \
-		cd $${package} ; \
-		echo "Running analyze on $${package}" ; \
-		flutterw analyze ; \
 		cd ../../ ; \
 	done
 
