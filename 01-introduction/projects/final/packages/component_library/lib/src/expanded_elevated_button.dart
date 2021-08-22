@@ -12,12 +12,14 @@ class ExpandedElevatedButton extends StatelessWidget {
 
   ExpandedElevatedButton.inProgress({
     required String label,
+    Key? key,
   }) : this(
           label: label,
           icon: Transform.scale(
             scale: 0.5,
             child: const CircularProgressIndicator(),
           ),
+          key: key,
         );
 
   final VoidCallback? onTap;
@@ -39,7 +41,7 @@ class ExpandedElevatedButton extends StatelessWidget {
               icon: icon,
             )
           : ElevatedButton(
-        onPressed: onTap,
+              onPressed: onTap,
               child: Text(
                 label,
               ),

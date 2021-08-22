@@ -2,8 +2,9 @@ import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 
 class AuthenticationRequiredErrorSnackBar extends SnackBar {
-  const AuthenticationRequiredErrorSnackBar()
+  const AuthenticationRequiredErrorSnackBar({Key? key})
       : super(
+          key: key,
           content: const _AuthenticationRequiredErrorSnackBarMessage(),
         );
 }
