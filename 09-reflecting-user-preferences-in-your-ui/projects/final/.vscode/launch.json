@@ -9,8 +9,12 @@
             "request": "launch",
             "type": "dart",
             "program": "lib/main.dart",
-            "--dart-define": "fav-qs-app-token=4864f2d5f25d330e0b2873079146d756",
-            "--flavor": "prod"
+            "args": [
+                "--dart-define",
+                "fav-qs-app-token=4864f2d5f25d330e0b2873079146d756",
+                "--flavor",
+                "prod"
+            ],
         },
         {
             "name": "final (profile mode)",
