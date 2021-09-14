@@ -181,7 +181,7 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
         fetchPolicy: fetchPolicy,
       )
           .map(
-            (newPage) {
+        (newPage) {
           return newPage.toQuoteListState(
             page,
             state,
@@ -191,7 +191,7 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
           );
         },
       ).onErrorReturnWith(
-            (error, _) {
+        (error, _) {
           if (error is EmptySearchResultException) {
             return QuoteListState.noItemsFound(
               filter: state.filter,

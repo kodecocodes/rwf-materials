@@ -11,8 +11,8 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   SignUpBloc({
     required this.userRepository,
   }) : super(
-    const SignUpState(),
-  );
+          const SignUpState(),
+        );
 
   final UserRepository userRepository;
 
@@ -24,14 +24,14 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       yield state.copyWith(
         username: shouldValidate
             ? Username.dirty(
-          event.username,
-          isAlreadyTaken: event.username == previousValue.value
-              ? previousValue.isAlreadyRegistered
-              : false,
-        )
+                event.username,
+                isAlreadyTaken: event.username == previousValue.value
+                    ? previousValue.isAlreadyRegistered
+                    : false,
+              )
             : Username.pure(
-          event.username,
-        ),
+                event.username,
+              ),
         error: null,
       );
     } else if (event is SignUpEmailChanged) {
@@ -40,14 +40,14 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       yield state.copyWith(
         email: shouldValidate
             ? Email.dirty(
-          event.email,
-          isAlreadyRegistered: event.email == previousValue.value
-              ? previousValue.isAlreadyRegistered
-              : false,
-        )
+                event.email,
+                isAlreadyRegistered: event.email == previousValue.value
+                    ? previousValue.isAlreadyRegistered
+                    : false,
+              )
             : Email.pure(
-          event.email,
-        ),
+                event.email,
+              ),
         error: null,
       );
     } else if (event is SignUpPasswordChanged) {
@@ -56,11 +56,11 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       yield state.copyWith(
         password: shouldValidate
             ? Password.dirty(
-          event.password,
-        )
+                event.password,
+              )
             : Password.pure(
-          event.password,
-        ),
+                event.password,
+              ),
         error: null,
       );
     } else if (event is SignUpPasswordConfirmationChanged) {
@@ -69,12 +69,12 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       yield state.copyWith(
         passwordConfirmation: shouldValidate
             ? PasswordConfirmation.dirty(
-          event.passwordConfirmation,
-          password: state.password,
-        )
+                event.passwordConfirmation,
+                password: state.password,
+              )
             : PasswordConfirmation.pure(
-          event.passwordConfirmation,
-        ),
+                event.passwordConfirmation,
+              ),
         error: null,
       );
     } else if (event is SignUpUsernameUnfocused) {
@@ -125,11 +125,11 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         password: password,
       );
       final isFormValid = Formz.validate([
-        username,
-        email,
-        password,
-        passwordConfirmation,
-      ]) ==
+            username,
+            email,
+            password,
+            passwordConfirmation,
+          ]) ==
           FormzStatus.valid;
       yield state.copyWith(
         username: username,
@@ -168,7 +168,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
                 ? Email.dirty(
                     email.value,
                     isAlreadyRegistered: true,
-            )
+                  )
                 : null,
           );
         }

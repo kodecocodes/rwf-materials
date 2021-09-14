@@ -29,7 +29,6 @@ class OptionalPasswordConfirmation
             : OptionalPasswordConfirmationValidationError.invalid);
   }
 
-
   @override
   int get hashCode => value.hashCode ^ pure.hashCode ^ password.hashCode;
 

@@ -12,6 +12,5 @@ class SignInRequestRM {
   @JsonKey(name: 'user')
   final UserCredentialsRM credentials;
 
-
   Map<String, dynamic> toJson() => _$SignInRequestRMToJson(this);
 }

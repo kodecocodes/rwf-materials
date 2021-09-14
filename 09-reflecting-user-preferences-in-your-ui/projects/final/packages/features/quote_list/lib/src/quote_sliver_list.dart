@@ -70,6 +70,12 @@ class QuoteSliverList extends StatelessWidget {
               },
             );
           },
+          firstPageProgressIndicatorBuilder: (context) {
+            return const LoadingIndicator();
+          },
+          newPageProgressIndicatorBuilder: (context) {
+            return const LoadingIndicator();
+          },
         ),
       ),
     );

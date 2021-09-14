@@ -71,6 +71,12 @@ class QuoteSliverGrid extends StatelessWidget {
               },
             );
           },
+          firstPageProgressIndicatorBuilder: (context) {
+            return const LoadingIndicator();
+          },
+          newPageProgressIndicatorBuilder: (context) {
+            return const LoadingIndicator();
+          },
         ),
         crossAxisCount: _gridColumnCount,
         crossAxisSpacing: theme.gridSpacing,

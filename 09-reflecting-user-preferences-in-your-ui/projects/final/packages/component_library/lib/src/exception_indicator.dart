@@ -1,6 +1,7 @@
 import 'package:component_library/component_library.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rive/rive.dart';
 
 class ExceptionIndicator extends StatelessWidget {
   const ExceptionIndicator({
@@ -26,12 +27,12 @@ class ExceptionIndicator extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.error,
-              size: 48,
+            const SizedBox(
+              height: 200,
+              child: RiveAnimation.asset('assets/animations/on_off_switch.riv', animations: ['Off'],),
             ),
             const SizedBox(
-              height: Spacing.xxLarge,
+              height: Spacing.medium,
             ),
             Text(
               title ?? l10n.exceptionIndicatorGenericTitle,

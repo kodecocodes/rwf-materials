@@ -22,3 +22,4 @@ export 'src/theme/spacing.dart';
 export 'src/theme/wonder_theme.dart';
 export 'src/theme/wonder_theme_data.dart';
 export 'src/upvote_icon_button.dart';
+export 'src/loading_indicator.dart';

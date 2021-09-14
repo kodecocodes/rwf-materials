@@ -9,8 +9,8 @@ abstract class ForgotMyPasswordEvent extends Equatable {
 
 class ForgotMyPasswordEmailChanged extends ForgotMyPasswordEvent {
   const ForgotMyPasswordEmailChanged(
-      this.email,
-      );
+    this.email,
+  );
 
   final String email;
 

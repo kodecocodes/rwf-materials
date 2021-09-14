@@ -8,7 +8,7 @@ extension QuoteListPageCMtoDomain on QuoteListPageCM {
       quoteList: quoteList
           .map(
             (quote) => quote.toDomainModel(),
-      )
+          )
           .toList(),
     );
   }

@@ -163,7 +163,7 @@ class UpdateProfileBloc extends Bloc<UpdateProfileEvent, UpdateProfileState> {
           } catch (error) {
             yield state.copyWith(
               error: error is! UsernameAlreadyTakenException &&
-                  error is! EmailAlreadyRegisteredException
+                      error is! EmailAlreadyRegisteredException
                   ? error
                   : null,
               status: FormzStatus.submissionFailure,

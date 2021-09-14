@@ -1,4 +1,3 @@
-
 import 'package:hive/hive.dart';
 import 'package:key_value_storage/key_value_storage.dart';
 import 'package:key_value_storage/src/models/dark_mode_preference_cm.dart';
@@ -27,7 +26,7 @@ class KeyValueStorage {
     } catch (_) {
       throw Exception(
           'You shouldn\'t have more than one [KeyValueStorage] instance in your '
-              'project');
+          'project');
     }
   }
 
@@ -39,27 +38,25 @@ class KeyValueStorage {
         isTemporary: true,
       );
 
-  Future<Box<QuoteListPageCM>>
-  get favoriteQuoteListPageBox =>
+  Future<Box<QuoteListPageCM>> get favoriteQuoteListPageBox =>
       _openHiveBox<QuoteListPageCM>(
         _favoriteQuoteListPagesBoxKey,
         isTemporary: true,
       );
 
-  Future<Box<UserCM>> get userBox =>
-      _openHiveBox<UserCM>(
+  Future<Box<UserCM>> get userBox => _openHiveBox<UserCM>(
         _userBoxKey,
         isTemporary: false,
       );
 
-  Future<Box<DarkModePreferenceCM>>
-  get darkModePreferenceBox =>
+  Future<Box<DarkModePreferenceCM>> get darkModePreferenceBox =>
       _openHiveBox<DarkModePreferenceCM>(
         _darkModePreferenceBoxKey,
         isTemporary: false,
       );
 
-  Future<Box<T>> _openHiveBox<T>(String boxKey, {
+  Future<Box<T>> _openHiveBox<T>(
+    String boxKey, {
     required bool isTemporary,
   }) async {
     if (_hive.isBoxOpen(boxKey)) {

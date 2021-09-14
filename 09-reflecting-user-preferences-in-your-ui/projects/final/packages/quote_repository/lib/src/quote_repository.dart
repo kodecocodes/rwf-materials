@@ -11,14 +11,15 @@ class QuoteRepository {
     required this.remoteApi,
     @visibleForTesting QuoteLocalStorage? localStorage,
   }) : _localStorage = localStorage ??
-      QuoteLocalStorage(
-        keyValueStorage: keyValueStorage,
-      );
+            QuoteLocalStorage(
+              keyValueStorage: keyValueStorage,
+            );
 
   final FavQsApi remoteApi;
   final QuoteLocalStorage _localStorage;
 
-  Stream<QuoteListPage> getQuoteListPage(int pageNumber, {
+  Stream<QuoteListPage> getQuoteListPage(
+    int pageNumber, {
     Tag? tag,
     String searchTerm = '',
     String? favoritedByUsername,
@@ -29,7 +30,7 @@ class QuoteRepository {
     final isFetchPolicyNetworkOnly =
         fetchPolicy == QuoteListPageFetchPolicy.networkOnly;
     final shouldUseCache =
-    !(isFilteringByTag || isSearching || isFetchPolicyNetworkOnly);
+        !(isFilteringByTag || isSearching || isFetchPolicyNetworkOnly);
     if (!shouldUseCache) {
       yield await _getQuoteListPageFromNetwork(
         pageNumber,
@@ -79,7 +80,8 @@ class QuoteRepository {
     }
   }
 
-  Future<QuoteListPage> _getQuoteListPageFromNetwork(int pageNumber, {
+  Future<QuoteListPage> _getQuoteListPageFromNetwork(
+    int pageNumber, {
     Tag? tag,
     String searchTerm = '',
     String? favoritedByUsername,

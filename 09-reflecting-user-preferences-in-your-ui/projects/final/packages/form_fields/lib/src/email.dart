@@ -36,7 +36,8 @@ class Email extends FormzInput<String, EmailValidationError> {
   }
 
   @override
-  int get hashCode => value.hashCode ^ pure.hashCode ^ isAlreadyRegistered.hashCode;
+  int get hashCode =>
+      value.hashCode ^ pure.hashCode ^ isAlreadyRegistered.hashCode;
 
   @override
   bool operator ==(Object other) {

@@ -11,8 +11,8 @@ class QuoteDetailsBloc extends Bloc<QuoteDetailsEvent, QuoteDetailsState> {
     required this.quoteId,
     required this.quoteRepository,
   }) : super(
-    const QuoteDetailsInProgress(),
-  ) {
+          const QuoteDetailsInProgress(),
+        ) {
     add(const QuoteDetailsStarted());
   }
 
@@ -41,7 +41,6 @@ class QuoteDetailsBloc extends Bloc<QuoteDetailsEvent, QuoteDetailsState> {
         yield QuoteDetailsSuccess(
           quote: updatedQuote,
         );
-
       } catch (error) {
         final lastState = state;
         if (lastState is QuoteDetailsSuccess) {
