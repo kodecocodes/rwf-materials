@@ -1,0 +1,13 @@
+{
+  "downvoteIconButtonTooltip": "Downvote",
+  "upvoteIconButtonTooltip": "Upvote",
+  "searchBarHintText": "journey",
+  "searchBarLabelText": "Search",
+  "shareIconButtonTooltip": "Share",
+  "favoriteIconButtonTooltip": "Favorite",
+  "exceptionIndicatorGenericTitle": "Something went wrong",
+  "exceptionIndicatorTryAgainButton": "Try Again",
+  "exceptionIndicatorGenericMessage": "There has been an error.\nPlease, check your internet connection and try again later.",
+  "genericErrorSnackbarMessage": "There has been an error. Please, check your internet connection.",
+  "authenticationRequiredErrorSnackbarMessage": "You need to sign in before performing this action."
+}
