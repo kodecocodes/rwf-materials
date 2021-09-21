@@ -112,6 +112,7 @@ class _WonderWordsState extends State<WonderWords> {
             darkTheme: _darkTheme.materialThemeData,
             themeMode: darkModePreference?.toThemeMode(),
             debugShowCheckedModeBanner: false,
+            supportedLocales: AppLocalizations.supportedLocales,
             localizationsDelegates: const [
               AppLocalizations.delegate,
               ComponentLibraryLocalizations.delegate,

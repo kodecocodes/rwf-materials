@@ -35,6 +35,12 @@ class ProfileMenuBloc extends Bloc<ProfileMenuEvent, ProfileMenuState> {
   Stream<ProfileMenuState> mapEventToState(ProfileMenuEvent event) async* {
     final state = this.state;
     if (event is ProfileMenuStarted) {
+      // yield* Rx.combineLatest<User?, ProfileMenuLoaded>(
+      //   List.filled(1, userRepository.getUser()),
+      //   (users) => ProfileMenuLoaded(
+      //     username: users.first?.username,
+      //   ),
+      // );
       yield* Rx.combineLatest2<User?, DarkModePreference, ProfileMenuLoaded>(
         userRepository.getUser(),
         userRepository.getDarkModePreference(),

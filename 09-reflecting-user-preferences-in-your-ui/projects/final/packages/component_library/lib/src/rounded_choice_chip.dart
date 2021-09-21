@@ -35,7 +35,7 @@ class _RoundedChoiceChipState extends State<RoundedChoiceChip>
 
   @override
   Widget build(BuildContext context) {
-    final theme = WonderTheme.of(context);
+    final WonderThemeData theme = WonderTheme.of(context);
     return ScaleTransition(
       scale: scaleAnimation,
       child: ChoiceChip(

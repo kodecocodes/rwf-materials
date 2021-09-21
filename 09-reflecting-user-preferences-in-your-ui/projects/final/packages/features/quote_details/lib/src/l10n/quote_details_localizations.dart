@@ -1,3 +1,4 @@
+
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -59,18 +60,15 @@ import 'quote_details_localizations_en.dart';
 /// be consistent with the languages listed in the QuoteDetailsLocalizations.supportedLocales
 /// property.
 abstract class QuoteDetailsLocalizations {
-  QuoteDetailsLocalizations(String locale)
-      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  QuoteDetailsLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
   static QuoteDetailsLocalizations of(BuildContext context) {
-    return Localizations.of<QuoteDetailsLocalizations>(
-        context, QuoteDetailsLocalizations)!;
+    return Localizations.of<QuoteDetailsLocalizations>(context, QuoteDetailsLocalizations)!;
   }
 
-  static const LocalizationsDelegate<QuoteDetailsLocalizations> delegate =
-      _QuoteDetailsLocalizationsDelegate();
+  static const LocalizationsDelegate<QuoteDetailsLocalizations> delegate = _QuoteDetailsLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -82,8 +80,7 @@ abstract class QuoteDetailsLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -91,7 +88,9 @@ abstract class QuoteDetailsLocalizations {
   ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en')
+  ];
 
   /// No description provided for @shareQuoteText.
   ///
@@ -100,34 +99,33 @@ abstract class QuoteDetailsLocalizations {
   String shareQuoteText(String link);
 }
 
-class _QuoteDetailsLocalizationsDelegate
-    extends LocalizationsDelegate<QuoteDetailsLocalizations> {
+class _QuoteDetailsLocalizationsDelegate extends LocalizationsDelegate<QuoteDetailsLocalizations> {
   const _QuoteDetailsLocalizationsDelegate();
 
   @override
   Future<QuoteDetailsLocalizations> load(Locale locale) {
-    return SynchronousFuture<QuoteDetailsLocalizations>(
-        _lookupQuoteDetailsLocalizations(locale));
+    return SynchronousFuture<QuoteDetailsLocalizations>(lookupQuoteDetailsLocalizations(locale));
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['en'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['en'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_QuoteDetailsLocalizationsDelegate old) => false;
 }
 
-QuoteDetailsLocalizations _lookupQuoteDetailsLocalizations(Locale locale) {
-// Lookup logic when only language code is specified.
+QuoteDetailsLocalizations lookupQuoteDetailsLocalizations(Locale locale) {
+
+
+  // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en':
-      return QuoteDetailsLocalizationsEn();
+    case 'en': return QuoteDetailsLocalizationsEn();
   }
 
   throw FlutterError(
-      'QuoteDetailsLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-      'an issue with the localizations generation tool. Please file an issue '
-      'on GitHub with a reproducible sample app and the gen-l10n configuration '
-      'that was used.');
+    'QuoteDetailsLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.'
+  );
 }

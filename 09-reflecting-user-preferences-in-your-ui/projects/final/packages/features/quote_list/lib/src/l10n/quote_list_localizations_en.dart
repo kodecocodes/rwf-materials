@@ -1,3 +1,6 @@
+
+
+
 import 'quote_list_localizations.dart';
 
 /// The translations for English (`en`).
@@ -5,8 +8,7 @@ class QuoteListLocalizationsEn extends QuoteListLocalizations {
   QuoteListLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get quoteListRefreshErrorMessage =>
-      'We couldn\'t refresh your items.\nPlease, check your internet connection and try again later.';
+  String get quoteListRefreshErrorMessage => 'We couldn\'t refresh your items.\nPlease, check your internet connection and try again later.';
 
   @override
   String get lifeTagLabel => 'Life';

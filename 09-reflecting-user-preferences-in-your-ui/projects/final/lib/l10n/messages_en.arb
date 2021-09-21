@@ -1,4 +1,10 @@
 {
   "quotesBottomNavigationBarItemLabel": "Quotes",
-  "profileBottomNavigationBarItemLabel": "Profile"
+  "@quotesBottomNavigationBarItemLabel": {
+    "description": "The Quotes text visible as the first item in bottom bar"
+  },
+  "profileBottomNavigationBarItemLabel": "Profile",
+  "@profileBottomNavigationBarItemLabel": {
+    "description": "The Profile text visible as the second item in bottom bar"
+  }
 }

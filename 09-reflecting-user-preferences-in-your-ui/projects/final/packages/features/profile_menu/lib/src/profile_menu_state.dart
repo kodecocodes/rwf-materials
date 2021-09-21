@@ -8,7 +8,7 @@ abstract class ProfileMenuState extends Equatable {
 
 class ProfileMenuLoaded extends ProfileMenuState {
   const ProfileMenuLoaded({
-    this.darkModePreference = DarkModePreference.useSystemSettings,
+    this.darkModePreference = DarkModePreference.alwaysLight,
     this.isSignOutInProgress = false,
     this.username,
   });
