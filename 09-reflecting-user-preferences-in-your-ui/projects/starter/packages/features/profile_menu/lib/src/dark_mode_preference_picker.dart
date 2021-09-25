@@ -16,7 +16,7 @@ class DarkModePreferencePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = ProfileMenuLocalizations.of(context);
-    //TODO: read the bloc
+    final bloc = context.read<ProfileMenuBloc>();
     return Column(
       children: [
         ListTile(
@@ -38,7 +38,11 @@ class DarkModePreferencePicker extends StatelessWidget {
               value: DarkModePreference.alwaysDark,
               groupValue: currentValue,
               onChanged: (newOption) {
-                //TODO: trigger the preference change event for 1st radio tile
+                bloc.add(
+                  const ProfileMenuDarkModePreferenceChanged(
+                    DarkModePreference.alwaysDark,
+                  ),
+                );
               },
             ),
             RadioListTile<DarkModePreference>(
@@ -48,7 +52,11 @@ class DarkModePreferencePicker extends StatelessWidget {
               value: DarkModePreference.alwaysLight,
               groupValue: currentValue,
               onChanged: (newOption) {
-                //TODO: trigger the preference change event for 2nd radio tile
+                bloc.add(
+                  const ProfileMenuDarkModePreferenceChanged(
+                    DarkModePreference.alwaysLight,
+                  ),
+                );
               },
             ),
             RadioListTile<DarkModePreference>(
@@ -58,7 +66,11 @@ class DarkModePreferencePicker extends StatelessWidget {
               value: DarkModePreference.useSystemSettings,
               groupValue: currentValue,
               onChanged: (newOption) {
-                //TODO: trigger the preference change event for 3rd radio tile
+                bloc.add(
+                  const ProfileMenuDarkModePreferenceChanged(
+                    DarkModePreference.useSystemSettings,
+                  ),
+                );
               },
             ),
           ],

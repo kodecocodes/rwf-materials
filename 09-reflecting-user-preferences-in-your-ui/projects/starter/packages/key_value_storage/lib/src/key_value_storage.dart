@@ -9,7 +9,7 @@ import 'package:path_provider/path_provider.dart';
 class KeyValueStorage {
   static const _quoteListPagesBoxKey = 'quote-list-pages';
   static const _favoriteQuoteListPagesBoxKey = 'favorite-quote-list-pages';
-  //TODO: Add  hive box key
+  static const _darkModePreferenceBoxKey = 'dark-mode-preference';
   static const _userBoxKey = 'user';
 
   KeyValueStorage({
@@ -19,7 +19,7 @@ class KeyValueStorage {
       _hive
         ..registerAdapter(QuoteListPageCMAdapter())
         ..registerAdapter(QuoteCMAdapter())
-        //TODO: register the adapter
+        ..registerAdapter(DarkModePreferenceCMAdapter())
         ..registerAdapter(
           UserCMAdapter(),
         );
@@ -49,7 +49,11 @@ class KeyValueStorage {
         isTemporary: false,
       );
 
-  //TODO: get the box by key
+  Future<Box<DarkModePreferenceCM>> get darkModePreferenceBox =>
+      _openHiveBox<DarkModePreferenceCM>(
+        _darkModePreferenceBoxKey,
+        isTemporary: false,
+      );
 
   Future<Box<T>> _openHiveBox<T>(
     String boxKey, {

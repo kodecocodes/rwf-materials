@@ -64,8 +64,8 @@ class _WonderWordsState extends State<WonderWords> {
       quoteRepository: _quoteRepository,
     ),
   );
-
-  //TODO: declare themes
+  final _lightTheme = LightWonderThemeData();
+  final _darkTheme = DarkWonderThemeData();
 
   @override
   void initState() {
@@ -100,25 +100,32 @@ class _WonderWordsState extends State<WonderWords> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      supportedLocales: AppLocalizations.supportedLocales,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        ComponentLibraryLocalizations.delegate,
-        ProfileMenuLocalizations.delegate,
-        QuoteListLocalizations.delegate,
-        QuoteDetailsLocalizations.delegate,
-        SignInLocalizations.delegate,
-        ForgotMyPasswordLocalizations.delegate,
-        SignUpLocalizations.delegate,
-        UpdateProfileLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      routerDelegate: _navigator,
-      routeInformationParser: const RoutemasterParser(),
+    return WonderTheme(
+      lightTheme: _lightTheme,
+      darkTheme: _darkTheme,
+      child: MaterialApp.router(
+        theme: _lightTheme.materialThemeData,
+        darkTheme: _darkTheme.materialThemeData,
+        themeMode: ThemeMode.light,
+        debugShowCheckedModeBanner: false,
+        supportedLocales: AppLocalizations.supportedLocales,
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          ComponentLibraryLocalizations.delegate,
+          ProfileMenuLocalizations.delegate,
+          QuoteListLocalizations.delegate,
+          QuoteDetailsLocalizations.delegate,
+          SignInLocalizations.delegate,
+          ForgotMyPasswordLocalizations.delegate,
+          SignUpLocalizations.delegate,
+          UpdateProfileLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        routerDelegate: _navigator,
+        routeInformationParser: const RoutemasterParser(),
+      ),
     );
   }
 }

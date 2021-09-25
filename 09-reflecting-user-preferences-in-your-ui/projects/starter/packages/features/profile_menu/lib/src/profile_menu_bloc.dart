@@ -47,7 +47,9 @@ class ProfileMenuBloc extends Bloc<ProfileMenuEvent, ProfileMenuState> {
       );
       await userRepository.signOut();
       await quoteRepository.clearCache();
+    } else if (event is ProfileMenuDarkModePreferenceChanged &&
+        state is ProfileMenuLoaded) {
+      //TODO: handle ProfileMenuDarkModePreferenceChanged event
     }
-    //TODO: handle ProfileMenuDarkModePreferenceChanged event
   }
 }
