@@ -1,0 +1,81 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "final",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "final (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "component_library",
+            "cwd": "packages/component_library",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "component_library (profile mode)",
+            "cwd": "packages/component_library",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "domain_models",
+            "cwd": "packages/domain_models",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "fav_qs_api",
+            "cwd": "packages/fav_qs_api",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "form_fields",
+            "cwd": "packages/form_fields",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "key_value_storage",
+            "cwd": "packages/key_value_storage",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "monitoring",
+            "cwd": "packages/monitoring",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "monitoring (profile mode)",
+            "cwd": "packages/monitoring",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "quote_repository",
+            "cwd": "packages/quote_repository",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "user_repository",
+            "cwd": "packages/user_repository",
+            "request": "launch",
+            "type": "dart"
+        }
+    ]
+}
