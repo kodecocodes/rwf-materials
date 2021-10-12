@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
-class ComponentBook extends StatelessWidget {
+class ComponentBookCustom extends StatelessWidget {
   final ThemeData lightThemeData, darkThemeData;
 
-  const ComponentBook({
+  const ComponentBookCustom({
     Key? key,
     required this.lightThemeData,
     required this.darkThemeData,
@@ -16,16 +16,36 @@ class ComponentBook extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = WonderTheme.of(context);
-    return Storybook(
+    return MaterialApp(
       theme: lightThemeData,
       darkTheme: darkThemeData,
-      localizationDelegates: const [
+      debugShowCheckedModeBanner: false,
+      localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
         ComponentLibraryLocalizations.delegate,
       ],
-      children: [...getStories(theme)],
+      home: Scaffold(
+        body: CustomStorybook(
+          children: [
+            ...getStories(theme),
+          ],
+          builder: (_) => Row(
+            children: const [
+              SizedBox(
+                width: 200,
+                child: Contents(),
+              ),
+              Expanded(child: CurrentStory()),
+              SizedBox(
+                width: 200,
+                child: KnobPanel(),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
