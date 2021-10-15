@@ -20,6 +20,7 @@ class ComponentBookCustom extends StatelessWidget {
       theme: lightThemeData,
       darkTheme: darkThemeData,
       debugShowCheckedModeBanner: false,
+      supportedLocales: ComponentLibraryLocalizations.supportedLocales,
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -27,21 +28,18 @@ class ComponentBookCustom extends StatelessWidget {
         ComponentLibraryLocalizations.delegate,
       ],
       home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Wonder Words Components Library'),
+          backgroundColor: const Color(0xFF009245),
+          elevation: 0,
+        ),
         body: CustomStorybook(
-          children: [
-            ...getStories(theme),
-          ],
+          children: [...getStories(theme)],
           builder: (_) => Row(
             children: const [
-              SizedBox(
-                width: 200,
-                child: Contents(),
-              ),
-              Expanded(child: CurrentStory()),
-              SizedBox(
-                width: 200,
-                child: KnobPanel(),
-              ),
+              SizedBox(width: 300, child: Contents()),
+              Expanded(child: CurrentStory(), flex: 3),
+              SizedBox(width: 400, child: KnobPanel())
             ],
           ),
         ),
