@@ -1,0 +1,16 @@
+name: monitoring
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ">=2.13.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  firebase_analytics: ^8.3.0
+  logger: ^1.0.0
+
+dev_dependencies:
+  lints: ^1.0.1
+  test: ^1.16.8
