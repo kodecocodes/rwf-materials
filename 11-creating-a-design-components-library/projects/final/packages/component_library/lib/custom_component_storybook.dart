@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
-class ComponentBookCustom extends StatelessWidget {
+class CustomComponentStorybook extends StatelessWidget {
   final ThemeData lightThemeData, darkThemeData;
 
-  const ComponentBookCustom({
+  const CustomComponentStorybook({
     Key? key,
     required this.lightThemeData,
     required this.darkThemeData,
@@ -30,7 +30,7 @@ class ComponentBookCustom extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Wonder Words Components Library'),
-          backgroundColor: const Color(0xFF009245),
+          backgroundColor: Colors.black,
           elevation: 0,
         ),
         body: CustomStorybook(

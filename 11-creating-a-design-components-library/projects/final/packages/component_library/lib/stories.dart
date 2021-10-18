@@ -114,10 +114,13 @@ List<Story> getStories(WonderThemeData theme) {
     Story(
       name: 'Quotes in List',
       section: 'Quote',
-      wrapperBuilder: (context, story, child) => ListView.separated(
-        itemCount: 15,
-        itemBuilder: (_, __) => child,
-        separatorBuilder: (_, __) => Divider(height: theme.listSpacing),
+      wrapperBuilder: (context, story, child) => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView.separated(
+          itemCount: 15,
+          itemBuilder: (_, __) => child,
+          separatorBuilder: (_, __) => Divider(height: theme.listSpacing),
+        ),
       ),
       builder: (_, k) => QuoteCard(
         isFavorite: k.boolean(label: 'Is Favorite', initial: false),
@@ -130,18 +133,18 @@ List<Story> getStories(WonderThemeData theme) {
     Story(
       name: 'Quotes in Grid',
       section: 'Quote',
-      wrapperBuilder: (context, story, child) => GridView.count(
-        crossAxisCount: 2,
-        crossAxisSpacing: theme.gridSpacing,
-        mainAxisSpacing: theme.gridSpacing,
-        children: [for (int i = 0; i < 15; i++) child],
+      wrapperBuilder: (context, story, child) => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: GridView.count(
+          crossAxisCount: 2,
+          crossAxisSpacing: theme.gridSpacing,
+          mainAxisSpacing: theme.gridSpacing,
+          children: [for (int i = 0; i < 15; i++) child],
+        ),
       ),
       builder: (_, k) => QuoteCard(
         isFavorite: k.boolean(label: 'Is Favorite', initial: false),
-        statement: k.text(
-            label: 'Statement',
-            initial:
-                'A quote statement'),
+        statement: k.text(label: 'Statement', initial: 'A quote statement'),
         author: k.text(label: 'Author', initial: 'Author name'),
       ),
     ),
@@ -153,7 +156,7 @@ List<Story> getStories(WonderThemeData theme) {
           label: 'label',
           initial: 'I am a Chip!',
         ),
-        isSelected: k.boolean(label: 'isSelected', initial: true),
+        isSelected: k.boolean(label: 'isSelected', initial: false),
         avatar: k.boolean(label: 'avatar', initial: false)
             ? Icon(
                 Icons.favorite,
@@ -166,14 +169,8 @@ List<Story> getStories(WonderThemeData theme) {
           label: 'backgroundColor',
           initial: null,
           options: const [
-            Option(
-              'Light blue',
-              Colors.lightBlue,
-            ),
-            Option(
-              'Red accent',
-              Colors.redAccent,
-            ),
+            Option('Light blue', Colors.lightBlue),
+            Option('Red accent', Colors.redAccent),
           ],
         ),
         selectedBackgroundColor: k.options(

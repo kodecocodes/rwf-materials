@@ -1,13 +1,16 @@
 import 'package:component_library/component_library.dart';
+import 'package:component_library/src/theme/spacing.dart';
 import 'package:component_library/stories.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
-class ComponentBook extends StatelessWidget {
+class ComponentStorybook extends StatelessWidget {
   final ThemeData lightThemeData, darkThemeData;
 
-  const ComponentBook({
+  const ComponentStorybook({
     Key? key,
     required this.lightThemeData,
     required this.darkThemeData,
