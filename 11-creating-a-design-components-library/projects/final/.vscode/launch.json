@@ -16,9 +16,10 @@
             "flutterMode": "profile"
         },
         {
-            "name": "component_library",
-            "cwd": "packages/component_library",
+            "name": "component_library_storybook",
+            "cwd": "packages/component_library/example",
             "request": "launch",
+            "program": "lib/main.dart",
             "type": "dart"
         },
         {

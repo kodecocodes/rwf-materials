@@ -13,7 +13,6 @@ dependencies:
   auto_size_text: ^3.0.0-nullsafety.0
   rive: ^0.7.28
   lottie: ^1.1.0
-  storybook_flutter: ^0.7.0+1
 
 dev_dependencies:
   flutter_test:
@@ -24,10 +23,8 @@ dev_dependencies:
 
 flutter:
   generate: true
-  uses-material-design: true
   assets:
     - assets/
-    - assets/animations/
   fonts:
     - family: Fondamento
       fonts:
