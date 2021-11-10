@@ -5,66 +5,40 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "final",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "final (profile mode)",
+            "name": "wonder_words (dev)",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
-        },
-        {
-            "name": "component_library_storybook",
-            "cwd": "packages/component_library/example",
-            "request": "launch",
             "program": "lib/main.dart",
-            "type": "dart"
+            "args": [
+                "--flavor",
+                "dev",
+                "--dart-define",
+                "fav-qs-app-token=YOUR_API_KEY"
+            ]
         },
         {
-            "name": "component_library (profile mode)",
-            "cwd": "packages/component_library",
+            "name": "wonder_words (prod)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--flavor",
+                "prod",
+                "--dart-define",
+                "fav-qs-app-token=YOUR_API_KEY"
+            ]
+        },
+        {
+            "name": "wonder_words (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
-        },
-        {
-            "name": "domain_models",
-            "cwd": "packages/domain_models",
-            "request": "launch",
-            "type": "dart"
         },
         {
             "name": "fav_qs_api",
             "cwd": "packages/fav_qs_api",
             "request": "launch",
             "type": "dart"
-        },
-        {
-            "name": "form_fields",
-            "cwd": "packages/form_fields",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "key_value_storage",
-            "cwd": "packages/key_value_storage",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "monitoring",
-            "cwd": "packages/monitoring",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "monitoring (profile mode)",
-            "cwd": "packages/monitoring",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "profile"
         },
         {
             "name": "quote_repository",

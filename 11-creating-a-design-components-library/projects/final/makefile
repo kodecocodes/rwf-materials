@@ -1,7 +1,6 @@
 PACKAGES := $(wildcard packages/*)
 FEATURES := $(wildcard packages/features/*)
 BUILD-RUNNER := packages/fav_qs_api packages/key_value_storage
-FLUTTER-GEN := packages/component_library
 
 print:
 	for feature in $(FEATURES); do \
@@ -84,19 +83,4 @@ build-runner:
 		echo "Running build-runner on $${package}" ; \
 		flutter pub run build_runner build --delete-conflicting-outputs ; \
 		cd ../../ ; \
-	done
-
-gen-l10n:
-	flutter gen-l10n
-	for fluttergen in $(FLUTTER-GEN); do \
-		cd $${fluttergen} ; \
-		echo "Running gen-l10n on $${fluttergen}" ; \
-		flutter gen-l10n ; \
-		cd ../../ ; \
-	done
-	for feature in $(FEATURES); do \
-		cd $${feature} ; \
-		echo "Running gen-l10n on $${feature}" ; \
-		flutter gen-l10n ; \
-		cd ../../../ ; \
 	done

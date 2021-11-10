@@ -6,6 +6,19 @@ import 'package:key_value_storage/src/models/user_cm.dart';
 import 'package:meta/meta.dart';
 import 'package:path_provider/path_provider.dart';
 
+/// Wraps [Hive] so that we can register all adapters and manage all keys in a
+/// single place.
+///
+/// To use this class, simply unwrap one of its exposed boxes, like
+/// [quoteListPageBox], and execute operations in it, for example:
+///
+/// ```
+/// (await quoteListPageBox).clear();
+/// ```
+///
+/// Storing non-primitive types in Hive requires us to use incremental [typeId]s.
+/// Having all these models and boxes' keys in a single package allows us to
+/// avoid conflicts.
 class KeyValueStorage {
   static const _quoteListPagesBoxKey = 'quote-list-pages';
   static const _favoriteQuoteListPagesBoxKey = 'favorite-quote-list-pages';

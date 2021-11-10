@@ -3,7 +3,7 @@ import 'package:domain_models/domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quote_details/src/l10n/quote_details_localizations.dart';
-import 'package:quote_details/src/quote_details_bloc.dart';
+import 'package:quote_details/src/quote_details_cubit.dart';
 import 'package:quote_repository/quote_repository.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -27,8 +27,8 @@ class QuoteDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<QuoteDetailsBloc>(
-      create: (_) => QuoteDetailsBloc(
+    return BlocProvider<QuoteDetailsCubit>(
+      create: (_) => QuoteDetailsCubit(
         quoteId: quoteId,
         quoteRepository: quoteRepository,
       ),
@@ -55,7 +55,7 @@ class QuoteDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = WonderTheme.of(context);
     return StyledStatusBar.dark(
-      child: BlocConsumer<QuoteDetailsBloc, QuoteDetailsState>(
+      child: BlocConsumer<QuoteDetailsCubit, QuoteDetailsState>(
         listener: (context, state) {
           final eventError =
               state is QuoteDetailsSuccess ? state.eventError : null;
@@ -75,7 +75,7 @@ class QuoteDetailsView extends StatelessWidget {
         },
         builder: (context, state) {
           final quote = state is QuoteDetailsSuccess ? state.quote : null;
-          final bloc = context.read<QuoteDetailsBloc>();
+          final cubit = context.read<QuoteDetailsCubit>();
           return WillPopScope(
             onWillPop: () async {
               Navigator.of(context).pop(quote);
@@ -88,33 +88,33 @@ class QuoteDetailsView extends StatelessWidget {
                     FavoriteIconButton(
                       isFavorite: quote.isFavorite ?? false,
                       onTap: () {
-                        bloc.add(
-                          (quote.isFavorite ?? false)
-                              ? const QuoteDetailsUnfavorited()
-                              : const QuoteDetailsFavorited(),
-                        );
+                        if (quote.isFavorite == true) {
+                          cubit.unfavoriteQuote();
+                        } else {
+                          cubit.favoriteQuote();
+                        }
                       },
                     ),
                     UpvoteIconButton(
                       count: quote.upvotesCount,
                       isUpvoted: quote.isUpvoted ?? false,
                       onTap: () {
-                        bloc.add(
-                          (quote.isUpvoted ?? false)
-                              ? const QuoteDetailsUnvoted()
-                              : const QuoteDetailsUpvoted(),
-                        );
+                        if (quote.isUpvoted == true) {
+                          cubit.unvoteQuote();
+                        } else {
+                          cubit.upvoteQuote();
+                        }
                       },
                     ),
                     DownvoteIconButton(
                       count: quote.downvotesCount,
                       isDownvoted: quote.isDownvoted ?? false,
                       onTap: () {
-                        bloc.add(
-                          (quote.isDownvoted ?? false)
-                              ? const QuoteDetailsUnvoted()
-                              : const QuoteDetailsDownvoted(),
-                        );
+                        if (quote.isDownvoted == true) {
+                          cubit.unvoteQuote();
+                        } else {
+                          cubit.downvoteQuote();
+                        }
                       },
                     ),
                     ShareIconButton(
@@ -142,9 +142,7 @@ class QuoteDetailsView extends StatelessWidget {
                       : state is QuoteDetailsFailure
                           ? ExceptionIndicator(
                               onTryAgain: () {
-                                bloc.add(
-                                  const QuoteDetailsRetried(),
-                                );
+                                cubit.refresh();
                               },
                             )
                           : const CenteredCircularProgressIndicator(),

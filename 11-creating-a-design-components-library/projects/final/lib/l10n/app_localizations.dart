@@ -92,13 +92,13 @@ abstract class AppLocalizations {
     Locale('en')
   ];
 
-  /// The Quotes text visible as the first item in bottom bar
+  /// No description provided for @quotesBottomNavigationBarItemLabel.
   ///
   /// In en, this message translates to:
   /// **'Quotes'**
   String get quotesBottomNavigationBarItemLabel;
 
-  /// The Profile text visible as the second item in bottom bar
+  /// No description provided for @profileBottomNavigationBarItemLabel.
   ///
   /// In en, this message translates to:
   /// **'Profile'**

@@ -14,7 +14,7 @@ dependencies:
   intl: ^0.17.0
   quote_repository:
     path: ../../quote_repository
-  flutter_bloc: ^7.1.0
+  flutter_bloc: ^8.0.0-dev.2
   user_repository:
     path: ../../user_repository
   domain_models:

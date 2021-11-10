@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_fields/form_fields.dart';
 import 'package:update_profile/src/l10n/update_profile_localizations.dart';
-import 'package:update_profile/src/update_profile_bloc.dart';
+import 'package:update_profile/src/update_profile_cubit.dart';
 import 'package:user_repository/user_repository.dart';
 
 class UpdateProfileScreen extends StatelessWidget {
@@ -19,8 +19,8 @@ class UpdateProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<UpdateProfileBloc>(
-      create: (_) => UpdateProfileBloc(
+    return BlocProvider<UpdateProfileCubit>(
+      create: (_) => UpdateProfileCubit(
         userRepository: userRepository,
       ),
       child: UpdateProfileView(
@@ -54,41 +54,33 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
     super.initState();
     _usernameFocusNode.addListener(() {
       if (!_usernameFocusNode.hasFocus) {
-        final bloc = context.read<UpdateProfileBloc>();
-        bloc.add(
-          const UpdateProfileUsernameUnfocused(),
-        );
+        final cubit = context.read<UpdateProfileCubit>();
+        cubit.onUsernameUnfocused();
       }
     });
     _emailFocusNode.addListener(() {
       if (!_emailFocusNode.hasFocus) {
-        final bloc = context.read<UpdateProfileBloc>();
-        bloc.add(
-          const UpdateProfileEmailUnfocused(),
-        );
+        final cubit = context.read<UpdateProfileCubit>();
+        cubit.onEmailUnfocused();
       }
     });
     _passwordFocusNode.addListener(() {
       if (!_passwordFocusNode.hasFocus) {
-        final bloc = context.read<UpdateProfileBloc>();
-        bloc.add(
-          const UpdateProfilePasswordUnfocused(),
-        );
+        final cubit = context.read<UpdateProfileCubit>();
+        cubit.onPasswordUnfocused();
       }
     });
     _passwordConfirmationFocusNode.addListener(() {
       if (!_passwordConfirmationFocusNode.hasFocus) {
-        final bloc = context.read<UpdateProfileBloc>();
-        bloc.add(
-          const UpdateProfilePasswordConfirmationUnfocused(),
-        );
+        final bloc = context.read<UpdateProfileCubit>();
+        bloc.onPasswordConfirmationUnfocused();
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<UpdateProfileBloc, UpdateProfileState>(
+    return BlocListener<UpdateProfileCubit, UpdateProfileState>(
       listener: (context, state) {
         if (state is UpdateProfileLoaded) {
           if (state.status == FormzStatus.submissionSuccess) {
@@ -151,7 +143,7 @@ class _UpdateProfileForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UpdateProfileBloc, UpdateProfileState>(
+    return BlocBuilder<UpdateProfileCubit, UpdateProfileState>(
       builder: (context, state) {
         final l10n = UpdateProfileLocalizations.of(context);
         if (state is UpdateProfileLoaded) {
@@ -163,19 +155,13 @@ class _UpdateProfileForm extends StatelessWidget {
           final passwordConfirmationError = state.passwordConfirmation.invalid
               ? state.passwordConfirmation.error
               : null;
-          final bloc = context.read<UpdateProfileBloc>();
+          final cubit = context.read<UpdateProfileCubit>();
           return Column(
             children: <Widget>[
               TextFormField(
                 focusNode: usernameFocusNode,
                 initialValue: state.username.value,
-                onChanged: (value) {
-                  bloc.add(
-                    UpdateProfileUsernameChanged(
-                      value,
-                    ),
-                  );
-                },
+                onChanged: cubit.onUsernameChanged,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   suffixIcon: const Icon(
@@ -199,13 +185,7 @@ class _UpdateProfileForm extends StatelessWidget {
               TextFormField(
                 focusNode: emailFocusNode,
                 initialValue: state.email.value,
-                onChanged: (value) {
-                  bloc.add(
-                    UpdateProfileEmailChanged(
-                      value,
-                    ),
-                  );
-                },
+                onChanged: cubit.onEmailChanged,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
                   suffixIcon: const Icon(
@@ -228,11 +208,7 @@ class _UpdateProfileForm extends StatelessWidget {
               ),
               TextField(
                 focusNode: passwordFocusNode,
-                onChanged: (value) {
-                  bloc.add(
-                    UpdateProfilePasswordChanged(value),
-                  );
-                },
+                onChanged: cubit.onPasswordChanged,
                 textInputAction: TextInputAction.next,
                 obscureText: true,
                 decoration: InputDecoration(
@@ -251,18 +227,8 @@ class _UpdateProfileForm extends StatelessWidget {
               ),
               TextField(
                 focusNode: passwordConfirmationFocusNode,
-                onChanged: (value) {
-                  bloc.add(
-                    UpdateProfilePasswordConfirmationChanged(
-                      value,
-                    ),
-                  );
-                },
-                onEditingComplete: () {
-                  bloc.add(
-                    const UpdateProfileSubmitted(),
-                  );
-                },
+                onChanged: cubit.onPasswordConfirmationChanged,
+                onEditingComplete: cubit.onSubmit,
                 obscureText: true,
                 decoration: InputDecoration(
                   suffixIcon: const Icon(
@@ -283,11 +249,7 @@ class _UpdateProfileForm extends StatelessWidget {
                       label: l10n.updateProfileButtonLabel,
                     )
                   : ExpandedElevatedButton(
-                      onTap: () {
-                        bloc.add(
-                          const UpdateProfileSubmitted(),
-                        );
-                      },
+                      onTap: cubit.onSubmit,
                       label: l10n.updateProfileButtonLabel,
                       icon: const Icon(
                         Icons.login,
