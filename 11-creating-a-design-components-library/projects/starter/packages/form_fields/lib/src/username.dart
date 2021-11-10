@@ -8,25 +8,25 @@ enum UsernameValidationError {
 
 class Username extends FormzInput<String, UsernameValidationError> {
   const Username.pure([String value = ''])
-      : isAlreadyTaken = false,
+      : isAlreadyRegistered = false,
         super.pure(value);
 
   const Username.dirty(
     String value, {
-    this.isAlreadyTaken = false,
+    this.isAlreadyRegistered = false,
   }) : super.dirty(value);
 
   static final _usernameRegex = RegExp(
     r'^(?=.{1,20}$)(?![_])(?!.*[_.]{2})[a-zA-Z0-9_]+(?<![_])$',
   );
 
-  final bool isAlreadyTaken;
+  final bool isAlreadyRegistered;
 
   @override
   UsernameValidationError? validator(String value) {
     return value.isEmpty
         ? UsernameValidationError.empty
-        : (isAlreadyTaken
+        : (isAlreadyRegistered
             ? UsernameValidationError.alreadyTaken
             : (_usernameRegex.hasMatch(value)
                 ? null
@@ -34,7 +34,8 @@ class Username extends FormzInput<String, UsernameValidationError> {
   }
 
   @override
-  int get hashCode => value.hashCode ^ pure.hashCode ^ isAlreadyTaken.hashCode;
+  int get hashCode =>
+      value.hashCode ^ pure.hashCode ^ isAlreadyRegistered.hashCode;
 
   @override
   bool operator ==(Object other) {
@@ -42,6 +43,6 @@ class Username extends FormzInput<String, UsernameValidationError> {
     return other is Username &&
         other.value == value &&
         other.pure == pure &&
-        other.isAlreadyTaken == isAlreadyTaken;
+        other.isAlreadyRegistered == isAlreadyRegistered;
   }
 }

@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_fields/form_fields.dart';
 import 'package:sign_up/src/l10n/sign_up_localizations.dart';
-import 'package:sign_up/src/sign_up_bloc.dart';
+import 'package:sign_up/src/sign_up_cubit.dart';
 import 'package:user_repository/user_repository.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -19,8 +19,8 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SignUpBloc>(
-      create: (_) => SignUpBloc(
+    return BlocProvider<SignUpCubit>(
+      create: (_) => SignUpCubit(
         userRepository: userRepository,
       ),
       child: SignUpView(
@@ -54,41 +54,33 @@ class _SignUpViewState extends State<SignUpView> {
     super.initState();
     _usernameFocusNode.addListener(() {
       if (!_usernameFocusNode.hasFocus) {
-        final bloc = context.read<SignUpBloc>();
-        bloc.add(
-          const SignUpUsernameUnfocused(),
-        );
+        final cubit = context.read<SignUpCubit>();
+        cubit.onUsernameUnfocused();
       }
     });
     _emailFocusNode.addListener(() {
       if (!_emailFocusNode.hasFocus) {
-        final bloc = context.read<SignUpBloc>();
-        bloc.add(
-          const SignUpEmailUnfocused(),
-        );
+        final cubit = context.read<SignUpCubit>();
+        cubit.onEmailUnfocused();
       }
     });
     _passwordFocusNode.addListener(() {
       if (!_passwordFocusNode.hasFocus) {
-        final bloc = context.read<SignUpBloc>();
-        bloc.add(
-          const SignUpPasswordUnfocused(),
-        );
+        final cubit = context.read<SignUpCubit>();
+        cubit.onPasswordUnfocused();
       }
     });
     _passwordConfirmationFocusNode.addListener(() {
       if (!_passwordConfirmationFocusNode.hasFocus) {
-        final bloc = context.read<SignUpBloc>();
-        bloc.add(
-          const SignUpPasswordConfirmationUnfocused(),
-        );
+        final cubit = context.read<SignUpCubit>();
+        cubit.onPasswordConfirmationUnfocused();
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SignUpBloc, SignUpState>(
+    return BlocListener<SignUpCubit, SignUpState>(
       listener: (context, state) {
         if (state.status == FormzStatus.submissionSuccess) {
           widget.onSignUpSuccess();
@@ -149,10 +141,10 @@ class _SignUpForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SignUpBloc, SignUpState>(
+    return BlocBuilder<SignUpCubit, SignUpState>(
       builder: (context, state) {
         final l10n = SignUpLocalizations.of(context);
-        final bloc = context.read<SignUpBloc>();
+        final cubit = context.read<SignUpCubit>();
         final usernameError =
             state.username.invalid ? state.username.error : null;
         final emailError = state.email.invalid ? state.email.error : null;
@@ -167,11 +159,7 @@ class _SignUpForm extends StatelessWidget {
           children: <Widget>[
             TextField(
               focusNode: usernameFocusNode,
-              onChanged: (value) {
-                bloc.add(
-                  SignUpUsernameChanged(value),
-                );
-              },
+              onChanged: cubit.onUsernameChanged,
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                 suffixIcon: const Icon(
@@ -193,11 +181,7 @@ class _SignUpForm extends StatelessWidget {
             ),
             TextField(
               focusNode: emailFocusNode,
-              onChanged: (value) {
-                bloc.add(
-                  SignUpEmailChanged(value),
-                );
-              },
+              onChanged: cubit.onEmailChanged,
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                 suffixIcon: const Icon(
@@ -219,11 +203,7 @@ class _SignUpForm extends StatelessWidget {
             ),
             TextField(
               focusNode: passwordFocusNode,
-              onChanged: (value) {
-                bloc.add(
-                  SignUpPasswordChanged(value),
-                );
-              },
+              onChanged: cubit.onPasswordChanged,
               textInputAction: TextInputAction.next,
               obscureText: true,
               decoration: InputDecoration(
@@ -244,16 +224,8 @@ class _SignUpForm extends StatelessWidget {
             ),
             TextField(
               focusNode: passwordConfirmationFocusNode,
-              onChanged: (value) {
-                bloc.add(
-                  SignUpPasswordConfirmationChanged(value),
-                );
-              },
-              onEditingComplete: () {
-                bloc.add(
-                  const SignUpSubmitted(),
-                );
-              },
+              onChanged: cubit.onPasswordConfirmationChanged,
+              onEditingComplete: cubit.onSubmit,
               obscureText: true,
               decoration: InputDecoration(
                 suffixIcon: const Icon(
@@ -278,11 +250,7 @@ class _SignUpForm extends StatelessWidget {
                     label: l10n.signUpButtonLabel,
                   )
                 : ExpandedElevatedButton(
-                    onTap: () {
-                      bloc.add(
-                        const SignUpSubmitted(),
-                      );
-                    },
+                    onTap: cubit.onSubmit,
                     label: l10n.signUpButtonLabel,
                     icon: const Icon(
                       Icons.login,

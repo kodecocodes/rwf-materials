@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_fields/form_fields.dart';
 import 'package:sign_in/src/l10n/sign_in_localizations.dart';
-import 'package:sign_in/src/sign_in_bloc.dart';
+import 'package:sign_in/src/sign_in_cubit.dart';
 import 'package:user_repository/user_repository.dart';
 
 class SignInScreen extends StatelessWidget {
@@ -24,8 +24,8 @@ class SignInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SignInBloc>(
-      create: (_) => SignInBloc(
+    return BlocProvider<SignInCubit>(
+      create: (_) => SignInCubit(
         userRepository: userRepository,
       ),
       child: SignInView(
@@ -61,19 +61,15 @@ class _SignInViewState extends State<SignInView> {
   @override
   void initState() {
     super.initState();
-    final bloc = context.read<SignInBloc>();
+    final cubit = context.read<SignInCubit>();
     _emailFocusNode.addListener(() {
       if (!_emailFocusNode.hasFocus) {
-        bloc.add(
-          const SignInEmailUnfocused(),
-        );
+        cubit.onEmailUnfocused();
       }
     });
     _passwordFocusNode.addListener(() {
       if (!_passwordFocusNode.hasFocus) {
-        bloc.add(
-          const SignInPasswordUnfocused(),
-        );
+        cubit.onPasswordUnfocused();
       }
     });
   }
@@ -81,7 +77,7 @@ class _SignInViewState extends State<SignInView> {
   @override
   Widget build(BuildContext context) {
     final l10n = SignInLocalizations.of(context);
-    return BlocListener<SignInBloc, SignInState>(
+    return BlocListener<SignInCubit, SignInState>(
       listener: (context, state) {
         if (state.status == FormzStatus.submissionSuccess) {
           widget.onSignInSuccess();
@@ -157,7 +153,7 @@ class _SignInForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = SignInLocalizations.of(context);
-    return BlocBuilder<SignInBloc, SignInState>(
+    return BlocBuilder<SignInCubit, SignInState>(
       builder: (context, state) {
         final emailError = state.email.invalid ? state.email.error : null;
         final passwordError =
@@ -165,16 +161,12 @@ class _SignInForm extends StatelessWidget {
         final isSubmissionInProgress =
             state.status == FormzStatus.submissionInProgress;
 
-        final bloc = context.read<SignInBloc>();
+        final cubit = context.read<SignInCubit>();
         return Column(
           children: <Widget>[
             TextField(
               focusNode: emailFocusNode,
-              onChanged: (value) {
-                bloc.add(
-                  SignInEmailChanged(value),
-                );
-              },
+              onChanged: cubit.onEmailChanged,
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                 suffixIcon: const Icon(
@@ -194,17 +186,9 @@ class _SignInForm extends StatelessWidget {
             ),
             TextField(
               focusNode: passwordFocusNode,
-              onChanged: (value) {
-                bloc.add(
-                  SignInPasswordChanged(value),
-                );
-              },
+              onChanged: cubit.onPasswordChanged,
               obscureText: true,
-              onEditingComplete: () {
-                bloc.add(
-                  const SignInSubmitted(),
-                );
-              },
+              onEditingComplete: cubit.onSubmit,
               decoration: InputDecoration(
                 suffixIcon: const Icon(
                   Icons.password,
@@ -232,11 +216,7 @@ class _SignInForm extends StatelessWidget {
                     label: l10n.signInButtonLabel,
                   )
                 : ExpandedElevatedButton(
-                    onTap: () {
-                      bloc.add(
-                        const SignInSubmitted(),
-                      );
-                    },
+                    onTap: cubit.onSubmit,
                     label: l10n.signInButtonLabel,
                     icon: const Icon(
                       Icons.login,

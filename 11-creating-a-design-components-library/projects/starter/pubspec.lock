@@ -35,7 +35,7 @@ packages:
       name: bloc
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "7.1.0"
+    version: "8.0.0-dev.3"
   boolean_selector:
     dependency: transitive
     description:
@@ -92,13 +92,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
-  device_frame:
-    dependency: transitive
-    description:
-      name: device_frame
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.4.2"
   dio:
     dependency: transitive
     description:
@@ -215,7 +208,7 @@ packages:
       name: flutter_bloc
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "7.1.0"
+    version: "8.0.0-dev.2"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -287,13 +280,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.0"
-  freezed_annotation:
-    dependency: transitive
-    description:
-      name: freezed_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.14.2"
   graphs:
     dependency: transitive
     description:
@@ -386,7 +372,7 @@ packages:
       name: lottie
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.2.1"
   matcher:
     dependency: transitive
     description:
@@ -533,7 +519,7 @@ packages:
       name: provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.0"
+    version: "6.0.1"
   quote_details:
     dependency: "direct main"
     description:
@@ -555,20 +541,13 @@ packages:
       relative: true
     source: path
     version: "0.0.0"
-  recase:
-    dependency: transitive
-    description:
-      name: recase
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.0.0"
   rive:
     dependency: transitive
     description:
       name: rive
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.28"
+    version: "0.7.32"
   routemaster:
     dependency: "direct main"
     description:
@@ -665,13 +644,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.10.0"
-  storybook_flutter:
-    dependency: transitive
-    description:
-      name: storybook_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.7.0+1"
   stream_channel:
     dependency: transitive
     description:

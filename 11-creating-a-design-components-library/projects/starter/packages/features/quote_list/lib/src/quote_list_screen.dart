@@ -7,7 +7,6 @@ import 'package:quote_list/src/filter_horizontal_list.dart';
 import 'package:quote_list/src/l10n/quote_list_localizations.dart';
 import 'package:quote_list/src/quote_list_bloc.dart';
 import 'package:quote_list/src/quote_sliver_grid.dart';
-import 'package:quote_list/src/quote_sliver_list.dart';
 import 'package:quote_repository/quote_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -63,7 +62,6 @@ class _QuoteListViewState extends State<QuoteListView> {
   );
 
   final TextEditingController _searchBarController = TextEditingController();
-  bool isGridView = true;
 
   @override
   void initState() {
@@ -130,17 +128,6 @@ class _QuoteListViewState extends State<QuoteListView> {
       child: StyledStatusBar.dark(
         child: SafeArea(
           child: Scaffold(
-            floatingActionButton: FloatingActionButton.extended(
-              onPressed: () {
-                setState(() {
-                  isGridView = !isGridView;
-                });
-              },
-              label: Text(isGridView ? 'List' : 'Grid'),
-              icon: Icon(
-                isGridView ? Icons.list : Icons.grid_on,
-              ),
-            ),
             body: GestureDetector(
               onTap: () => _releaseFocus(context),
               child: RefreshIndicator(
@@ -159,7 +146,6 @@ class _QuoteListViewState extends State<QuoteListView> {
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: theme.screenMargin,
-                          vertical: theme.searchBarMargin,
                         ),
                         child: SearchBar(
                           controller: _searchBarController,
@@ -169,15 +155,10 @@ class _QuoteListViewState extends State<QuoteListView> {
                     const SliverToBoxAdapter(
                       child: FilterHorizontalList(),
                     ),
-                    isGridView
-                        ? QuoteSliverGrid(
-                            pagingController: _pagingController,
-                            onQuoteSelected: widget.onQuoteSelected,
-                          )
-                        : QuoteSliverList(
-                            pagingController: _pagingController,
-                            onQuoteSelected: widget.onQuoteSelected,
-                          ),
+                    QuoteSliverGrid(
+                      pagingController: _pagingController,
+                      onQuoteSelected: widget.onQuoteSelected,
+                    ),
                   ],
                 ),
               ),

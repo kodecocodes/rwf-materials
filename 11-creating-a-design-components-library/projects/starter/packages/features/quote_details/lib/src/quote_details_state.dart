@@ -1,4 +1,4 @@
-part of 'quote_details_bloc.dart';
+part of 'quote_details_cubit.dart';
 
 abstract class QuoteDetailsState extends Equatable {
   const QuoteDetailsState();
