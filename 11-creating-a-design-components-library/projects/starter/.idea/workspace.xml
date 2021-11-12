@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7656cdfa-2210-4ea1-99c3-340316cec798" name="Default Changelist" comment="Sync starter project" />
+    <list default="true" id="7656cdfa-2210-4ea1-99c3-340316cec798" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -72,12 +72,20 @@
       <option name="project" value="LOCAL" />
       <updated>1636557215865</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Add starter.iml">
+      <created>1636704824613</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1636704824613</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Sync starter project" />
     <MESSAGE value="Add workspace.xml" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add workspace.xml" />
+    <MESSAGE value="Add starter.iml" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add starter.iml" />
   </component>
 </project>
