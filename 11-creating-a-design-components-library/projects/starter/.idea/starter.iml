@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_core/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_core/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_core/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_analytics/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_analytics/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_analytics/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/path_provider/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/path_provider/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/path_provider/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_core/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_core/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_core/build" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/fav_qs_api/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/fav_qs_api/build" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/fav_qs_api/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_dynamic_links/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_dynamic_links/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_dynamic_links/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/share_plus/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/share_plus/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/share_plus/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/url_launcher/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/url_launcher/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/url_launcher/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/user_repository/build" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/user_repository/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/user_repository/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/features/quote_details/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/features/quote_details/build" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/features/quote_details/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/component_library/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/component_library/build" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/component_library/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/features/sign_in/build" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/features/sign_in/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/features/sign_in/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/flutter_secure_storage/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/flutter_secure_storage/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/flutter_secure_storage/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/path_provider/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/path_provider/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/path_provider/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/features/quote_list/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/features/quote_list/build" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/features/quote_list/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/build" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/features/forgot_my_password/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/features/forgot_my_password/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/features/forgot_my_password/build" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/key_value_storage/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/key_value_storage/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/key_value_storage/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_analytics/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_analytics/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_analytics/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/quote_repository/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/quote_repository/build" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/quote_repository/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/domain_models/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/domain_models/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/domain_models/build" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/monitoring/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/monitoring/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/monitoring/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_dynamic_links/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_dynamic_links/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/firebase_dynamic_links/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/flutter_secure_storage/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/flutter_secure_storage/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/flutter_secure_storage/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/url_launcher/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/url_launcher/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/url_launcher/build" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/features/sign_up/build" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/features/sign_up/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/features/sign_up/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/features/update_profile/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/features/update_profile/build" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/features/update_profile/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/share_plus/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/share_plus/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/share_plus/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/form_fields/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/form_fields/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/form_fields/build" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/features/profile_menu/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/features/profile_menu/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/features/profile_menu/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/package_info/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/package_info/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/package_info/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/package_info/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/package_info/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/package_info/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/component_library/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/component_library/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/component_library/example/build" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Dart SDK" level="project" />
+    <orderEntry type="library" name="Flutter Plugins" level="project" />
+    <orderEntry type="library" name="Dart Packages" level="project" />
+  </component>
+</module>
