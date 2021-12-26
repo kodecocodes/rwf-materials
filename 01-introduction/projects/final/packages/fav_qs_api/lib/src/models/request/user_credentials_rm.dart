@@ -14,6 +14,5 @@ class UserCredentialsRM {
   @JsonKey(name: 'password')
   final String password;
 
-
   Map<String, dynamic> toJson() => _$UserCredentialsRMToJson(this);
 }

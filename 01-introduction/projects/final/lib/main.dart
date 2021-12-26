@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:forgot_my_password/forgot_my_password.dart';
 import 'package:key_value_storage/key_value_storage.dart';
-import 'package:monitoring/monitoring.dart';
 import 'package:profile_menu/profile_menu.dart';
 import 'package:quote_details/quote_details.dart';
 import 'package:quote_list/quote_list.dart';
@@ -21,17 +20,12 @@ import 'package:update_profile/update_profile.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:wonder_words/l10n/app_localizations.dart';
 import 'package:wonder_words/routes.dart';
-import 'package:wonder_words/screen_view_observer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     const WonderWords(),
   );
-  log.i('Info Logger');
-  log.d('Debug Logger');
-  log.e('Error Logger');
-  log.w('Warn Logger');
 }
 
 class WonderWords extends StatefulWidget {
@@ -55,9 +49,6 @@ class _WonderWordsState extends State<WonderWords> {
     noSqlStorage: _keyValueStorage,
   );
   late final _navigator = RoutemasterDelegate(
-    observers: [
-      ScreenViewObserver(),
-    ],
     routesBuilder: (context) => Routes(
       navigator: _navigator,
       userRepository: _userRepository,

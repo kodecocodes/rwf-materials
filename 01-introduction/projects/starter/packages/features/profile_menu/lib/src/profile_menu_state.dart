@@ -2,6 +2,7 @@ part of 'profile_menu_bloc.dart';
 
 abstract class ProfileMenuState extends Equatable {
   const ProfileMenuState();
+
   @override
   List<Object?> get props => [];
 }

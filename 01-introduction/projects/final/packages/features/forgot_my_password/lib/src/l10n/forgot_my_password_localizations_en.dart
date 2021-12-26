@@ -1,6 +1,3 @@
-
-
-
 import 'forgot_my_password_localizations.dart';
 
 /// The translations for English (`en`).
@@ -20,7 +17,8 @@ class ForgotMyPasswordLocalizationsEn extends ForgotMyPasswordLocalizations {
   String get emailTextFieldInvalidErrorMessage => 'This email is not valid.';
 
   @override
-  String get emailRequestSuccessMessage => 'If this email is registered in our systems, a link will be sent to you with instructions on how to reset your password.';
+  String get emailRequestSuccessMessage =>
+      'If this email is registered in our systems, a link will be sent to you with instructions on how to reset your password.';
 
   @override
   String get confirmButtonLabel => 'Confirm';
@@ -29,5 +27,6 @@ class ForgotMyPasswordLocalizationsEn extends ForgotMyPasswordLocalizations {
   String get cancelButtonLabel => 'Cancel';
 
   @override
-  String get errorMessage => 'There has been an error. Please, check your internet connection.';
+  String get errorMessage =>
+      'There has been an error. Please, check your internet connection.';
 }

@@ -10,6 +10,14 @@ print:
 		echo $${package} ; \
 	done
 
+pods-clean:
+	rm -Rf ios/Pods ; \
+	rm -Rf ios/.symlinks ; \
+	rm -Rf ios/Flutter/Flutter.framework ; \
+	rm -Rf ios/Flutter/Flutter.podspec ; \
+	rm ios/Podfile ; \
+	rm ios/Podfile.lock ; \
+
 
 get:
 	flutter pub get

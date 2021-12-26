@@ -39,8 +39,10 @@ class QuoteLocalStorage {
     ]);
   }
 
-  Future<QuoteListPageCM?> getQuoteListPage(int pageNumber,
-      bool favoritesOnly,) async {
+  Future<QuoteListPageCM?> getQuoteListPage(
+    int pageNumber,
+    bool favoritesOnly,
+  ) async {
     final box = await (favoritesOnly
         ? keyValueStorage.favoriteQuoteListPageBox
         : keyValueStorage.quoteListPageBox);

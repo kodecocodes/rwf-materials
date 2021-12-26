@@ -92,9 +92,11 @@ class UserRepository {
     yield* _userSubject.stream;
   }
 
-  Future<void> signUp(String username,
-      String email,
-      String password,) async {
+  Future<void> signUp(
+    String username,
+    String email,
+    String password,
+  ) async {
     try {
       final userToken = await remoteApi.signUp(
         username,
@@ -129,9 +131,11 @@ class UserRepository {
     }
   }
 
-  Future<void> updateProfile(String username,
-      String email,
-      String? newPassword,) async {
+  Future<void> updateProfile(
+    String username,
+    String email,
+    String? newPassword,
+  ) async {
     try {
       await remoteApi.updateProfile(
         username,

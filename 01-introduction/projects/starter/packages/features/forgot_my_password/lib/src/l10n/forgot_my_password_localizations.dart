@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -60,15 +59,18 @@ import 'forgot_my_password_localizations_en.dart';
 /// be consistent with the languages listed in the ForgotMyPasswordLocalizations.supportedLocales
 /// property.
 abstract class ForgotMyPasswordLocalizations {
-  ForgotMyPasswordLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  ForgotMyPasswordLocalizations(String locale)
+      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
   static ForgotMyPasswordLocalizations of(BuildContext context) {
-    return Localizations.of<ForgotMyPasswordLocalizations>(context, ForgotMyPasswordLocalizations)!;
+    return Localizations.of<ForgotMyPasswordLocalizations>(
+        context, ForgotMyPasswordLocalizations)!;
   }
 
-  static const LocalizationsDelegate<ForgotMyPasswordLocalizations> delegate = _ForgotMyPasswordLocalizationsDelegate();
+  static const LocalizationsDelegate<ForgotMyPasswordLocalizations> delegate =
+      _ForgotMyPasswordLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -80,7 +82,8 @@ abstract class ForgotMyPasswordLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -88,9 +91,7 @@ abstract class ForgotMyPasswordLocalizations {
   ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[
-    Locale('en')
-  ];
+  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
 
   /// No description provided for @dialogTitle.
   ///
@@ -141,35 +142,35 @@ abstract class ForgotMyPasswordLocalizations {
   String get errorMessage;
 }
 
-class _ForgotMyPasswordLocalizationsDelegate extends LocalizationsDelegate<ForgotMyPasswordLocalizations> {
+class _ForgotMyPasswordLocalizationsDelegate
+    extends LocalizationsDelegate<ForgotMyPasswordLocalizations> {
   const _ForgotMyPasswordLocalizationsDelegate();
 
   @override
   Future<ForgotMyPasswordLocalizations> load(Locale locale) {
-    return SynchronousFuture<ForgotMyPasswordLocalizations>(_lookupForgotMyPasswordLocalizations(locale));
+    return SynchronousFuture<ForgotMyPasswordLocalizations>(
+        _lookupForgotMyPasswordLocalizations(locale));
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['en'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_ForgotMyPasswordLocalizationsDelegate old) => false;
 }
 
-ForgotMyPasswordLocalizations _lookupForgotMyPasswordLocalizations(Locale locale) {
-  
-
-
+ForgotMyPasswordLocalizations _lookupForgotMyPasswordLocalizations(
+    Locale locale) {
 // Lookup logic when only language code is specified.
-switch (locale.languageCode) {
-  case 'en': return ForgotMyPasswordLocalizationsEn();
-}
-
+  switch (locale.languageCode) {
+    case 'en':
+      return ForgotMyPasswordLocalizationsEn();
+  }
 
   throw FlutterError(
-    'ForgotMyPasswordLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-    'an issue with the localizations generation tool. Please file an issue '
-    'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
-  );
+      'ForgotMyPasswordLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
 }

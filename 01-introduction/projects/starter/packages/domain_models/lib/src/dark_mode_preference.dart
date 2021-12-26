@@ -1,5 +1,1 @@
-enum DarkModePreference {
-  alwaysDark,
-  alwaysLight,
-  useSystemSettings
-}
+enum DarkModePreference { alwaysDark, alwaysLight, useSystemSettings }

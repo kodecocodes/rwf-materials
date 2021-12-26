@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 
 enum EmailValidationError {
@@ -6,7 +7,8 @@ enum EmailValidationError {
   alreadyRegistered,
 }
 
-class Email extends FormzInput<String, EmailValidationError> {
+class Email extends FormzInput<String, EmailValidationError>
+    with EquatableMixin {
   const Email.pure([String value = ''])
       : isAlreadyRegistered = false,
         super.pure(value);
@@ -36,14 +38,9 @@ class Email extends FormzInput<String, EmailValidationError> {
   }
 
   @override
-  int get hashCode => value.hashCode ^ pure.hashCode ^ isAlreadyRegistered.hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    if (other.runtimeType != runtimeType) return false;
-    return other is Email &&
-        other.value == value &&
-        other.pure == pure &&
-        other.isAlreadyRegistered == isAlreadyRegistered;
-  }
+  List<Object?> get props => [
+        value,
+        pure,
+        isAlreadyRegistered,
+      ];
 }

@@ -1,32 +1,35 @@
-part of 'quote_details_bloc.dart';
+part of 'quote_details_cubit.dart';
 
 abstract class QuoteDetailsState extends Equatable {
   const QuoteDetailsState();
+}
+
+class QuoteDetailsInProgress extends QuoteDetailsState {
+  const QuoteDetailsInProgress();
 
   @override
   List<Object?> get props => [];
 }
 
-class QuoteDetailsInProgress extends QuoteDetailsState {
-  const QuoteDetailsInProgress();
-}
-
 class QuoteDetailsSuccess extends QuoteDetailsState {
   const QuoteDetailsSuccess({
     required this.quote,
-    this.eventError,
+    this.quoteUpdateError,
   });
 
   final Quote quote;
-  final dynamic eventError;
+  final dynamic quoteUpdateError;
 
   @override
   List<Object?> get props => [
         quote,
-        eventError,
+        quoteUpdateError,
       ];
 }
 
 class QuoteDetailsFailure extends QuoteDetailsState {
   const QuoteDetailsFailure();
+
+  @override
+  List<Object?> get props => [];
 }

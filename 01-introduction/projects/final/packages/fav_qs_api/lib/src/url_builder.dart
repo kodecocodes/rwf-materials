@@ -9,18 +9,19 @@ class UrlBuilder {
     int page, {
     String? tag,
     String searchTerm = '',
-        String? favoritedByUsername,
+    String? favoritedByUsername,
   }) {
     assert(
-    (tag == null && searchTerm.isEmpty) ||
-        (searchTerm.isEmpty && favoritedByUsername == null) ||
-        (favoritedByUsername == null && tag == null),
-    'FavQs doesn\'t support filtering favorites or searching by both query and '
-        'tag at the same time.'
-    );
+        (tag == null && searchTerm.isEmpty) ||
+            (searchTerm.isEmpty && favoritedByUsername == null) ||
+            (favoritedByUsername == null && tag == null),
+        'FavQs doesn\'t support filtering favorites or searching by both query and '
+        'tag at the same time.');
 
     final tagQueryStringPart = tag != null ? '&filter=$tag&type=tag' : '';
-    final favoriteQueryStringPart = favoritedByUsername != null ? '&filter=$favoritedByUsername&type=user' : '';
+    final favoriteQueryStringPart = favoritedByUsername != null
+        ? '&filter=$favoritedByUsername&type=user'
+        : '';
     final searchQueryStringPart =
         searchTerm.isNotEmpty ? '&filter=$searchTerm' : '';
     return '$_baseUrl/quotes/?page=$page$tagQueryStringPart$searchQueryStringPart$favoriteQueryStringPart';

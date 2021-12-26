@@ -1,7 +1,7 @@
 import 'package:component_library/component_library.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:forgot_my_password/src/forgot_my_password_bloc.dart';
+import 'package:forgot_my_password/src/forgot_my_password_cubit.dart';
 import 'package:forgot_my_password/src/l10n/forgot_my_password_localizations.dart';
 import 'package:form_fields/form_fields.dart';
 import 'package:user_repository/user_repository.dart';
@@ -20,8 +20,8 @@ class ForgotMyPasswordDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ForgotMyPasswordBloc>(
-      create: (_) => ForgotMyPasswordBloc(
+    return BlocProvider<ForgotMyPasswordCubit>(
+      create: (_) => ForgotMyPasswordCubit(
         userRepository: userRepository,
       ),
       child: ForgotMyPasswordView(
@@ -55,10 +55,8 @@ class _ForgotMyPasswordViewState extends State<ForgotMyPasswordView> {
     super.initState();
     _emailFocusNode.addListener(() {
       if (!_emailFocusNode.hasFocus) {
-        final bloc = context.read<ForgotMyPasswordBloc>();
-        bloc.add(
-          const ForgotMyPasswordEmailUnfocused(),
-        );
+        final cubit = context.read<ForgotMyPasswordCubit>();
+        cubit.onEmailUnfocused();
       }
     });
   }
@@ -66,7 +64,7 @@ class _ForgotMyPasswordViewState extends State<ForgotMyPasswordView> {
   @override
   Widget build(BuildContext context) {
     final l10n = ForgotMyPasswordLocalizations.of(context);
-    return BlocConsumer<ForgotMyPasswordBloc, ForgotMyPasswordState>(
+    return BlocConsumer<ForgotMyPasswordCubit, ForgotMyPasswordState>(
       listener: (context, state) {
         if (state.status == FormzStatus.submissionSuccess) {
           ScaffoldMessenger.of(context)
@@ -86,7 +84,7 @@ class _ForgotMyPasswordViewState extends State<ForgotMyPasswordView> {
         }
       },
       builder: (context, state) {
-        final bloc = context.read<ForgotMyPasswordBloc>();
+        final cubit = context.read<ForgotMyPasswordCubit>();
         final isSubmissionInProgress =
             state.status == FormzStatus.submissionInProgress;
         final emailError = state.email.invalid ? state.email.error : null;
@@ -100,16 +98,9 @@ class _ForgotMyPasswordViewState extends State<ForgotMyPasswordView> {
                 TextField(
                   focusNode: _emailFocusNode,
                   enabled: !isSubmissionInProgress,
-                  onEditingComplete: () {
-                    bloc.add(
-                      const ForgotMyPasswordEmailSubmitted(),
-                    );
-                  },
-                  onChanged: (value) {
-                    bloc.add(
-                      ForgotMyPasswordEmailChanged(value),
-                    );
-                  },
+                  onEditingComplete: cubit.onSubmit,
+                  onChanged: cubit.onEmailChanged,
+                  autocorrect: false,
                   decoration: InputDecoration(
                     suffixIcon: const Icon(
                       Icons.alternate_email,
@@ -149,11 +140,7 @@ class _ForgotMyPasswordViewState extends State<ForgotMyPasswordView> {
                       label: l10n.confirmButtonLabel,
                     )
                   : TextButton(
-                      onPressed: () {
-                        bloc.add(
-                          const ForgotMyPasswordEmailSubmitted(),
-                        );
-                      },
+                      onPressed: cubit.onSubmit,
                       child: Text(
                         l10n.confirmButtonLabel,
                       ),

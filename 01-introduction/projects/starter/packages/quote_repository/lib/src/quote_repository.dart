@@ -11,14 +11,15 @@ class QuoteRepository {
     required this.remoteApi,
     @visibleForTesting QuoteLocalStorage? localStorage,
   }) : _localStorage = localStorage ??
-      QuoteLocalStorage(
-        keyValueStorage: keyValueStorage,
-      );
+            QuoteLocalStorage(
+              keyValueStorage: keyValueStorage,
+            );
 
   final FavQsApi remoteApi;
   final QuoteLocalStorage _localStorage;
 
-  Stream<QuoteListPage> getQuoteListPage(int pageNumber, {
+  Stream<QuoteListPage> getQuoteListPage(
+    int pageNumber, {
     Tag? tag,
     String searchTerm = '',
     String? favoritedByUsername,
@@ -28,17 +29,21 @@ class QuoteRepository {
     final isSearching = searchTerm.isNotEmpty;
     final isFetchPolicyNetworkOnly =
         fetchPolicy == QuoteListPageFetchPolicy.networkOnly;
-    final shouldUseCache =
-    !(isFilteringByTag || isSearching || isFetchPolicyNetworkOnly);
-    if (!shouldUseCache) {
-      yield await _getQuoteListPageFromNetwork(
+    final shouldSkipCacheLookup =
+        isFilteringByTag || isSearching || isFetchPolicyNetworkOnly;
+
+    if (shouldSkipCacheLookup) {
+      final freshPage = await _getQuoteListPageFromNetwork(
         pageNumber,
         tag: tag,
         searchTerm: searchTerm,
         favoritedByUsername: favoritedByUsername,
       );
+
+      yield freshPage;
     } else {
       final isFilteringByFavorites = favoritedByUsername != null;
+
       final cachedPage = await _localStorage.getQuoteListPage(
         pageNumber,
         isFilteringByFavorites,
@@ -47,46 +52,45 @@ class QuoteRepository {
       final isFetchPolicyCacheAndNetwork =
           fetchPolicy == QuoteListPageFetchPolicy.cacheAndNetwork;
 
-      final isFetchPolicyCacheFirst =
-          fetchPolicy == QuoteListPageFetchPolicy.cacheFirst;
+      final isFetchPolicyCachePreferably =
+          fetchPolicy == QuoteListPageFetchPolicy.cachePreferably;
 
-      final shouldEmitCachedPageFirst =
-          isFetchPolicyCacheFirst || isFetchPolicyCacheAndNetwork;
+      final shouldEmitCachedPageInAdvance =
+          isFetchPolicyCachePreferably || isFetchPolicyCacheAndNetwork;
 
-      if (shouldEmitCachedPageFirst && cachedPage != null) {
+      if (shouldEmitCachedPageInAdvance && cachedPage != null) {
         yield cachedPage.toDomainModel();
+        if (isFetchPolicyCachePreferably) {
+          return;
+        }
       }
 
-      final isFetchPolicyNetworkFirst =
-          fetchPolicy == QuoteListPageFetchPolicy.networkFirst;
       try {
-        final shouldFetchDataFromNetwork = isFetchPolicyCacheAndNetwork ||
-            isFetchPolicyNetworkFirst ||
-            (isFetchPolicyCacheFirst && cachedPage == null);
-        if (shouldFetchDataFromNetwork) {
-          final networkPage = await _getQuoteListPageFromNetwork(
-            pageNumber,
-            favoritedByUsername: favoritedByUsername,
-          );
-          yield networkPage;
-        }
-      } catch (error) {
-        if (cachedPage != null && isFetchPolicyNetworkFirst) {
+        final freshPage = await _getQuoteListPageFromNetwork(
+          pageNumber,
+          favoritedByUsername: favoritedByUsername,
+        );
+
+        yield freshPage;
+      } catch (_) {
+        final isFetchPolicyNetworkPreferably =
+            fetchPolicy == QuoteListPageFetchPolicy.networkPreferably;
+        if (cachedPage != null && isFetchPolicyNetworkPreferably) {
           yield cachedPage.toDomainModel();
+          return;
         }
+
         rethrow;
       }
     }
   }
 
-  Future<QuoteListPage> _getQuoteListPageFromNetwork(int pageNumber, {
+  Future<QuoteListPage> _getQuoteListPageFromNetwork(
+    int pageNumber, {
     Tag? tag,
     String searchTerm = '',
     String? favoritedByUsername,
   }) async {
-    final isFiltering = tag != null || searchTerm.isNotEmpty;
-    final favoritesOnly = favoritedByUsername != null;
-
     try {
       final apiPage = await remoteApi.getQuoteListPage(
         pageNumber,
@@ -94,6 +98,9 @@ class QuoteRepository {
         searchTerm: searchTerm,
         favoritedByUsername: favoritedByUsername,
       );
+
+      final isFiltering = tag != null || searchTerm.isNotEmpty;
+      final favoritesOnly = favoritedByUsername != null;
 
       final shouldStoreOnCache = !isFiltering;
       if (shouldStoreOnCache) {
@@ -206,6 +213,6 @@ extension on Future<QuoteRM> {
 enum QuoteListPageFetchPolicy {
   cacheAndNetwork,
   networkOnly,
-  networkFirst,
-  cacheFirst,
+  networkPreferably,
+  cachePreferably,
 }
