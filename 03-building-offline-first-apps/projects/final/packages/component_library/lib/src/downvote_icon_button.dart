@@ -21,7 +21,8 @@ class DownvoteIconButton extends StatelessWidget {
       onTap: onTap,
       tooltip: l10n.downvoteIconButtonTooltip,
       iconData: Icons.arrow_downward_sharp,
-      iconColor: isDownvoted ? theme.votedButtonColor : theme.unvotedButtonColor,
+      iconColor:
+          isDownvoted ? theme.votedButtonColor : theme.unvotedButtonColor,
       count: count,
     );
   }

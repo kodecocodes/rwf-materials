@@ -1,7 +1,7 @@
-
 import 'package:hive/hive.dart';
 
 part 'user_cm.g.dart';
+
 @HiveType(typeId: 2)
 class UserCM {
   UserCM({

@@ -57,7 +57,6 @@ class QuoteListView extends StatefulWidget {
 }
 
 class _QuoteListViewState extends State<QuoteListView> {
-
   final PagingController<int, Quote> _pagingController = PagingController(
     firstPageKey: 1,
   );

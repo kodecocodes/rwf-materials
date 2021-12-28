@@ -12,7 +12,7 @@ class QuoteListPage extends Equatable {
 
   @override
   List<Object?> get props => [
-    isLastPage,
-    quoteList,
-  ];
+        isLastPage,
+        quoteList,
+      ];
 }

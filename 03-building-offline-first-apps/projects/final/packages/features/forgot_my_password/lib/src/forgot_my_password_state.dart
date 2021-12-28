@@ -1,4 +1,4 @@
-part of 'forgot_my_password_bloc.dart';
+part of 'forgot_my_password_cubit.dart';
 
 class ForgotMyPasswordState extends Equatable {
   const ForgotMyPasswordState({

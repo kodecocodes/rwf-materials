@@ -1,4 +1,4 @@
-part of 'sign_up_bloc.dart';
+part of 'sign_up_cubit.dart';
 
 class SignUpState extends Equatable {
   const SignUpState({
@@ -6,7 +6,6 @@ class SignUpState extends Equatable {
     this.email = const Email.pure(),
     this.password = const Password.pure(),
     this.passwordConfirmation = const PasswordConfirmation.pure(),
-    this.error,
     this.status = FormzStatus.pure,
   });
 
@@ -14,7 +13,6 @@ class SignUpState extends Equatable {
   final Email email;
   final Password password;
   final PasswordConfirmation passwordConfirmation;
-  final dynamic error;
   final FormzStatus status;
 
   SignUpState copyWith({
@@ -23,7 +21,6 @@ class SignUpState extends Equatable {
     Password? password,
     PasswordConfirmation? passwordConfirmation,
     FormzStatus? status,
-    required dynamic error,
   }) {
     return SignUpState(
       username: username ?? this.username,
@@ -31,7 +28,6 @@ class SignUpState extends Equatable {
       password: password ?? this.password,
       passwordConfirmation: passwordConfirmation ?? this.passwordConfirmation,
       status: status ?? this.status,
-      error: error,
     );
   }
 
@@ -41,7 +37,6 @@ class SignUpState extends Equatable {
         email,
         password,
         passwordConfirmation,
-        error,
         status,
       ];
 }

@@ -1,4 +1,4 @@
-part of 'update_profile_bloc.dart';
+part of 'update_profile_cubit.dart';
 
 abstract class UpdateProfileState extends Equatable {
   const UpdateProfileState();

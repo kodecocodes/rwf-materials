@@ -100,12 +100,12 @@ class QuoteListState extends Equatable {
   ) {
     return QuoteListState(
       itemList: itemList?.map((quote) {
-              if (quote.id == updatedQuote.id) {
-                return updatedQuote;
-              } else {
-                return quote;
-              }
-            }).toList(),
+        if (quote.id == updatedQuote.id) {
+          return updatedQuote;
+        } else {
+          return quote;
+        }
+      }).toList(),
       nextPage: nextPage,
       error: error,
       filter: filter,
@@ -116,7 +116,8 @@ class QuoteListState extends Equatable {
   }
 
   QuoteListState copyWithFavoriteToggleError(
-    dynamic favoriteToggleError,) =>
+    dynamic favoriteToggleError,
+  ) =>
       QuoteListState(
         itemList: itemList,
         nextPage: nextPage,
@@ -128,8 +129,7 @@ class QuoteListState extends Equatable {
       );
 
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         itemList,
         nextPage,
         error,

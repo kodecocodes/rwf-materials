@@ -1,9 +1,1 @@
-enum Tag {
-  life,
-  happiness,
-  work,
-  nature,
-  science,
-  love,
-  funny
-}
+enum Tag { life, happiness, work, nature, science, love, funny }

@@ -6,6 +6,7 @@ import 'package:quote_repository/src/mappers/mappers.dart';
 import 'package:quote_repository/src/quote_local_storage.dart';
 
 class QuoteRepository {
+
   // TODO: Add constructor and data sources properties.
 
   Stream<QuoteListPage> getQuoteListPage(

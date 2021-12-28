@@ -99,19 +99,20 @@ class Routes extends RouteMap {
               );
             },
             _RoutePaths.signInPath: (_) => MaterialPage(
-              name: 'sign-in',
+                  name: 'sign-in',
                   fullscreenDialog: true,
-                  child: Builder(builder: (context) {
-                    return SignInScreen(
-                      userRepository: userRepository,
-                      onSignInSuccess: () {
-                        navigator.pop();
-                      },
-                      onSignUpTap: () {
-                        navigator.push(_RoutePaths.signUpPath);
-                      },
-                      onForgotMyPasswordTap: () {
-                        showDialog(
+                  child: Builder(
+                    builder: (context) {
+                      return SignInScreen(
+                        userRepository: userRepository,
+                        onSignInSuccess: () {
+                          navigator.pop();
+                        },
+                        onSignUpTap: () {
+                          navigator.push(_RoutePaths.signUpPath);
+                        },
+                        onForgotMyPasswordTap: () {
+                          showDialog(
                             context: context,
                             builder: (context) {
                               return ForgotMyPasswordDialog(
@@ -123,10 +124,12 @@ class Routes extends RouteMap {
                                   navigator.pop();
                                 },
                               );
-                            },);
-                      },
-                    );
-                  },),
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
             _RoutePaths.signUpPath: (_) => MaterialPage(
                   name: 'sign-up',

@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 
 enum UsernameValidationError {
@@ -6,27 +7,28 @@ enum UsernameValidationError {
   alreadyTaken,
 }
 
-class Username extends FormzInput<String, UsernameValidationError> {
+class Username extends FormzInput<String, UsernameValidationError>
+    with EquatableMixin {
   const Username.pure([String value = ''])
-      : isAlreadyTaken = false,
+      : isAlreadyRegistered = false,
         super.pure(value);
 
   const Username.dirty(
     String value, {
-    this.isAlreadyTaken = false,
+    this.isAlreadyRegistered = false,
   }) : super.dirty(value);
 
   static final _usernameRegex = RegExp(
     r'^(?=.{1,20}$)(?![_])(?!.*[_.]{2})[a-zA-Z0-9_]+(?<![_])$',
   );
 
-  final bool isAlreadyTaken;
+  final bool isAlreadyRegistered;
 
   @override
   UsernameValidationError? validator(String value) {
     return value.isEmpty
         ? UsernameValidationError.empty
-        : (isAlreadyTaken
+        : (isAlreadyRegistered
             ? UsernameValidationError.alreadyTaken
             : (_usernameRegex.hasMatch(value)
                 ? null
@@ -34,14 +36,9 @@ class Username extends FormzInput<String, UsernameValidationError> {
   }
 
   @override
-  int get hashCode => value.hashCode ^ pure.hashCode ^ isAlreadyTaken.hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    if (other.runtimeType != runtimeType) return false;
-    return other is Username &&
-        other.value == value &&
-        other.pure == pure &&
-        other.isAlreadyTaken == isAlreadyTaken;
-  }
+  List<Object?> get props => [
+        value,
+        pure,
+        isAlreadyRegistered,
+      ];
 }
