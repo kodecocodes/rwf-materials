@@ -2,7 +2,7 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:package_info/package_info.dart';
 
 class DynamicLink {
-  static const _domainUriPrefix = 'https://wonderwordsdev.page.link';
+  static const _domainUriPrefix = 'https://wonderwords.page.link';
 
   final String path;
   final SocialMetaTagParameters? socialMetaTagParameters;

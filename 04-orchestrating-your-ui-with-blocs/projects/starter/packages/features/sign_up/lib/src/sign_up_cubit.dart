@@ -29,7 +29,6 @@ class SignUpCubit extends Cubit<SignUpState> {
           : Username.pure(
               newValue,
             ),
-      error: null,
     );
     emit(newState);
   }
@@ -48,7 +47,6 @@ class SignUpCubit extends Cubit<SignUpState> {
           : Email.pure(
               newValue,
             ),
-      error: null,
     );
     emit(newState);
   }
@@ -64,7 +62,6 @@ class SignUpCubit extends Cubit<SignUpState> {
           : Password.pure(
               newValue,
             ),
-      error: null,
     );
 
     emit(newState);
@@ -82,7 +79,6 @@ class SignUpCubit extends Cubit<SignUpState> {
           : PasswordConfirmation.pure(
               newValue,
             ),
-      error: null,
     );
     emit(newState);
   }
@@ -93,7 +89,6 @@ class SignUpCubit extends Cubit<SignUpState> {
         state.username.value,
         isAlreadyRegistered: state.username.isAlreadyRegistered,
       ),
-      error: null,
     );
 
     emit(newState);
@@ -105,7 +100,6 @@ class SignUpCubit extends Cubit<SignUpState> {
         state.email.value,
         isAlreadyRegistered: state.email.isAlreadyRegistered,
       ),
-      error: null,
     );
 
     emit(newState);
@@ -116,7 +110,6 @@ class SignUpCubit extends Cubit<SignUpState> {
       password: Password.dirty(
         state.password.value,
       ),
-      error: null,
     );
     emit(newState);
   }
@@ -127,7 +120,6 @@ class SignUpCubit extends Cubit<SignUpState> {
         state.passwordConfirmation.value,
         password: state.password,
       ),
-      error: null,
     );
     emit(newState);
   }
@@ -137,17 +129,21 @@ class SignUpCubit extends Cubit<SignUpState> {
       state.username.value,
       isAlreadyRegistered: state.username.isAlreadyRegistered,
     );
+
     final email = Email.dirty(
       state.email.value,
       isAlreadyRegistered: state.email.isAlreadyRegistered,
     );
+
     final password = Password.dirty(
       state.password.value,
     );
+
     final passwordConfirmation = PasswordConfirmation.dirty(
       state.passwordConfirmation.value,
       password: password,
     );
+
     final isFormValid = Formz.validate([
           username,
           email,
@@ -155,15 +151,17 @@ class SignUpCubit extends Cubit<SignUpState> {
           passwordConfirmation,
         ]) ==
         FormzStatus.valid;
+
     final newState = state.copyWith(
       username: username,
       email: email,
       password: password,
       passwordConfirmation: passwordConfirmation,
       status: isFormValid ? FormzStatus.submissionInProgress : state.status,
-      error: null,
     );
+
     emit(newState);
+
     if (isFormValid) {
       try {
         await userRepository.signUp(
@@ -173,15 +171,10 @@ class SignUpCubit extends Cubit<SignUpState> {
         );
         final newState = state.copyWith(
           status: FormzStatus.submissionSuccess,
-          error: null,
         );
         emit(newState);
       } catch (error) {
         final newState = state.copyWith(
-          error: error is! UsernameAlreadyTakenException &&
-                  error is! EmailAlreadyRegisteredException
-              ? error
-              : null,
           status: FormzStatus.submissionFailure,
           username: error is UsernameAlreadyTakenException
               ? Username.dirty(

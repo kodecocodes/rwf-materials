@@ -100,6 +100,7 @@ class _ForgotMyPasswordViewState extends State<ForgotMyPasswordView> {
                   enabled: !isSubmissionInProgress,
                   onEditingComplete: cubit.onSubmit,
                   onChanged: cubit.onEmailChanged,
+                  autocorrect: false,
                   decoration: InputDecoration(
                     suffixIcon: const Icon(
                       Icons.alternate_email,

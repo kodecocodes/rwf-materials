@@ -38,7 +38,7 @@ class SignInScreen extends StatelessWidget {
 }
 
 @visibleForTesting
-class SignInView extends StatefulWidget {
+class SignInView extends StatelessWidget {
   const SignInView({
     required this.onSignInSuccess,
     this.onSignUpTap,
@@ -51,10 +51,53 @@ class SignInView extends StatefulWidget {
   final VoidCallback onSignInSuccess;
 
   @override
-  _SignInViewState createState() => _SignInViewState();
+  Widget build(BuildContext context) {
+    final l10n = SignInLocalizations.of(context);
+    return GestureDetector(
+      onTap: () => _releaseFocus(context),
+      child: Scaffold(
+        appBar: AppBar(
+          systemOverlayStyle: SystemUiOverlayStyle.light,
+          title: Text(
+            l10n.appBarTitle,
+          ),
+        ),
+        body: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(
+              horizontal: Spacing.mediumLarge,
+            ),
+            child: _SignInForm(
+              onSignUpTap: onSignUpTap,
+              onForgotMyPasswordTap: onForgotMyPasswordTap,
+              onSignInSuccess: onSignInSuccess,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _releaseFocus(BuildContext context) => FocusScope.of(context).unfocus();
 }
 
-class _SignInViewState extends State<SignInView> {
+class _SignInForm extends StatefulWidget {
+  const _SignInForm({
+    required this.onSignInSuccess,
+    this.onSignUpTap,
+    this.onForgotMyPasswordTap,
+    Key? key,
+  }) : super(key: key);
+
+  final VoidCallback? onSignUpTap;
+  final VoidCallback? onForgotMyPasswordTap;
+  final VoidCallback onSignInSuccess;
+
+  @override
+  State<_SignInForm> createState() => _SignInFormState();
+}
+
+class _SignInFormState extends State<_SignInForm> {
   final _emailFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
 
@@ -75,9 +118,16 @@ class _SignInViewState extends State<SignInView> {
   }
 
   @override
+  void dispose() {
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final l10n = SignInLocalizations.of(context);
-    return BlocListener<SignInCubit, SignInState>(
+    return BlocConsumer<SignInCubit, SignInState>(
       listener: (context, state) {
         if (state.status == FormzStatus.submissionSuccess) {
           widget.onSignInSuccess();
@@ -99,61 +149,6 @@ class _SignInViewState extends State<SignInView> {
             );
         }
       },
-      child: GestureDetector(
-        onTap: () => _releaseFocus(context),
-        child: Scaffold(
-          appBar: AppBar(
-            systemOverlayStyle: SystemUiOverlayStyle.light,
-            title: Text(
-              l10n.appBarTitle,
-            ),
-          ),
-          body: Center(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(
-                horizontal: Spacing.mediumLarge,
-              ),
-              child: _SignInForm(
-                emailFocusNode: _emailFocusNode,
-                passwordFocusNode: _passwordFocusNode,
-                onSignUpTap: widget.onSignUpTap,
-                onForgotMyPasswordTap: widget.onForgotMyPasswordTap,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _releaseFocus(BuildContext context) => FocusScope.of(context).unfocus();
-
-  @override
-  void dispose() {
-    _emailFocusNode.dispose();
-    _passwordFocusNode.dispose();
-    super.dispose();
-  }
-}
-
-class _SignInForm extends StatelessWidget {
-  const _SignInForm({
-    required this.emailFocusNode,
-    required this.passwordFocusNode,
-    this.onSignUpTap,
-    this.onForgotMyPasswordTap,
-    Key? key,
-  }) : super(key: key);
-
-  final FocusNode emailFocusNode;
-  final FocusNode passwordFocusNode;
-  final VoidCallback? onSignUpTap;
-  final VoidCallback? onForgotMyPasswordTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = SignInLocalizations.of(context);
-    return BlocBuilder<SignInCubit, SignInState>(
       builder: (context, state) {
         final emailError = state.email.invalid ? state.email.error : null;
         final passwordError =
@@ -165,9 +160,10 @@ class _SignInForm extends StatelessWidget {
         return Column(
           children: <Widget>[
             TextField(
-              focusNode: emailFocusNode,
+              focusNode: _emailFocusNode,
               onChanged: cubit.onEmailChanged,
               textInputAction: TextInputAction.next,
+              autocorrect: false,
               decoration: InputDecoration(
                 suffixIcon: const Icon(
                   Icons.alternate_email,
@@ -185,7 +181,7 @@ class _SignInForm extends StatelessWidget {
               height: Spacing.large,
             ),
             TextField(
-              focusNode: passwordFocusNode,
+              focusNode: _passwordFocusNode,
               onChanged: cubit.onPasswordChanged,
               obscureText: true,
               onEditingComplete: cubit.onSubmit,
@@ -206,7 +202,8 @@ class _SignInForm extends StatelessWidget {
               child: Text(
                 l10n.forgotMyPasswordButtonLabel,
               ),
-              onPressed: isSubmissionInProgress ? null : onForgotMyPasswordTap,
+              onPressed:
+                  isSubmissionInProgress ? null : widget.onForgotMyPasswordTap,
             ),
             const SizedBox(
               height: Spacing.small,
@@ -232,7 +229,7 @@ class _SignInForm extends StatelessWidget {
               child: Text(
                 l10n.signUpButtonLabel,
               ),
-              onPressed: isSubmissionInProgress ? null : onSignUpTap,
+              onPressed: isSubmissionInProgress ? null : widget.onSignUpTap,
             ),
           ],
         );

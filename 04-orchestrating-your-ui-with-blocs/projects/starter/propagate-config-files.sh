@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Copyright (c) 2021 Razeware LLC
 # 
 # Permission is hereby granted, free of charge, to any person
@@ -35,8 +37,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
-#!/bin/bash
-
 DEBUG=false
 if [ "$DEBUG" = true ]; then
 	STD_OUT=/dev/tty
@@ -55,19 +55,14 @@ SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 WANTED_SUBFOLDER_1='.idea'
 WANTED_SUBFOLDER_2='.vscode'
 
-WANTED_SUBFOLDER_3='android/app/src/dev/google-services.json'
-WANTED_SUBFOLDER_4='android/app/src/prod/google-services.json'
-
-WANTED_SUBFOLDER_5='ios/config/dev/GoogleService-Info.plist'
-WANTED_SUBFOLDER_6='ios/config/prod/GoogleService-Info.plist'
+WANTED_SUBFOLDER_3='android/app/src/google-services.json'
+WANTED_SUBFOLDER_4='ios/Runner/GoogleService-Info.plist'
 
 ARR_WANTED=( 
 	"${WANTED_SUBFOLDER_1}"
 	"${WANTED_SUBFOLDER_2}"
 	"${WANTED_SUBFOLDER_3}"
 	"${WANTED_SUBFOLDER_4}"
-	"${WANTED_SUBFOLDER_5}"
-	"${WANTED_SUBFOLDER_6}"
 )
 
 # Get root directory: /mnt/c/scripts/epidemy/
@@ -131,8 +126,8 @@ FOLDERS=$(printf "${ALL_ROOT}" | grep -v $(printf ${SCRIPT_DIR}))
 
 	# Print an error only if we're missing both
 	ERR_IF_BOTH_1=(
-		"/dev/google-services.json$"
-		"/dev/GoogleService-Info.plist$"
+		"/src/google-services.json$"
+		"/Runner/GoogleService-Info.plist$"
 	)
 	BOTH_MISSING_1=true
 	
@@ -146,7 +141,7 @@ FOLDERS=$(printf "${ALL_ROOT}" | grep -v $(printf ${SCRIPT_DIR}))
 	# Don't perform basic missing check on these items
 	# Use this if other checks should be used, e.g. ERR_IF_BOTH
 	# Uses regex to check, note the $ for EOL and the OR symbol
-	NO_ERR="\/(prod|dev)\/(GoogleService-Info.plist|google-services.json)$"
+	NO_ERR="\/(src|Runner)\/(GoogleService-Info.plist|google-services.json)$"
 	NO_ERR="${NO_ERR}|\.(vscode|idea)$"
 
 	for wanted in "${ARR_WANTED[@]}"; do
@@ -195,8 +190,8 @@ FOLDERS=$(printf "${ALL_ROOT}" | grep -v $(printf ${SCRIPT_DIR}))
 		[ ! -e "${orig_item}" ] && echo "${orig_item} Does not exist!" 1>&2
 	done
 
-	[ "$BOTH_MISSING_1" = true ] && echo "Your Firebase configuration file(s) couldn’t be found. Please, make sure you have configured at least the dev app for Android or iOS. You won't be able to run the app otherwise." | tr -d \$ 1>&2 && exit 1
-	[ "$BOTH_MISSING_2" = true ] && echo "Your IDE’s custom running configs couldn’t be found. Please, try following the instructions again, or you'll need to run the app from the command line every time by using: flutter run --flavor dev --dart-define=fav-qs-app-token=YOUR_KEY" | tr -d \$ 1>&2 && exit 1
+	[ "$BOTH_MISSING_1" = true ] && echo "Your Firebase configuration file(s) couldn’t be found. Please, make sure you have configured at least the dev app for Android or iOS. You won't be able to run the app otherwise." 1>&2 && exit 1
+	[ "$BOTH_MISSING_2" = true ] && echo "Your IDE’s custom running configs couldn’t be found. Please, try following the instructions again, or you'll need to run the app from the command line every time by using: flutter run --dart-define=fav-qs-app-token=YOUR_KEY" 1>&2 && exit 1
 
 } > $STD_OUT
 

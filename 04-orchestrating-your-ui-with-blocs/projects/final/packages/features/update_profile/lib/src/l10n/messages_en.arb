@@ -9,8 +9,8 @@
   "emailTextFieldEmptyErrorMessage": "Your email can't be empty.",
   "emailTextFieldInvalidErrorMessage": "This email is not valid.",
   "emailTextFieldAlreadyRegisteredErrorMessage": "This email is already registered.",
-  "passwordTextFieldLabel": "Password",
+  "passwordTextFieldLabel": "New Password",
   "passwordTextFieldInvalidErrorMessage": "Password must be at least five characters long.",
-  "passwordConfirmationTextFieldLabel": "Password Confirmation",
+  "passwordConfirmationTextFieldLabel": "New Password Confirmation",
   "passwordConfirmationTextFieldInvalidErrorMessage": "Your passwords don't match."
 }

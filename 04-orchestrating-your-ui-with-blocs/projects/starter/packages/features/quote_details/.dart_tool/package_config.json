@@ -14,12 +14,6 @@
       "languageVersion": "2.14"
     },
     {
-      "name": "archive",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/archive-3.1.6",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "args",
       "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/args-2.2.0",
       "packageUri": "lib/",
@@ -39,7 +33,7 @@
     },
     {
       "name": "bloc",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/bloc-7.2.1",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/bloc-8.0.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -104,12 +98,6 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "device_frame",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/device_frame-0.4.2",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "dio",
       "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/dio-4.0.0",
       "packageUri": "lib/",
@@ -159,7 +147,7 @@
     },
     {
       "name": "flutter_bloc",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/flutter_bloc-7.3.1",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/flutter_bloc-8.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -194,12 +182,6 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "freezed_annotation",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/freezed_annotation-0.14.2",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "frontend_server_client",
       "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/frontend_server_client-2.1.2",
       "packageUri": "lib/",
@@ -212,22 +194,10 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "graphs",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/graphs-2.1.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "hive",
       "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/hive-2.0.4",
       "packageUri": "lib/",
       "languageVersion": "2.12"
-    },
-    {
-      "name": "http",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/http-0.13.4",
-      "packageUri": "lib/",
-      "languageVersion": "2.14"
     },
     {
       "name": "http_multi_server",
@@ -280,12 +250,6 @@
     {
       "name": "logging",
       "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/logging-1.0.1",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "lottie",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/lottie-1.2.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -434,18 +398,6 @@
       "languageVersion": "2.13"
     },
     {
-      "name": "recase",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/recase-4.0.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "rive",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/rive-0.7.32",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "share_plus",
       "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/share_plus-2.1.4",
       "packageUri": "lib/",
@@ -532,12 +484,6 @@
     {
       "name": "stack_trace",
       "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/stack_trace-1.10.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "storybook_flutter",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/storybook_flutter-0.7.0+1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -680,7 +626,7 @@
       "languageVersion": "2.14"
     }
   ],
-  "generated": "2021-10-22T11:05:55.430262Z",
+  "generated": "2021-12-28T07:01:42.371198Z",
   "generator": "pub",
   "generatorVersion": "2.14.0"
 }

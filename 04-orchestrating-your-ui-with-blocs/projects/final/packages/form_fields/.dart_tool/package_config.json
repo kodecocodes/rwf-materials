@@ -68,6 +68,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "equatable",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/equatable-2.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "file",
       "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/file-6.1.2",
       "packageUri": "lib/",
@@ -75,7 +81,7 @@
     },
     {
       "name": "formz",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/formz-0.4.0",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/formz-0.4.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -308,7 +314,7 @@
       "languageVersion": "2.13"
     }
   ],
-  "generated": "2021-10-22T11:06:47.621158Z",
+  "generated": "2021-12-28T07:02:11.939074Z",
   "generator": "pub",
   "generatorVersion": "2.14.0"
 }

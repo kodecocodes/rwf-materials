@@ -10,8 +10,8 @@ class QuoteDetailsCubit extends Cubit<QuoteDetailsState> {
     required this.quoteId,
     required this.quoteRepository,
   }) : super(
-    const QuoteDetailsInProgress(),
-  ) {
+          const QuoteDetailsInProgress(),
+        ) {
     _fetchQuoteDetails();
   }
 
@@ -41,37 +41,37 @@ class QuoteDetailsCubit extends Cubit<QuoteDetailsState> {
 
   void upvoteQuote() async {
     await _executeQuoteUpdateOperation(
-          () => quoteRepository.upvoteQuote(quoteId),
+      () => quoteRepository.upvoteQuote(quoteId),
     );
   }
 
   void downvoteQuote() async {
     await _executeQuoteUpdateOperation(
-          () => quoteRepository.downvoteQuote(quoteId),
+      () => quoteRepository.downvoteQuote(quoteId),
     );
   }
 
   void unvoteQuote() async {
     await _executeQuoteUpdateOperation(
-          () => quoteRepository.unvoteQuote(quoteId),
+      () => quoteRepository.unvoteQuote(quoteId),
     );
   }
 
   void favoriteQuote() async {
     await _executeQuoteUpdateOperation(
-          () => quoteRepository.favoriteQuote(quoteId),
+      () => quoteRepository.favoriteQuote(quoteId),
     );
   }
 
   void unfavoriteQuote() async {
     await _executeQuoteUpdateOperation(
-          () => quoteRepository.unfavoriteQuote(quoteId),
+      () => quoteRepository.unfavoriteQuote(quoteId),
     );
   }
 
   Future<void> _executeQuoteUpdateOperation(
-      Future<Quote> Function() updateQuote,
-      ) async {
+    Future<Quote> Function() updateQuote,
+  ) async {
     try {
       final updatedQuote = await updateQuote();
       emit(
