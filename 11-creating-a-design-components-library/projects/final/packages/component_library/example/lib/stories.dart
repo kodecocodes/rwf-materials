@@ -5,235 +5,239 @@ import 'package:storybook_flutter/storybook_flutter.dart';
 List<Story> getStories(WonderThemeData theme) {
   return [
     Story(
-      name: 'Expanded Elevated Button',
-      section: 'Buttons',
-      builder: (_, k) => ExpandedElevatedButton(
-        label: k.text(label: 'label', initial: 'Press me'),
-        onTap: k.boolean(label: 'onTap', initial: true) ? () {} : null,
+      name: 'Buttons/Expanded Elevated Button',
+      builder: (context) => ExpandedElevatedButton(
+        label: context.knobs.text(label: 'label', initial: 'Press me'),
+        onTap:
+            context.knobs.boolean(label: 'onTap', initial: true) ? () {} : null,
         icon: Icon(
-          k.options(
+          context.knobs.options(
             label: 'icon',
             initial: Icons.home,
             options: const [
-              Option('Login', Icons.login),
-              Option('Refresh', Icons.refresh),
-              Option('Logout', Icons.logout),
+              Option(label: 'Login', value: Icons.login),
+              Option(label: 'Refresh', value: Icons.refresh),
+              Option(label: 'Logout', value: Icons.logout),
             ],
           ),
         ),
       ),
     ),
     Story(
-      name: 'InProgress Expanded Elevated Button',
-      section: 'Buttons',
-      builder: (_, k) => ExpandedElevatedButton.inProgress(
-        label: k.text(label: 'label', initial: 'Processing'),
+      name: 'Buttons/InProgress Expanded Elevated Button',
+      builder: (context) => ExpandedElevatedButton.inProgress(
+        label: context.knobs.text(label: 'label', initial: 'Processing'),
       ),
     ),
     Story(
-      name: 'InProgress Text Button',
-      section: 'Buttons',
-      builder: (_, k) => InProgressTextButton(
-        label: k.text(label: 'label', initial: 'Processing'),
+      name: 'Buttons/InProgress Text Button',
+      builder: (context) => InProgressTextButton(
+        label: context.knobs.text(label: 'label', initial: 'Processing'),
       ),
     ),
     Story(
-      name: 'Favorite Button',
-      section: 'Buttons',
-      builder: (_, k) => FavoriteIconButton(
+      name: 'Buttons/Favorite Button',
+      builder: (context) => FavoriteIconButton(
         onTap: () {},
-        isFavorite: k.boolean(label: 'isFavorite', initial: false),
+        isFavorite: context.knobs.boolean(label: 'isFavorite', initial: false),
       ),
     ),
-    Story.simple(
-      name: 'Share Icon Button',
-      section: 'Buttons',
-      child: ShareIconButton(onTap: () {}),
+    Story(
+      name: 'Buttons/Share Icon Button',
+      builder: (context) => ShareIconButton(onTap: () {}),
     ),
     Story(
-      name: 'Count Indicator Icon Button',
-      section: 'Count Indicator Buttons',
-      builder: (_, k) => CountIndicatorIconButton(
-        count: k.sliderInt(label: 'count'),
-        iconData: k.options(
+      name: 'Count Indicator Buttons/Count Indicator Icon Button',
+      builder: (context) => CountIndicatorIconButton(
+        count: context.knobs.sliderInt(label: 'count'),
+        iconData: context.knobs.options(
           label: 'iconData',
           initial: Icons.arrow_upward,
           options: const [
-            Option('Upward', Icons.arrow_upward),
-            Option('Downward', Icons.arrow_downward),
+            Option(label: 'Upward', value: Icons.arrow_upward),
+            Option(label: 'Downward', value: Icons.arrow_downward),
           ],
         ),
-        tooltip: k.text(label: 'tooltip', initial: 'Count indicator'),
+        tooltip:
+            context.knobs.text(label: 'tooltip', initial: 'Count indicator'),
       ),
     ),
     Story(
-      name: 'Downvote Icon Button',
-      section: 'Count Indicator Buttons',
-      builder: (_, k) => DownvoteIconButton(
-        count: k.sliderInt(label: 'count'),
+      name: 'Count Indicator Buttons/Downvote Icon Button',
+      builder: (context) => DownvoteIconButton(
+        count: context.knobs.sliderInt(label: 'count'),
         onTap: () {},
-        isDownvoted: k.boolean(label: 'isDownvoted', initial: false),
+        isDownvoted:
+            context.knobs.boolean(label: 'isDownvoted', initial: false),
       ),
     ),
     Story(
-      name: 'Upvote Icon Button',
-      section: 'Count Indicator Buttons',
-      builder: (_, k) => UpvoteIconButton(
-        count: k.sliderInt(label: 'count'),
+      name: 'Count Indicator Buttons/Upvote Icon Button',
+      builder: (context) => UpvoteIconButton(
+        count: context.knobs.sliderInt(label: 'count'),
         onTap: () {},
-        isUpvoted: k.boolean(label: 'isUpvoted', initial: false),
+        isUpvoted: context.knobs.boolean(label: 'isUpvoted', initial: false),
       ),
     ),
     Story(
-      name: 'Exception Indicator',
-      section: 'Indicators',
-      builder: (_, k) => ExceptionIndicator(
-        title: k.text(label: 'title', initial: 'Exception title'),
-        message: k.text(label: 'message', initial: 'Exception message'),
-        onTryAgain:
-            k.boolean(label: 'onTryAgain', initial: false) ? () {} : null,
+      name: 'Indicators/Exception Indicator',
+      builder: (context) => ExceptionIndicator(
+        title: context.knobs.text(label: 'title', initial: 'Exception title'),
+        message:
+            context.knobs.text(label: 'message', initial: 'Exception message'),
+        onTryAgain: context.knobs.boolean(label: 'onTryAgain', initial: false)
+            ? () {}
+            : null,
       ),
     ),
-    Story.simple(
-      name: 'Loading Indicator',
-      section: 'Indicators',
-      child: const LoadingIndicator(),
+    Story(
+      name: 'Indicators/Loading Indicator',
+      builder: (context) => const LoadingIndicator(),
     ),
     Story(
-      name: 'QuoteCard',
-      section: 'Quote',
-      builder: (_, k) => QuoteCard(
-        isFavorite: k.boolean(label: 'Is Favorite', initial: false),
-        statement: k.text(
+      name: 'Quote/QuoteCard',
+      builder: (context) => QuoteCard(
+        isFavorite: context.knobs.boolean(label: 'Is Favorite', initial: false),
+        statement: context.knobs.text(
             label: 'Statement',
             initial:
                 'Wherever you go, no matter what the weather, always bring your own sunshine.'),
-        author: k.text(label: 'Author', initial: 'Author name'),
+        author: context.knobs.text(label: 'Author', initial: 'Author name'),
       ),
     ),
     Story(
-      name: 'Quotes in List',
-      section: 'Quote',
-      wrapperBuilder: (context, story, child) => Padding(
+      name: 'Quote/Quotes in List',
+      builder: (context) => Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView.separated(
           itemCount: 15,
-          itemBuilder: (_, __) => child,
+          itemBuilder: (_, __) => QuoteCard(
+            isFavorite:
+                context.knobs.boolean(label: 'Is Favorite', initial: false),
+            statement: context.knobs.text(
+                label: 'Statement',
+                initial:
+                    'The finest steel has to go through the hottest fire.'),
+            author: context.knobs.text(label: 'Author', initial: 'Author name'),
+          ),
           separatorBuilder: (_, __) => Divider(height: theme.listSpacing),
         ),
       ),
-      builder: (_, k) => QuoteCard(
-        isFavorite: k.boolean(label: 'Is Favorite', initial: false),
-        statement: k.text(
-            label: 'Statement',
-            initial: 'The finest steel has to go through the hottest fire.'),
-        author: k.text(label: 'Author', initial: 'Author name'),
-      ),
     ),
     Story(
-      name: 'Quotes in Grid',
-      section: 'Quote',
-      wrapperBuilder: (context, story, child) => Padding(
+      name: 'Quote/Quotes in Grid',
+      builder: (context) => Padding(
         padding: const EdgeInsets.all(8.0),
         child: GridView.count(
           crossAxisCount: 2,
           crossAxisSpacing: theme.gridSpacing,
           mainAxisSpacing: theme.gridSpacing,
-          children: [for (int i = 0; i < 15; i++) child],
+          children: [
+            for (int i = 0; i < 15; i++)
+              QuoteCard(
+                isFavorite:
+                    context.knobs.boolean(label: 'Is Favorite', initial: false),
+                statement: context.knobs
+                    .text(label: 'Statement', initial: 'A quote statement'),
+                author:
+                    context.knobs.text(label: 'Author', initial: 'Author name'),
+              )
+          ],
         ),
-      ),
-      builder: (_, k) => QuoteCard(
-        isFavorite: k.boolean(label: 'Is Favorite', initial: false),
-        statement: k.text(label: 'Statement', initial: 'A quote statement'),
-        author: k.text(label: 'Author', initial: 'Author name'),
       ),
     ),
     Story(
       name: 'Rounded Choice Chip',
-      padding: const EdgeInsets.all(Spacing.medium),
-      builder: (_, k) => RoundedChoiceChip(
-        label: k.text(
-          label: 'label',
-          initial: 'I am a Chip!',
-        ),
-        isSelected: k.boolean(label: 'isSelected', initial: false),
-        avatar: k.boolean(label: 'avatar', initial: false)
-            ? Icon(
-                Icons.favorite,
-                color: theme.roundedChoiceChipSelectedAvatarColor,
-              )
-            : null,
-        onSelected:
-            k.boolean(label: 'onSelected', initial: true) ? (_) {} : null,
-        backgroundColor: k.options(
-          label: 'backgroundColor',
-          initial: null,
-          options: const [
-            Option('Light blue', Colors.lightBlue),
-            Option('Red accent', Colors.redAccent),
-          ],
-        ),
-        selectedBackgroundColor: k.options(
-          label: 'selectedBackgroundColor',
-          initial: null,
-          options: const [
-            Option(
-              'Green',
-              Colors.green,
-            ),
-            Option(
-              'Amber accent',
-              Colors.amberAccent,
-            ),
-          ],
-        ),
-        labelColor: k.options(
-          label: 'labelColor',
-          initial: null,
-          options: const [
-            Option(
-              'Teal',
-              Colors.teal,
-            ),
-            Option(
-              'Orange accent',
-              Colors.orangeAccent,
-            ),
-          ],
-        ),
-        selectedLabelColor: k.options(
-          label: 'selectedLabelColor',
-          initial: null,
-          options: const [
-            Option(
-              'Deep purple accent',
-              Colors.deepPurpleAccent,
-            ),
-            Option(
-              'Amber accent',
-              Colors.amberAccent,
-            ),
-          ],
+      builder: (context) => Padding(
+        padding: const EdgeInsets.all(Spacing.medium),
+        child: RoundedChoiceChip(
+          label: context.knobs.text(
+            label: 'label',
+            initial: 'I am a Chip!',
+          ),
+          isSelected:
+              context.knobs.boolean(label: 'isSelected', initial: false),
+          avatar: context.knobs.boolean(label: 'avatar', initial: false)
+              ? Icon(
+                  Icons.favorite,
+                  color: theme.roundedChoiceChipSelectedAvatarColor,
+                )
+              : null,
+          onSelected: context.knobs.boolean(label: 'onSelected', initial: true)
+              ? (_) {}
+              : null,
+          backgroundColor: context.knobs.options(
+            label: 'backgroundColor',
+            initial: null,
+            options: const [
+              Option(label: 'Light blue', value: Colors.lightBlue),
+              Option(label: 'Red accent', value: Colors.redAccent),
+            ],
+          ),
+          selectedBackgroundColor: context.knobs.options(
+            label: 'selectedBackgroundColor',
+            initial: null,
+            options: const [
+              Option(
+                label: 'Green',
+                value: Colors.green,
+              ),
+              Option(
+                label: 'Amber accent',
+                value: Colors.amberAccent,
+              ),
+            ],
+          ),
+          labelColor: context.knobs.options(
+            label: 'labelColor',
+            initial: null,
+            options: const [
+              Option(
+                label: 'Teal',
+                value: Colors.teal,
+              ),
+              Option(
+                label: 'Orange accent',
+                value: Colors.orangeAccent,
+              ),
+            ],
+          ),
+          selectedLabelColor: context.knobs.options(
+            label: 'selectedLabelColor',
+            initial: null,
+            options: const [
+              Option(
+                label: 'Deep purple accent',
+                value: Colors.deepPurpleAccent,
+              ),
+              Option(
+                label: 'Amber accent',
+                value: Colors.amberAccent,
+              ),
+            ],
+          ),
         ),
       ),
     ),
     Story(
       name: 'Chevron List Tile',
-      padding: const EdgeInsets.all(Spacing.medium),
-      builder: (_, k) => ChevronListTile(
-        label: k.text(
-          label: 'label',
-          initial: 'Update Profile',
+      builder: (context) => Padding(
+        padding: const EdgeInsets.all(Spacing.medium),
+        child: ChevronListTile(
+          label: context.knobs.text(
+            label: 'label',
+            initial: 'Update Profile',
+          ),
         ),
       ),
     ),
-    Story.simple(
+    Story(
       name: 'Search Bar',
-      child: const SearchBar(),
+      builder: (context) => const SearchBar(),
     ),
-    Story.simple(
+    Story(
       name: 'Row App Bar',
-      child: const RowAppBar(
+      builder: (context) => const RowAppBar(
         children: [
           FavoriteIconButton(isFavorite: true),
           UpvoteIconButton(count: 10, isUpvoted: true),
@@ -243,36 +247,36 @@ List<Story> getStories(WonderThemeData theme) {
     ),
     Story(
       name: 'Shrinkable Text',
-      builder: (_, k) => ShrinkableText(
-        k.text(
+      builder: (context) => ShrinkableText(
+        context.knobs.text(
           label: 'text',
           initial:
               'I am a Shrinkable text. I can resize myself automatically within a space',
         ),
-        style: k.options(
+        style: context.knobs.options(
           label: 'style',
           initial: theme.quoteTextStyle.copyWith(fontSize: FontSize.xxLarge),
           options: [
             Option(
-              'XX large',
-              theme.quoteTextStyle.copyWith(fontSize: FontSize.xxLarge),
+              label: 'XX large',
+              value: theme.quoteTextStyle.copyWith(fontSize: FontSize.xxLarge),
             ),
             Option(
-              'Small',
-              theme.quoteTextStyle.copyWith(fontSize: FontSize.small),
+              label: 'Small',
+              value: theme.quoteTextStyle.copyWith(fontSize: FontSize.small),
             ),
           ],
         ),
-        textAlign: k.options(
+        textAlign: context.knobs.options(
           label: 'textAlign',
           initial: null,
           options: const [
-            Option('Start', TextAlign.start),
-            Option('End', TextAlign.end),
-            Option('Center', TextAlign.center),
-            Option('Justify', TextAlign.justify),
-            Option('Left', TextAlign.left),
-            Option('Right', TextAlign.right),
+            Option(label: 'Start', value: TextAlign.start),
+            Option(label: 'End', value: TextAlign.end),
+            Option(label: 'Center', value: TextAlign.center),
+            Option(label: 'Justify', value: TextAlign.justify),
+            Option(label: 'Left', value: TextAlign.left),
+            Option(label: 'Right', value: TextAlign.right),
           ],
         ),
       ),
