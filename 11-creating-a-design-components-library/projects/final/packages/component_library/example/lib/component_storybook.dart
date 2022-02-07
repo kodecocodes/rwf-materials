@@ -14,9 +14,10 @@ class ComponentStorybook extends StatelessWidget {
     required this.darkThemeData,
   }) : super(key: key);
 
-  Widget _customWrapper(BuildContext context, Widget? child) => MaterialApp(
+  Widget customWrapper(BuildContext context, Widget? child) => MaterialApp(
         theme: lightThemeData,
         darkTheme: darkThemeData,
+        themeMode: ThemeMode.dark,
         debugShowCheckedModeBanner: false,
         useInheritedMediaQuery: true,
         localizationsDelegates: const [
@@ -29,19 +30,16 @@ class ComponentStorybook extends StatelessWidget {
       );
 
   final _plugins = initializePlugins(
-    contentsSidePanel: true,
-    knobsSidePanel: true,
-    initialDeviceFrameData: DeviceFrameData(
-      device: Devices.ios.iPhone13,
-    ),
+    contentsSidePanel: kIsWeb ? true : false,
+    knobsSidePanel: kIsWeb ? true : false,
   );
 
   @override
   Widget build(BuildContext context) {
     final theme = WonderTheme.of(context);
     return Storybook(
-      wrapperBuilder: (context, child) => _customWrapper(context, child),
-      plugins: kIsWeb ? _plugins : null,
+      wrapperBuilder: (context, child) => customWrapper(context, child),
+      plugins: _plugins,
       stories: [...getStories(theme)],
       initialStory: 'Rounded Choice Chip',
     );

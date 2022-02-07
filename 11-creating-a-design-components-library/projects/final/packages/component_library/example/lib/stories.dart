@@ -92,7 +92,10 @@ List<Story> getStories(WonderThemeData theme) {
     ),
     Story(
       name: 'Indicators/Loading Indicator',
-      builder: (context) => const LoadingIndicator(),
+      builder: (context) => const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 50.0),
+        child: LoadingIndicator(),
+      ),
     ),
     Story(
       name: 'Quote/QuoteCard',
