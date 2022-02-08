@@ -8,16 +8,33 @@ List<Story> getStories(WonderThemeData theme) {
       name: 'Expanded Elevated Button',
       section: 'Buttons',
       builder: (_, k) => ExpandedElevatedButton(
-        label: k.text(label: 'label', initial: 'Press me'),
-        onTap: k.boolean(label: 'onTap', initial: true) ? () {} : null,
+        label: k.text(
+          label: 'label',
+          initial: 'Press me',
+        ),
+        onTap: k.boolean(
+          label: 'onTap',
+          initial: true,
+        )
+            ? () {}
+            : null,
         icon: Icon(
           k.options(
             label: 'icon',
             initial: Icons.home,
             options: const [
-              Option('Login', Icons.login),
-              Option('Refresh', Icons.refresh),
-              Option('Logout', Icons.logout),
+              Option(
+                'Login',
+                Icons.login,
+              ),
+              Option(
+                'Refresh',
+                Icons.refresh,
+              ),
+              Option(
+                'Logout',
+                Icons.logout,
+              ),
             ],
           ),
         ),
@@ -27,14 +44,20 @@ List<Story> getStories(WonderThemeData theme) {
       name: 'InProgress Expanded Elevated Button',
       section: 'Buttons',
       builder: (_, k) => ExpandedElevatedButton.inProgress(
-        label: k.text(label: 'label', initial: 'Processing'),
+        label: k.text(
+          label: 'label',
+          initial: 'Processing',
+        ),
       ),
     ),
     Story(
       name: 'InProgress Text Button',
       section: 'Buttons',
       builder: (_, k) => InProgressTextButton(
-        label: k.text(label: 'label', initial: 'Processing'),
+        label: k.text(
+          label: 'label',
+          initial: 'Processing',
+        ),
       ),
     ),
     Story(
@@ -42,7 +65,10 @@ List<Story> getStories(WonderThemeData theme) {
       section: 'Buttons',
       builder: (_, k) => FavoriteIconButton(
         onTap: () {},
-        isFavorite: k.boolean(label: 'isFavorite', initial: false),
+        isFavorite: k.boolean(
+          label: 'isFavorite',
+          initial: false,
+        ),
       ),
     ),
     Story.simple(
@@ -54,44 +80,75 @@ List<Story> getStories(WonderThemeData theme) {
       name: 'Count Indicator Icon Button',
       section: 'Count Indicator Buttons',
       builder: (_, k) => CountIndicatorIconButton(
-        count: k.sliderInt(label: 'count'),
+        count: k.sliderInt(
+          label: 'count',
+        ),
         iconData: k.options(
           label: 'iconData',
           initial: Icons.arrow_upward,
           options: const [
-            Option('Upward', Icons.arrow_upward),
-            Option('Downward', Icons.arrow_downward),
+            Option(
+              'Upward',
+              Icons.arrow_upward,
+            ),
+            Option(
+              'Downward',
+              Icons.arrow_downward,
+            ),
           ],
         ),
-        tooltip: k.text(label: 'tooltip', initial: 'Count indicator'),
+        tooltip: k.text(
+          label: 'tooltip',
+          initial: 'Count indicator',
+        ),
       ),
     ),
     Story(
       name: 'Downvote Icon Button',
       section: 'Count Indicator Buttons',
       builder: (_, k) => DownvoteIconButton(
-        count: k.sliderInt(label: 'count'),
+        count: k.sliderInt(
+          label: 'count',
+        ),
         onTap: () {},
-        isDownvoted: k.boolean(label: 'isDownvoted', initial: false),
+        isDownvoted: k.boolean(
+          label: 'isDownvoted',
+          initial: false,
+        ),
       ),
     ),
     Story(
       name: 'Upvote Icon Button',
       section: 'Count Indicator Buttons',
       builder: (_, k) => UpvoteIconButton(
-        count: k.sliderInt(label: 'count'),
+        count: k.sliderInt(
+          label: 'count',
+        ),
         onTap: () {},
-        isUpvoted: k.boolean(label: 'isUpvoted', initial: false),
+        isUpvoted: k.boolean(
+          label: 'isUpvoted',
+          initial: false,
+        ),
       ),
     ),
     Story(
       name: 'Exception Indicator',
       section: 'Indicators',
       builder: (_, k) => ExceptionIndicator(
-        title: k.text(label: 'title', initial: 'Exception title'),
-        message: k.text(label: 'message', initial: 'Exception message'),
-        onTryAgain:
-            k.boolean(label: 'onTryAgain', initial: false) ? () {} : null,
+        title: k.text(
+          label: 'title',
+          initial: 'Exception title',
+        ),
+        message: k.text(
+          label: 'message',
+          initial: 'Exception message',
+        ),
+        onTryAgain: k.boolean(
+          label: 'onTryAgain',
+          initial: false,
+        )
+            ? () {}
+            : null,
       ),
     ),
     Story.simple(
@@ -103,12 +160,19 @@ List<Story> getStories(WonderThemeData theme) {
       name: 'QuoteCard',
       section: 'Quote',
       builder: (_, k) => QuoteCard(
-        isFavorite: k.boolean(label: 'Is Favorite', initial: false),
+        isFavorite: k.boolean(
+          label: 'Is Favorite',
+          initial: false,
+        ),
         statement: k.text(
-            label: 'Statement',
-            initial:
-                'Wherever you go, no matter what the weather, always bring your own sunshine.'),
-        author: k.text(label: 'Author', initial: 'Author name'),
+          label: 'Statement',
+          initial:
+              'Wherever you go, no matter what the weather, always bring your own sunshine.',
+        ),
+        author: k.text(
+          label: 'Author',
+          initial: 'Author name',
+        ),
       ),
     ),
     Story(
@@ -119,15 +183,24 @@ List<Story> getStories(WonderThemeData theme) {
         child: ListView.separated(
           itemCount: 15,
           itemBuilder: (_, __) => child,
-          separatorBuilder: (_, __) => Divider(height: theme.listSpacing),
+          separatorBuilder: (_, __) => Divider(
+            height: theme.listSpacing,
+          ),
         ),
       ),
       builder: (_, k) => QuoteCard(
-        isFavorite: k.boolean(label: 'Is Favorite', initial: false),
+        isFavorite: k.boolean(
+          label: 'Is Favorite',
+          initial: false,
+        ),
         statement: k.text(
-            label: 'Statement',
-            initial: 'The finest steel has to go through the hottest fire.'),
-        author: k.text(label: 'Author', initial: 'Author name'),
+          label: 'Statement',
+          initial: 'The finest steel has to go through the hottest fire.',
+        ),
+        author: k.text(
+          label: 'Author',
+          initial: 'Author name',
+        ),
       ),
     ),
     Story(
@@ -143,34 +216,61 @@ List<Story> getStories(WonderThemeData theme) {
         ),
       ),
       builder: (_, k) => QuoteCard(
-        isFavorite: k.boolean(label: 'Is Favorite', initial: false),
-        statement: k.text(label: 'Statement', initial: 'A quote statement'),
-        author: k.text(label: 'Author', initial: 'Author name'),
+        isFavorite: k.boolean(
+          label: 'Is Favorite',
+          initial: false,
+        ),
+        statement: k.text(
+          label: 'Statement',
+          initial: 'A quote statement',
+        ),
+        author: k.text(
+          label: 'Author',
+          initial: 'Author name',
+        ),
       ),
     ),
     Story(
       name: 'Rounded Choice Chip',
-      padding: const EdgeInsets.all(Spacing.medium),
+      padding: const EdgeInsets.all(
+        Spacing.medium,
+      ),
       builder: (_, k) => RoundedChoiceChip(
         label: k.text(
           label: 'label',
           initial: 'I am a Chip!',
         ),
-        isSelected: k.boolean(label: 'isSelected', initial: false),
-        avatar: k.boolean(label: 'avatar', initial: false)
+        isSelected: k.boolean(
+          label: 'isSelected',
+          initial: false,
+        ),
+        avatar: k.boolean(
+          label: 'avatar',
+          initial: false,
+        )
             ? Icon(
                 Icons.favorite,
                 color: theme.roundedChoiceChipSelectedAvatarColor,
               )
             : null,
-        onSelected:
-            k.boolean(label: 'onSelected', initial: true) ? (_) {} : null,
+        onSelected: k.boolean(
+          label: 'onSelected',
+          initial: true,
+        )
+            ? (_) {}
+            : null,
         backgroundColor: k.options(
           label: 'backgroundColor',
           initial: null,
           options: const [
-            Option('Light blue', Colors.lightBlue),
-            Option('Red accent', Colors.redAccent),
+            Option(
+              'Light blue',
+              Colors.lightBlue,
+            ),
+            Option(
+              'Red accent',
+              Colors.redAccent,
+            ),
           ],
         ),
         selectedBackgroundColor: k.options(
@@ -219,7 +319,9 @@ List<Story> getStories(WonderThemeData theme) {
     ),
     Story(
       name: 'Chevron List Tile',
-      padding: const EdgeInsets.all(Spacing.medium),
+      padding: const EdgeInsets.all(
+        Spacing.medium,
+      ),
       builder: (_, k) => ChevronListTile(
         label: k.text(
           label: 'label',
@@ -235,9 +337,17 @@ List<Story> getStories(WonderThemeData theme) {
       name: 'Row App Bar',
       child: const RowAppBar(
         children: [
-          FavoriteIconButton(isFavorite: true),
-          UpvoteIconButton(count: 10, isUpvoted: true),
-          DownvoteIconButton(count: 5, isDownvoted: false),
+          FavoriteIconButton(
+            isFavorite: true,
+          ),
+          UpvoteIconButton(
+            count: 10,
+            isUpvoted: true,
+          ),
+          DownvoteIconButton(
+            count: 5,
+            isDownvoted: false,
+          ),
         ],
       ),
     ),
@@ -251,15 +361,21 @@ List<Story> getStories(WonderThemeData theme) {
         ),
         style: k.options(
           label: 'style',
-          initial: theme.quoteTextStyle.copyWith(fontSize: FontSize.xxLarge),
+          initial: theme.quoteTextStyle.copyWith(
+            fontSize: FontSize.xxLarge,
+          ),
           options: [
             Option(
               'XX large',
-              theme.quoteTextStyle.copyWith(fontSize: FontSize.xxLarge),
+              theme.quoteTextStyle.copyWith(
+                fontSize: FontSize.xxLarge,
+              ),
             ),
             Option(
               'Small',
-              theme.quoteTextStyle.copyWith(fontSize: FontSize.small),
+              theme.quoteTextStyle.copyWith(
+                fontSize: FontSize.small,
+              ),
             ),
           ],
         ),
@@ -267,12 +383,30 @@ List<Story> getStories(WonderThemeData theme) {
           label: 'textAlign',
           initial: null,
           options: const [
-            Option('Start', TextAlign.start),
-            Option('End', TextAlign.end),
-            Option('Center', TextAlign.center),
-            Option('Justify', TextAlign.justify),
-            Option('Left', TextAlign.left),
-            Option('Right', TextAlign.right),
+            Option(
+              'Start',
+              TextAlign.start,
+            ),
+            Option(
+              'End',
+              TextAlign.end,
+            ),
+            Option(
+              'Center',
+              TextAlign.center,
+            ),
+            Option(
+              'Justify',
+              TextAlign.justify,
+            ),
+            Option(
+              'Left',
+              TextAlign.left,
+            ),
+            Option(
+              'Right',
+              TextAlign.right,
+            ),
           ],
         ),
       ),

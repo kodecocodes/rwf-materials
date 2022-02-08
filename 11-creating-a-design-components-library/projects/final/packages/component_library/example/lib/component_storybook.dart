@@ -25,7 +25,9 @@ class ComponentStorybook extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
         ComponentLibraryLocalizations.delegate,
       ],
-      children: [...getStories(theme)],
+      children: [
+        ...getStories(theme),
+      ],
       initialRoute: 'rounded-choice-chip',
     );
   }

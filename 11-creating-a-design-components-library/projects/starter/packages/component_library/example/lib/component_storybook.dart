@@ -1,6 +1,6 @@
 import 'package:component_library/component_library.dart';
 import 'package:component_library_storybook/stories.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
@@ -26,7 +26,9 @@ class ComponentStorybook extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
         ComponentLibraryLocalizations.delegate,
       ],
-      children: [...getStories(theme)],
+      children: [
+        ...getStories(theme),
+      ],
       initialRoute: 'rounded-choice-chip',
     );
   }
