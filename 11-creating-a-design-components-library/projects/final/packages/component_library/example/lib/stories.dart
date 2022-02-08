@@ -4,6 +4,14 @@ import 'package:storybook_flutter/storybook_flutter.dart';
 
 List<Story> getStories(WonderThemeData theme) {
   return [
+    Story.simple(
+      name: 'Simple Expanded Elevated Button',
+      section: 'Buttons',
+      child: ExpandedElevatedButton(
+        label: 'Press me',
+        onTap: () {},
+      ),
+    ),
     Story(
       name: 'Expanded Elevated Button',
       section: 'Buttons',
