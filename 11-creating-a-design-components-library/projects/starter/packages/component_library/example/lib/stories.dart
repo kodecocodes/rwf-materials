@@ -154,7 +154,10 @@ List<Story> getStories(WonderThemeData theme) {
     Story.simple(
       name: 'Loading Indicator',
       section: 'Indicators',
-      child: const LoadingIndicator(),
+      child: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 200.0),
+        child: LoadingIndicator(),
+      ),
     ),
     Story(
       name: 'QuoteCard',
