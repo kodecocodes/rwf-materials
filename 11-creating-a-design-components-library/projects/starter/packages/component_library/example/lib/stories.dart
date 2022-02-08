@@ -5,42 +5,6 @@ import 'package:storybook_flutter/storybook_flutter.dart';
 List<Story> getStories(WonderThemeData theme) {
   return [
     Story(
-      name: 'Expanded Elevated Button',
-      section: 'Buttons',
-      builder: (_, k) => ExpandedElevatedButton(
-        label: k.text(
-          label: 'label',
-          initial: 'Press me',
-        ),
-        onTap: k.boolean(
-          label: 'onTap',
-          initial: true,
-        )
-            ? () {}
-            : null,
-        icon: Icon(
-          k.options(
-            label: 'icon',
-            initial: Icons.home,
-            options: const [
-              Option(
-                'Login',
-                Icons.login,
-              ),
-              Option(
-                'Refresh',
-                Icons.refresh,
-              ),
-              Option(
-                'Logout',
-                Icons.logout,
-              ),
-            ],
-          ),
-        ),
-      ),
-    ),
-    Story(
       name: 'InProgress Expanded Elevated Button',
       section: 'Buttons',
       builder: (_, k) => ExpandedElevatedButton.inProgress(

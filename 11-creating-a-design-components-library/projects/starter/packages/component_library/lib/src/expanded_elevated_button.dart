@@ -28,24 +28,15 @@ class ExpandedElevatedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final icon = this.icon;
     return SizedBox(
       height: _elevatedButtonHeight,
       width: double.infinity,
-      child: icon != null
-          ? ElevatedButton.icon(
-              onPressed: onTap,
-              label: Text(
-                label,
-              ),
-              icon: icon,
-            )
-          : ElevatedButton(
-              onPressed: onTap,
-              child: Text(
-                label,
-              ),
-            ),
+      child: ElevatedButton(
+        onPressed: onTap,
+        child: Text(
+          label,
+        ),
+      ),
     );
   }
 }
