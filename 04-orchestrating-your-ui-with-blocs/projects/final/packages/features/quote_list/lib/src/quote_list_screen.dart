@@ -57,20 +57,22 @@ class QuoteListView extends StatefulWidget {
 }
 
 class _QuoteListViewState extends State<QuoteListView> {
+  // For a deep dive on PagingController refer to: https://www.raywenderlich.com/14214369-infinite-scrolling-pagination-in-flutter
   final PagingController<int, Quote> _pagingController = PagingController(
     firstPageKey: 1,
   );
 
   final TextEditingController _searchBarController = TextEditingController();
 
+  QuoteListBloc get _bloc => context.read<QuoteListBloc>();
+
   @override
   void initState() {
     _pagingController.addPageRequestListener((pageNumber) {
       final isSubsequentPage = pageNumber > 1;
       if (isSubsequentPage) {
-        final bloc = context.read<QuoteListBloc>();
-        bloc.add(
-          QuoteListNewPageRequested(
+        _bloc.add(
+          QuoteListNextPageRequested(
             pageNumber: pageNumber,
           ),
         );
@@ -78,8 +80,7 @@ class _QuoteListViewState extends State<QuoteListView> {
     });
 
     _searchBarController.addListener(() {
-      final bloc = context.read<QuoteListBloc>();
-      bloc.add(
+      _bloc.add(
         QuoteListSearchTermChanged(
           _searchBarController.text,
         ),
@@ -132,12 +133,14 @@ class _QuoteListViewState extends State<QuoteListView> {
               onTap: () => _releaseFocus(context),
               child: RefreshIndicator(
                 onRefresh: () {
-                  final bloc = context.read<QuoteListBloc>();
-                  bloc.add(
+                  _bloc.add(
                     const QuoteListRefreshed(),
                   );
 
-                  final stateChangeFuture = bloc.stream.first;
+                  // Returning a Future inside `onRefresh` enables the loading
+                  // indicator to disappear automatically once the refresh is
+                  // complete.
+                  final stateChangeFuture = _bloc.stream.first;
                   return stateChangeFuture;
                 },
                 child: CustomScrollView(

@@ -1,3 +1,4 @@
+
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -59,18 +60,15 @@ import 'profile_menu_localizations_en.dart';
 /// be consistent with the languages listed in the ProfileMenuLocalizations.supportedLocales
 /// property.
 abstract class ProfileMenuLocalizations {
-  ProfileMenuLocalizations(String locale)
-      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  ProfileMenuLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
   static ProfileMenuLocalizations of(BuildContext context) {
-    return Localizations.of<ProfileMenuLocalizations>(
-        context, ProfileMenuLocalizations)!;
+    return Localizations.of<ProfileMenuLocalizations>(context, ProfileMenuLocalizations)!;
   }
 
-  static const LocalizationsDelegate<ProfileMenuLocalizations> delegate =
-      _ProfileMenuLocalizationsDelegate();
+  static const LocalizationsDelegate<ProfileMenuLocalizations> delegate = _ProfileMenuLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -82,8 +80,7 @@ abstract class ProfileMenuLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -91,7 +88,9 @@ abstract class ProfileMenuLocalizations {
   ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en')
+  ];
 
   /// No description provided for @signInButtonLabel.
   ///
@@ -140,36 +139,47 @@ abstract class ProfileMenuLocalizations {
   /// In en, this message translates to:
   /// **'Sign Out'**
   String get signOutButtonLabel;
+
+  /// No description provided for @signUpOpeningText.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account?'**
+  String get signUpOpeningText;
+
+  /// No description provided for @signUpButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign up'**
+  String get signUpButtonLabel;
 }
 
-class _ProfileMenuLocalizationsDelegate
-    extends LocalizationsDelegate<ProfileMenuLocalizations> {
+class _ProfileMenuLocalizationsDelegate extends LocalizationsDelegate<ProfileMenuLocalizations> {
   const _ProfileMenuLocalizationsDelegate();
 
   @override
   Future<ProfileMenuLocalizations> load(Locale locale) {
-    return SynchronousFuture<ProfileMenuLocalizations>(
-        _lookupProfileMenuLocalizations(locale));
+    return SynchronousFuture<ProfileMenuLocalizations>(lookupProfileMenuLocalizations(locale));
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['en'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['en'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_ProfileMenuLocalizationsDelegate old) => false;
 }
 
-ProfileMenuLocalizations _lookupProfileMenuLocalizations(Locale locale) {
-// Lookup logic when only language code is specified.
+ProfileMenuLocalizations lookupProfileMenuLocalizations(Locale locale) {
+
+
+  // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en':
-      return ProfileMenuLocalizationsEn();
+    case 'en': return ProfileMenuLocalizationsEn();
   }
 
   throw FlutterError(
-      'ProfileMenuLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-      'an issue with the localizations generation tool. Please file an issue '
-      'on GitHub with a reproducible sample app and the gen-l10n configuration '
-      'that was used.');
+    'ProfileMenuLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.'
+  );
 }

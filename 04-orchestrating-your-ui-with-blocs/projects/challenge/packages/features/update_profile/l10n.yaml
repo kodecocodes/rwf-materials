@@ -1,0 +1,6 @@
+arb-dir: lib/src/l10n
+template-arb-file: messages_en.arb
+output-localization-file: update_profile_localizations.dart
+output-class: UpdateProfileLocalizations
+synthetic-package: false
+nullable-getter: false

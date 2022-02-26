@@ -12,12 +12,14 @@ class ProfileMenuScreen extends StatelessWidget {
     required this.userRepository,
     required this.quoteRepository,
     this.onSignInTap,
+    this.onSignUpTap,
     this.onUpdateProfileTap,
     Key? key,
   }) : super(key: key);
 
   final VoidCallback? onSignInTap;
   final VoidCallback? onUpdateProfileTap;
+  final VoidCallback? onSignUpTap;
   final UserRepository userRepository;
   final QuoteRepository quoteRepository;
 
@@ -31,6 +33,7 @@ class ProfileMenuScreen extends StatelessWidget {
       child: ProfileMenuView(
         onSignInTap: onSignInTap,
         onUpdateProfileTap: onUpdateProfileTap,
+        onSignUpTap: onSignUpTap,
       ),
     );
   }
@@ -40,11 +43,13 @@ class ProfileMenuScreen extends StatelessWidget {
 class ProfileMenuView extends StatelessWidget {
   const ProfileMenuView({
     this.onSignInTap,
+    this.onSignUpTap,
     this.onUpdateProfileTap,
     Key? key,
   }) : super(key: key);
 
   final VoidCallback? onSignInTap;
+  final VoidCallback? onSignUpTap;
   final VoidCallback? onUpdateProfileTap;
 
   @override
@@ -59,10 +64,26 @@ class ProfileMenuView extends StatelessWidget {
                 final username = state.username;
                 return Column(
                   children: [
-                    if (!state.isUserAuthenticated)
+                    if (!state.isUserAuthenticated) ...[
                       _SignInButton(
                         onSignInTap: onSignInTap,
                       ),
+                      const SizedBox(
+                        height: Spacing.xLarge,
+                      ),
+                      Text(
+                        l10n.signUpOpeningText,
+                      ),
+                      TextButton(
+                        child: Text(
+                          l10n.signUpButtonLabel,
+                        ),
+                        onPressed: onSignUpTap,
+                      ),
+                      const SizedBox(
+                        height: Spacing.large,
+                      ),
+                    ],
                     if (username != null) ...[
                       Expanded(
                         child: Center(
@@ -124,9 +145,10 @@ class _SignInButton extends StatelessWidget {
     final theme = WonderTheme.of(context);
     final l10n = ProfileMenuLocalizations.of(context);
     return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: theme.screenMargin,
-        vertical: Spacing.xxLarge,
+      padding: EdgeInsets.only(
+        left: theme.screenMargin,
+        right: theme.screenMargin,
+        top: Spacing.xxLarge,
       ),
       child: ExpandedElevatedButton(
         onTap: onSignInTap,

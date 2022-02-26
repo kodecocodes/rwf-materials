@@ -7,16 +7,8 @@ abstract class QuoteListEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class QuoteListFirstPageRequested extends QuoteListEvent {
-  const QuoteListFirstPageRequested();
-}
-
 class QuoteListFilterByFavoritesToggled extends QuoteListEvent {
   const QuoteListFilterByFavoritesToggled();
-}
-
-class QuoteListUserAuthenticationChanged extends QuoteListEvent {
-  const QuoteListUserAuthenticationChanged();
 }
 
 class QuoteListTagChanged extends QuoteListEvent {
@@ -49,8 +41,8 @@ class QuoteListRefreshed extends QuoteListEvent {
   const QuoteListRefreshed();
 }
 
-class QuoteListNewPageRequested extends QuoteListEvent {
-  const QuoteListNewPageRequested({
+class QuoteListNextPageRequested extends QuoteListEvent {
+  const QuoteListNextPageRequested({
     required this.pageNumber,
   });
 
@@ -58,9 +50,35 @@ class QuoteListNewPageRequested extends QuoteListEvent {
 }
 
 abstract class QuoteListItemFavoriteToggled extends QuoteListEvent {
-  const QuoteListItemFavoriteToggled(this.id);
+  const QuoteListItemFavoriteToggled(
+    this.id,
+  );
 
   final int id;
+}
+
+class QuoteListItemFavorited extends QuoteListItemFavoriteToggled {
+  const QuoteListItemFavorited(
+    int id,
+  ) : super(id);
+}
+
+class QuoteListItemUnfavorited extends QuoteListItemFavoriteToggled {
+  const QuoteListItemUnfavorited(
+    int id,
+  ) : super(id);
+}
+
+class QuoteListFailedFetchRetried extends QuoteListEvent {
+  const QuoteListFailedFetchRetried();
+}
+
+class QuoteListOpened extends QuoteListEvent {
+  const QuoteListOpened();
+}
+
+class QuoteListUserAuthenticationChanged extends QuoteListEvent {
+  const QuoteListUserAuthenticationChanged();
 }
 
 class QuoteListItemUpdated extends QuoteListEvent {
@@ -69,12 +87,4 @@ class QuoteListItemUpdated extends QuoteListEvent {
   );
 
   final Quote updatedQuote;
-}
-
-class QuoteListItemFavorited extends QuoteListItemFavoriteToggled {
-  const QuoteListItemFavorited(int id) : super(id);
-}
-
-class QuoteListItemUnfavorited extends QuoteListItemFavoriteToggled {
-  const QuoteListItemUnfavorited(int id) : super(id);
 }

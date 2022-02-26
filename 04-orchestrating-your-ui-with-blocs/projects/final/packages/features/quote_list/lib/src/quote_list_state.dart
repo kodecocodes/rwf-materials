@@ -19,61 +19,55 @@ class QuoteListState extends Equatable {
   final dynamic refreshError;
   final dynamic favoriteToggleError;
 
-  factory QuoteListState.loadingNewTag({
+  QuoteListState.loadingNewTag({
     required Tag? tag,
-  }) {
-    return QuoteListState(
-      filter: tag != null ? QuoteListFilterByTag(tag) : null,
-    );
-  }
+  }) : this(
+          filter: tag != null ? QuoteListFilterByTag(tag) : null,
+        );
 
-  factory QuoteListState.loadingNewSearchTerm({
+  QuoteListState.loadingNewSearchTerm({
     required String searchTerm,
-  }) {
-    return QuoteListState(
-      filter: searchTerm.isEmpty
-          ? null
-          : QuoteListFilterBySearchTerm(
-              searchTerm,
-            ),
-    );
-  }
+  }) : this(
+          filter: searchTerm.isEmpty
+              ? null
+              : QuoteListFilterBySearchTerm(
+                  searchTerm,
+                ),
+        );
 
-  factory QuoteListState.loadingToggledFavoritesFilter({
+  const QuoteListState.loadingToggledFavoritesFilter({
     required bool isFilteringByFavorites,
-  }) {
-    return QuoteListState(
-      filter:
-          isFilteringByFavorites ? const QuoteListFilterByFavorites() : null,
-    );
-  }
+  }) : this(
+          filter: isFilteringByFavorites
+              ? const QuoteListFilterByFavorites()
+              : null,
+        );
 
-  factory QuoteListState.noItemsFound({
+  const QuoteListState.noItemsFound({
     required QuoteListFilter? filter,
-  }) {
-    return QuoteListState(
-      itemList: const [],
-      error: null,
-      nextPage: 1,
-      filter: filter,
-    );
-  }
+  }) : this(
+          itemList: const [],
+          error: null,
+          nextPage: 1,
+          filter: filter,
+        );
 
-  factory QuoteListState.success({
+  QuoteListState.success({
     required int? nextPage,
     required List<Quote> itemList,
     required QuoteListFilter? filter,
     required bool isRefresh,
-  }) {
-    return QuoteListState(
-      nextPage: nextPage,
-      itemList: itemList,
-      filter: filter,
-      fetchTimestamp: isRefresh ? DateTime.now() : null,
-    );
-  }
+  }) : this(
+          nextPage: nextPage,
+          itemList: itemList,
+          filter: filter,
+          fetchTimestamp: isRefresh ? DateTime.now() : null,
+        );
 
-  QuoteListState copyWithNewError(dynamic error) => QuoteListState(
+  QuoteListState copyWithNewError(
+    dynamic error,
+  ) =>
+      QuoteListState(
         itemList: itemList,
         nextPage: nextPage,
         error: error,

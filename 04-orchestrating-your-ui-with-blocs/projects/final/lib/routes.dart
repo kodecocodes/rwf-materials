@@ -59,6 +59,11 @@ class Routes extends RouteMap {
                       _RoutePaths.signInPath,
                     );
                   },
+                  onSignUpTap: () {
+                    navigator.push(
+                      _RoutePaths.signUpPath,
+                    );
+                  },
                   onUpdateProfileTap: () {
                     navigator.push(
                       _RoutePaths.updateProfilePath,
@@ -82,7 +87,8 @@ class Routes extends RouteMap {
                 child: QuoteDetailsScreen(
                   quoteRepository: quoteRepository,
                   quoteId: int.parse(
-                      info.pathParameters[_RoutePaths.idPathParameter] ?? ''),
+                    info.pathParameters[_RoutePaths.idPathParameter] ?? '',
+                  ),
                   onAuthenticationError: () {
                     navigator.push(_RoutePaths.signInPath);
                   },
@@ -158,7 +164,7 @@ class _RoutePaths {
 
   static String get signInPath => '${homePath}sign-in';
 
-  static String get signUpPath => '$signInPath/sign-up';
+  static String get signUpPath => '${homePath}sign-up';
 
   static String get idPathParameter => 'id';
 

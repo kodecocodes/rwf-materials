@@ -1,5 +1,4 @@
 import 'package:component_library/component_library.dart';
-import 'package:domain_models/domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -129,17 +128,20 @@ class _SignInFormState extends State<_SignInForm> {
     final l10n = SignInLocalizations.of(context);
     return BlocConsumer<SignInCubit, SignInState>(
       listener: (context, state) {
-        if (state.status == FormzStatus.submissionSuccess) {
+        if (state.submissionStatus == SubmissionStatus.success) {
           widget.onSignInSuccess();
           return;
         }
 
-        final error = state.error;
-        if (error != null) {
+        final hasSubmissionError = state.submissionStatus ==
+                SubmissionStatus.genericError ||
+            state.submissionStatus == SubmissionStatus.invalidCredentialsError;
+
+        if (hasSubmissionError) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
-              error is InvalidCredentialsException
+              state.submissionStatus == SubmissionStatus.invalidCredentialsError
                   ? SnackBar(
                       content: Text(
                         l10n.invalidCredentialsErrorMessage,
@@ -154,7 +156,7 @@ class _SignInFormState extends State<_SignInForm> {
         final passwordError =
             state.password.invalid ? state.password.error : null;
         final isSubmissionInProgress =
-            state.status == FormzStatus.submissionInProgress;
+            state.submissionStatus == SubmissionStatus.inProgress;
 
         final cubit = context.read<SignInCubit>();
         return Column(

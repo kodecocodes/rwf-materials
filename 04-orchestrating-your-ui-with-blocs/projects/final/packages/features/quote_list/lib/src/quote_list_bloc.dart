@@ -19,11 +19,9 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
         super(
           const QuoteListState(),
         ) {
-    _registerEventHandler();
+    _registerEventsHandler();
 
-    add(
-      const QuoteListFirstPageRequested(),
-    );
+    add(const QuoteListOpened());
 
     _authChangesSubscription = userRepository
         .getUser()
@@ -43,138 +41,233 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
   String? _authenticatedUsername;
   final QuoteRepository _quoteRepository;
 
-  void _registerEventHandler() {
+  void _registerEventsHandler() {
     on<QuoteListEvent>(
-      (event, emit) async {
-        if (event is QuoteListFirstPageRequested) {
-          emit(
-            state.copyWithNewError(null),
-          );
-
-          await emit.onEach<QuoteListState>(
-            _fetchQuotePage(
-              1,
-              fetchPolicy: QuoteListPageFetchPolicy.cacheAndNetwork,
-            ),
-            onData: emit,
-          );
+      (event, emitter) async {
+        if (event is QuoteListOpened) {
+          await _handleQuoteListOpened(emitter);
+        } else if (event is QuoteListFailedFetchRetried) {
+          await _handleQuoteListFailedFetchRetried(emitter);
         } else if (event is QuoteListItemUpdated) {
-          emit(
-            state.copyWithUpdatedQuote(event.updatedQuote),
-          );
+          _handleQuoteListItemUpdated(emitter, event);
         } else if (event is QuoteListUserAuthenticationChanged) {
-          emit(
-            QuoteListState(
-              filter: state.filter,
-            ),
-          );
-          await emit.onEach<QuoteListState>(
-            _fetchQuotePage(
-              1,
-              fetchPolicy: QuoteListPageFetchPolicy.cacheAndNetwork,
-            ),
-            onData: emit,
-          );
+          await _handleQuoteListUserAuthenticationChanged(emitter);
         } else if (event is QuoteListTagChanged) {
-          emit(
-            QuoteListState.loadingNewTag(tag: event.tag),
-          );
-
-          await emit.onEach<QuoteListState>(
-            _fetchQuotePage(
-              1,
-              fetchPolicy: QuoteListPageFetchPolicy.cachePreferably,
-            ),
-            onData: emit,
-          );
+          await _handleQuoteListTagChanged(emitter, event);
         } else if (event is QuoteListSearchTermChanged) {
-          emit(
-            QuoteListState.loadingNewSearchTerm(
-              searchTerm: event.searchTerm,
-            ),
-          );
-
-          await emit.onEach<QuoteListState>(
-            _fetchQuotePage(
-              1,
-              fetchPolicy: QuoteListPageFetchPolicy.cachePreferably,
-            ),
-            onData: emit,
-          );
+          await _handleQuoteListSearchTermChanged(emitter, event);
         } else if (event is QuoteListRefreshed) {
-          await emit.onEach<QuoteListState>(
-            _fetchQuotePage(
-              1,
-              fetchPolicy: QuoteListPageFetchPolicy.networkOnly,
-              isRefresh: true,
-            ),
-            onData: emit,
-          );
-        } else if (event is QuoteListNewPageRequested) {
-          emit(
-            state.copyWithNewError(null),
-          );
-
-          await emit.onEach<QuoteListState>(
-            _fetchQuotePage(
-              event.pageNumber,
-              fetchPolicy: QuoteListPageFetchPolicy.networkPreferably,
-            ),
-            onData: emit,
-          );
+          await _handleQuoteListRefreshed(emitter, event);
+        } else if (event is QuoteListNextPageRequested) {
+          await _handleQuoteListNextPageRequested(emitter, event);
         } else if (event is QuoteListItemFavoriteToggled) {
-          try {
-            final updatedQuote = await (event is QuoteListItemFavorited
-                ? _quoteRepository.favoriteQuote(event.id)
-                : _quoteRepository.unfavoriteQuote(event.id));
-            final isFilteringByFavorites =
-                state.filter is QuoteListFilterByFavorites;
-            if (!isFilteringByFavorites) {
-              emit(
-                state.copyWithUpdatedQuote(updatedQuote),
-              );
-            } else {
-              emit(
-                QuoteListState(
-                  filter: state.filter,
-                ),
-              );
-
-              await emit.onEach<QuoteListState>(
-                _fetchQuotePage(
-                  1,
-                  fetchPolicy: QuoteListPageFetchPolicy.networkOnly,
-                ),
-                onData: emit,
-              );
-            }
-          } catch (error) {
-            emit(
-              state.copyWithFavoriteToggleError(error),
-            );
-          }
+          await _handleQuoteListItemFavoriteToggled(emitter, event);
         } else if (event is QuoteListFilterByFavoritesToggled) {
-          final isFilteringByFavorites =
-              state.filter is! QuoteListFilterByFavorites;
-
-          emit(
-            QuoteListState.loadingToggledFavoritesFilter(
-              isFilteringByFavorites: isFilteringByFavorites,
-            ),
-          );
-
-          await emit.onEach<QuoteListState>(
-            _fetchQuotePage(
-              1,
-              fetchPolicy: isFilteringByFavorites
-                  ? QuoteListPageFetchPolicy.cacheAndNetwork
-                  : QuoteListPageFetchPolicy.cachePreferably,
-            ),
-            onData: emit,
-          );
+          await _handleQuoteListFilterByFavoritesToggled(emitter);
         }
       },
       transformer: _transformEvents,
+    );
+  }
+
+  Future<void> _handleQuoteListOpened(Emitter emitter) {
+    final firstPageFetchStream = _fetchQuotePage(
+      1,
+      fetchPolicy: QuoteListPageFetchPolicy.cacheAndNetwork,
+    );
+
+    return emitter.onEach(
+      firstPageFetchStream,
+      onData: emitter,
+    );
+  }
+
+  Future<void> _handleQuoteListFailedFetchRetried(Emitter emitter) {
+    emitter(
+      state.copyWithNewError(null),
+    );
+
+    final firstPageFetchStream = _fetchQuotePage(
+      1,
+      fetchPolicy: QuoteListPageFetchPolicy.cacheAndNetwork,
+    );
+
+    return emitter.onEach<QuoteListState>(
+      firstPageFetchStream,
+      onData: emitter,
+    );
+  }
+
+  void _handleQuoteListItemUpdated(
+    Emitter emitter,
+    QuoteListItemUpdated event,
+  ) {
+    emitter(
+      state.copyWithUpdatedQuote(
+        event.updatedQuote,
+      ),
+    );
+  }
+
+  Future<void> _handleQuoteListUserAuthenticationChanged(Emitter emitter) {
+    emitter(
+      QuoteListState(
+        filter: state.filter,
+      ),
+    );
+
+    final firstPageFetchStream = _fetchQuotePage(
+      1,
+      fetchPolicy: QuoteListPageFetchPolicy.cacheAndNetwork,
+    );
+
+    return emitter.onEach<QuoteListState>(
+      firstPageFetchStream,
+      onData: emitter,
+    );
+  }
+
+  Future<void> _handleQuoteListTagChanged(
+    Emitter emitter,
+    QuoteListTagChanged event,
+  ) {
+    emitter(
+      QuoteListState.loadingNewTag(tag: event.tag),
+    );
+
+    final firstPageFetchStream = _fetchQuotePage(
+      1,
+      fetchPolicy: QuoteListPageFetchPolicy.cachePreferably,
+    );
+
+    return emitter.onEach<QuoteListState>(
+      firstPageFetchStream,
+      onData: emitter,
+    );
+  }
+
+  Future<void> _handleQuoteListSearchTermChanged(
+    Emitter emitter,
+    QuoteListSearchTermChanged event,
+  ) {
+    emitter(
+      QuoteListState.loadingNewSearchTerm(
+        searchTerm: event.searchTerm,
+      ),
+    );
+
+    final firstPageFetchStream = _fetchQuotePage(
+      1,
+      fetchPolicy: QuoteListPageFetchPolicy.cachePreferably,
+    );
+
+    return emitter.onEach<QuoteListState>(
+      firstPageFetchStream,
+      onData: emitter,
+    );
+  }
+
+  Future<void> _handleQuoteListRefreshed(
+    Emitter emitter,
+    QuoteListRefreshed event,
+  ) {
+    final firstPageFetchStream = _fetchQuotePage(
+      1,
+      fetchPolicy: QuoteListPageFetchPolicy.networkOnly,
+      isRefresh: true,
+    );
+
+    return emitter.onEach<QuoteListState>(
+      firstPageFetchStream,
+      onData: emitter,
+    );
+  }
+
+  Future<void> _handleQuoteListNextPageRequested(
+    Emitter emitter,
+    QuoteListNextPageRequested event,
+  ) {
+    emitter(
+      state.copyWithNewError(null),
+    );
+
+    final nextPageFetchStream = _fetchQuotePage(
+      event.pageNumber,
+      fetchPolicy: QuoteListPageFetchPolicy.networkPreferably,
+    );
+
+    return emitter.onEach<QuoteListState>(
+      nextPageFetchStream,
+      onData: emitter,
+    );
+  }
+
+  Future<void> _handleQuoteListItemFavoriteToggled(
+    Emitter emitter,
+    QuoteListItemFavoriteToggled event,
+  ) async {
+    try {
+      final updatedQuote = await (event is QuoteListItemFavorited
+          ? _quoteRepository.favoriteQuote(
+              event.id,
+            )
+          : _quoteRepository.unfavoriteQuote(
+              event.id,
+            ));
+      final isFilteringByFavorites = state.filter is QuoteListFilterByFavorites;
+      if (!isFilteringByFavorites) {
+        emitter(
+          state.copyWithUpdatedQuote(
+            updatedQuote,
+          ),
+        );
+      } else {
+        emitter(
+          QuoteListState(
+            filter: state.filter,
+          ),
+        );
+
+        final firstPageFetchStream = _fetchQuotePage(
+          1,
+          fetchPolicy: QuoteListPageFetchPolicy.networkOnly,
+        );
+
+        await emitter.onEach<QuoteListState>(
+          firstPageFetchStream,
+          onData: emitter,
+        );
+      }
+    } catch (error) {
+      emitter(
+        state.copyWithFavoriteToggleError(
+          error,
+        ),
+      );
+    }
+  }
+
+  Future<void> _handleQuoteListFilterByFavoritesToggled(
+    Emitter emitter,
+  ) {
+    final isFilteringByFavorites = state.filter is! QuoteListFilterByFavorites;
+
+    emitter(
+      QuoteListState.loadingToggledFavoritesFilter(
+        isFilteringByFavorites: isFilteringByFavorites,
+      ),
+    );
+
+    final firstPageFetchStream = _fetchQuotePage(
+      1,
+      fetchPolicy: isFilteringByFavorites
+          ? QuoteListPageFetchPolicy.cacheAndNetwork
+          : QuoteListPageFetchPolicy.cachePreferably,
+    );
+
+    return emitter.onEach<QuoteListState>(
+      firstPageFetchStream,
+      onData: emitter,
     );
   }
 
@@ -183,51 +276,63 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
     required QuoteListPageFetchPolicy fetchPolicy,
     bool isRefresh = false,
   }) async* {
-    final filter = state.filter;
-    final isFilteringByFavorites = filter is QuoteListFilterByFavorites;
-    if (isFilteringByFavorites && _authenticatedUsername == null) {
+    final currentlyAppliedFilter = state.filter;
+    final isFilteringByFavorites =
+        currentlyAppliedFilter is QuoteListFilterByFavorites;
+    final isUserSignedIn = _authenticatedUsername != null;
+    if (isFilteringByFavorites && !isUserSignedIn) {
       yield QuoteListState.noItemsFound(
-        filter: state.filter,
+        filter: currentlyAppliedFilter,
       );
     } else {
-      yield* _quoteRepository
-          .getQuoteListPage(
+      final pagesStream = _quoteRepository.getQuoteListPage(
         page,
-        tag: filter is QuoteListFilterByTag ? filter.tag : null,
-        searchTerm:
-            filter is QuoteListFilterBySearchTerm ? filter.searchTerm : '',
-        favoritedByUsername: filter is QuoteListFilterByFavorites
-            ? _authenticatedUsername
+        tag: currentlyAppliedFilter is QuoteListFilterByTag
+            ? currentlyAppliedFilter.tag
             : null,
+        searchTerm: currentlyAppliedFilter is QuoteListFilterBySearchTerm
+            ? currentlyAppliedFilter.searchTerm
+            : '',
+        favoritedByUsername:
+            currentlyAppliedFilter is QuoteListFilterByFavorites
+                ? _authenticatedUsername
+                : null,
         fetchPolicy: fetchPolicy,
-      )
-          .map(
-        (newPage) {
-          return newPage.toQuoteListState(
-            page,
-            state,
-            isRefresh: page != state.nextPage,
-          );
-        },
-      ).onErrorReturnWith(
-        (error, _) {
-          if (error is EmptySearchResultException) {
-            return QuoteListState.noItemsFound(
-              filter: state.filter,
-            );
-          }
-
-          if (isRefresh) {
-            return state.copyWithNewRefreshError(
-              error,
-            );
-          } else {
-            return state.copyWithNewError(
-              error,
-            );
-          }
-        },
       );
+
+      try {
+        await for (final newPage in pagesStream) {
+          final newItemList = newPage.quoteList;
+          final oldItemList = state.itemList ?? [];
+          final completeItemList =
+              isRefresh ? newItemList : (oldItemList + newItemList);
+
+          final nextPage = newPage.isLastPage ? null : page + 1;
+
+          yield QuoteListState.success(
+            nextPage: nextPage,
+            itemList: completeItemList,
+            filter: currentlyAppliedFilter,
+            isRefresh: isRefresh,
+          );
+        }
+      } catch (error) {
+        if (error is EmptySearchResultException) {
+          yield QuoteListState.noItemsFound(
+            filter: currentlyAppliedFilter,
+          );
+        }
+
+        if (isRefresh) {
+          yield state.copyWithNewRefreshError(
+            error,
+          );
+        } else {
+          yield state.copyWithNewError(
+            error,
+          );
+        }
+      }
     }
   }
 
@@ -266,25 +371,5 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
   Future<void> close() {
     _authChangesSubscription.cancel();
     return super.close();
-  }
-}
-
-extension on QuoteListPage {
-  QuoteListState toQuoteListState(
-    int page,
-    QuoteListState lastState, {
-    bool isRefresh = false,
-  }) {
-    final newItemList = quoteList;
-    final nextPage = isLastPage ? null : page + 1;
-
-    final oldItemList = lastState.itemList ?? [];
-
-    return QuoteListState.success(
-      nextPage: nextPage,
-      itemList: isRefresh ? newItemList : [...oldItemList, ...newItemList],
-      filter: lastState.filter,
-      isRefresh: isRefresh,
-    );
   }
 }
