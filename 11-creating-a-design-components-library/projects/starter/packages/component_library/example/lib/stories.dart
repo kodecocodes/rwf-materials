@@ -4,6 +4,8 @@ import 'package:storybook_flutter/storybook_flutter.dart';
 
 List<Story> getStories(WonderThemeData theme) {
   return [
+    // TODO: Add Simple Expanded Elevated Button Story here
+    // TODO: Add Complex Expanded Elevated Button Story here
     Story(
       name: 'InProgress Expanded Elevated Button',
       section: 'Buttons',
@@ -131,16 +133,7 @@ List<Story> getStories(WonderThemeData theme) {
     Story(
       name: 'Quotes in List',
       section: 'Quote',
-      wrapperBuilder: (context, story, child) => Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView.separated(
-          itemCount: 15,
-          itemBuilder: (_, __) => child,
-          separatorBuilder: (_, __) => Divider(
-            height: theme.listSpacing,
-          ),
-        ),
-      ),
+      // TODO: add wrapper builder for quotes list
       builder: (_, k) => QuoteCard(
         isFavorite: k.boolean(
           label: 'Is Favorite',

@@ -7,7 +7,7 @@ export 'src/in_progress_text_button.dart';
 export 'src/favorite_icon_button.dart';
 export 'src/l10n/component_library_localizations.dart';
 export 'src/quote_card.dart';
-export 'src/centered_circular_progress_indicator.dart';
+// TODO: export central circular progress indicator
 export 'src/rounded_choice_chip.dart';
 export 'src/generic_error_snack_bar.dart';
 export 'src/authentication_required_error_snack_bar.dart';
