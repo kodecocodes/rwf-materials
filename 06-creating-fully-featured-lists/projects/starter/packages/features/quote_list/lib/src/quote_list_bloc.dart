@@ -39,6 +39,7 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
   }
 
   Future<void> _handleQuoteListFailedFetchRetried(Emitter emitter) {
+    // Clears out the error and puts the loading indicator back on the screen.
     emitter(
       state.copyWithNewError(null),
     );
@@ -58,6 +59,7 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
     Emitter emitter,
     QuoteListItemUpdated event,
   ) {
+    // Replaces the updated quote in the current state and re-emits it.
     emitter(
       state.copyWithUpdatedQuote(
         event.updatedQuote,
@@ -75,6 +77,10 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
 
     final firstPageFetchStream = _fetchQuotePage(
       1,
+      // If the user is *deselecting* a tag, the `cachePreferably` fetch policy
+      // will return you the cached quotes. If the user is selecting a new tag
+      // instead, the `cachePreferably` fetch policy won't find any cached
+      // quotes and will instead use the network.
       fetchPolicy: QuoteListPageFetchPolicy.cachePreferably,
     );
 
@@ -96,6 +102,10 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
 
     final firstPageFetchStream = _fetchQuotePage(
       1,
+      // If the user is *clearing out* the search bar, the `cachePreferably`
+      // fetch policy will return you the cached quotes. If the user is
+      // entering a new search instead, the `cachePreferably` fetch policy
+      // won't find any cached quotes and will instead use the network.
       fetchPolicy: QuoteListPageFetchPolicy.cachePreferably,
     );
 
@@ -111,6 +121,8 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
   ) {
     final firstPageFetchStream = _fetchQuotePage(
       1,
+      // Since the user is asking for a refresh, you don't want to get cached
+      // quotes, thus the `networkOnly` fetch policy makes the most sense.
       fetchPolicy: QuoteListPageFetchPolicy.networkOnly,
       isRefresh: true,
     );
@@ -131,6 +143,8 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
 
     final nextPageFetchStream = _fetchQuotePage(
       event.pageNumber,
+      // The `networkPreferably` fetch policy prioritizes fetching the new page
+      // from the server, and, if it fails, try grabbing it from the cache.
       fetchPolicy: QuoteListPageFetchPolicy.networkPreferably,
     );
 
@@ -145,6 +159,8 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
     QuoteListItemFavoriteToggled event,
   ) async {
     try {
+      // The `favoriteQuote()` and `unfavoriteQuote()` functions return you the
+      // updated quote object.
       final updatedQuote = await (event is QuoteListItemFavorited
           ? _quoteRepository.favoriteQuote(
               event.id,
@@ -153,6 +169,9 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
               event.id,
             ));
       final isFilteringByFavorites = state.filter is QuoteListFilterByFavorites;
+
+      // If the user isn't filtering by favorites, you just replace the changed
+      // quote on-screen. 
       if (!isFilteringByFavorites) {
         emitter(
           state.copyWithUpdatedQuote(
@@ -160,6 +179,9 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
           ),
         );
       } else {
+        // If the user *is* filtering by favorites, that means the user is
+        // actually *removing* a quote from the list, so you refresh the entire
+        // list to make sure you won't break the pagination.
         emitter(
           QuoteListState(
             filter: state.filter,
@@ -177,6 +199,10 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
         );
       }
     } catch (error) {
+      // If an error happens trying to (un)favorite a quote you attach an error
+      // to the current state which will result on the screen showing a snackbar
+      // to the user and possibly taking him to the Sign In screen in case the
+      // cause is the user being signed out.
       emitter(
         state.copyWithFavoriteToggleError(
           error,
@@ -198,6 +224,11 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
 
     final firstPageFetchStream = _fetchQuotePage(
       1,
+      // If the user is *adding* the favorites filter, you use the *cacheAndNetwork*
+      // fetch policy to show the cached data first followed by the updated list
+      // from the server.
+      // If the user is *removing* the favorites filter, you simply show the
+      // cached data they were seeing before applying the filter.
       fetchPolicy: isFilteringByFavorites
           ? QuoteListPageFetchPolicy.cacheAndNetwork
           : QuoteListPageFetchPolicy.cachePreferably,
