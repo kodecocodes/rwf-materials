@@ -21,7 +21,7 @@ dependencies:
   infinite_scroll_pagination:
     git:
       url: git://github.com/EdsonBueno/infinite_scroll_pagination.git
-      ref: feature/staggered-grid
+      ref: develop
 
 dev_dependencies:
   flutter_test:
