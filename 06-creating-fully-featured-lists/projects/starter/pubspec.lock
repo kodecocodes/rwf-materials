@@ -270,11 +270,11 @@ packages:
     dependency: transitive
     description:
       path: "."
-      ref: "feature/staggered-grid"
-      resolved-ref: cd75af58e17f385218425c96a2baceee08bb086a
-      url: "git://github.com/EdsonBueno/infinite_scroll_pagination.git"
+      ref: develop
+      resolved-ref: "268945f249caf808173afbf6a567fb615ab24992"
+      url: "https://github.com/EdsonBueno/infinite_scroll_pagination.git"
     source: git
-    version: "3.1.0"
+    version: "4.0.0"
   intl:
     dependency: transitive
     description:
