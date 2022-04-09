@@ -1,0 +1,28 @@
+name: sign_up
+publish_to: none
+
+environment:
+  sdk: ">=2.14.0 <3.0.0"
+
+dependencies:
+  component_library:
+    path: ../../component_library
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^8.0.1
+  user_repository:
+    path: ../../user_repository
+  form_fields:
+    path: ../../form_fields
+  domain_models:
+    path: ../../domain_models
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mocktail: 0.1.4
+  test: ^1.16.8
+  flutter_lints: ^1.0.4
+
+flutter:
+  uses-material-design: true
