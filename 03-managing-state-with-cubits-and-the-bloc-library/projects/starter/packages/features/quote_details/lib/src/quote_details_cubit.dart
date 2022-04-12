@@ -5,4 +5,4 @@ import 'package:quote_repository/quote_repository.dart';
 
 part 'quote_details_state.dart';
 
-// TODO: Create the cubit.
+// TODO: Create the Cubit.
