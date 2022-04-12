@@ -20,7 +20,7 @@ dependencies:
   infinite_scroll_pagination:
     git:
       url: git://github.com/EdsonBueno/infinite_scroll_pagination.git
-      ref: feature/staggered-grid
+      ref: develop
   rxdart: ^0.27.1
 
 dev_dependencies:
