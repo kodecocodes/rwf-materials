@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "67633443658",
+    "firebase_url": "https://wonder-words-dev-default-rtdb.firebaseio.com",
+    "project_id": "wonder-words-dev",
+    "storage_bucket": "wonder-words-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:67633443658:android:a76ea13116df0119a8c7b3",
+        "android_client_info": {
+          "package_name": "com.raywenderlich.wonder_words.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "67633443658-137oms22u49uv3dlpa0m5fm1vck85goj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJZHdBdsSfW8Sjqt4-ShjBj0_4wZVrQBA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "67633443658-137oms22u49uv3dlpa0m5fm1vck85goj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "67633443658-glol0em217f3bkcehn78440pa8uk7tir.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.raywenderlich.wonderWordsDev"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

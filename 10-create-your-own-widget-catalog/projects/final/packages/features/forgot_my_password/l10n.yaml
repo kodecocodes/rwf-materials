@@ -1,0 +1,6 @@
+arb-dir: lib/src/l10n
+template-arb-file: messages_en.arb
+output-localization-file: forgot_my_password_localizations.dart
+output-class: ForgotMyPasswordLocalizations
+synthetic-package: false
+nullable-getter: false
