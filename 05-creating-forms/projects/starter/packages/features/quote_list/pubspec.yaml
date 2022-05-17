@@ -19,7 +19,7 @@ dependencies:
     path: ../../user_repository
   infinite_scroll_pagination:
     git:
-      url: git://github.com/EdsonBueno/infinite_scroll_pagination.git
+      url: https://github.com/EdsonBueno/infinite_scroll_pagination.git
       ref: develop
   rxdart: ^0.27.1
 
