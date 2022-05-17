@@ -178,19 +178,19 @@ class SignUpCubit extends Cubit<SignUpState> {
           submissionStatus: error is! UsernameAlreadyTakenException &&
                   error is! EmailAlreadyRegisteredException
               ? SubmissionStatus.error
-              : null,
+              : SubmissionStatus.idle,
           username: error is UsernameAlreadyTakenException
               ? Username.validated(
                   username.value,
                   isAlreadyRegistered: true,
                 )
-              : null,
+              : state.username,
           email: error is EmailAlreadyRegisteredException
               ? Email.validated(
                   email.value,
                   isAlreadyRegistered: true,
                 )
-              : null,
+              : state.email,
         );
 
         emit(newState);

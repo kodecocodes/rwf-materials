@@ -1,7 +1,7 @@
 import 'package:domain_models/domain_models.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:forgot_my_password/forgot_my_password.dart';
+import 'package:monitoring/monitoring.dart';
 import 'package:profile_menu/profile_menu.dart';
 import 'package:quote_details/quote_details.dart';
 import 'package:quote_list/quote_list.dart';
@@ -11,7 +11,6 @@ import 'package:sign_in/sign_in.dart';
 import 'package:sign_up/sign_up.dart';
 import 'package:update_profile/update_profile.dart';
 import 'package:user_repository/user_repository.dart';
-import 'package:wonder_words/dynamic_link.dart';
 import 'package:wonder_words/home_screen.dart';
 
 class Routes extends RouteMap {
@@ -19,6 +18,8 @@ class Routes extends RouteMap {
     required RoutemasterDelegate navigator,
     required UserRepository userRepository,
     required QuoteRepository quoteRepository,
+    required RemoteValueService remoteValueService,
+    required DynamicLinkService dynamicLinkService,
   }) : super(
           routes: {
             _RoutePaths.homePath: (_) => CupertinoTabPage(
@@ -45,6 +46,7 @@ class Routes extends RouteMap {
                     );
                     return navigation.result;
                   },
+                  remoteValueService: remoteValueService,
                 ),
               );
             },
@@ -92,7 +94,8 @@ class Routes extends RouteMap {
                   onAuthenticationError: () {
                     navigator.push(_RoutePaths.signInPath);
                   },
-                  shareableLinkGenerator: (quote) => DynamicLink(
+                  shareableLinkGenerator: (quote) =>
+                      dynamicLinkService.generateDynamicLinkUrl(
                     path: _RoutePaths.quoteDetailsPath(
                       quoteId: quote.id,
                     ),
@@ -100,7 +103,7 @@ class Routes extends RouteMap {
                       title: quote.body,
                       description: quote.author,
                     ),
-                  ).url,
+                  ),
                 ),
               );
             },

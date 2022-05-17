@@ -45,13 +45,17 @@ class SignInCubit extends Cubit<SignInState> {
     final newScreenState = previousScreenState.copyWith(
       email: newEmailState,
     );
+
     emit(newScreenState);
   }
 
   void onPasswordChanged(String newValue) {
     final previousScreenState = state;
+
     final previousPasswordState = previousScreenState.password;
+
     final shouldValidate = previousPasswordState.invalid;
+
     final newPasswordState = shouldValidate
         ? Password.validated(
             newValue,
@@ -70,14 +74,17 @@ class SignInCubit extends Cubit<SignInState> {
   void onPasswordUnfocused() {
     final previousScreenState = state;
     final previousPasswordState = previousScreenState.password;
+
     final previousPasswordValue = previousPasswordState.value;
 
     final newPasswordState = Password.validated(
       previousPasswordValue,
     );
+
     final newScreenState = previousScreenState.copyWith(
       password: newPasswordState,
     );
+
     emit(newScreenState);
   }
 

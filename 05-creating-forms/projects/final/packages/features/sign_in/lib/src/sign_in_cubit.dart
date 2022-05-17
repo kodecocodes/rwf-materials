@@ -16,42 +16,20 @@ class SignInCubit extends Cubit<SignInState> {
   final UserRepository userRepository;
 
   void onEmailChanged(String newValue) {
-    final previousScreenState = state;
-    final previousEmailState = previousScreenState.email;
-    final shouldValidate = previousEmailState.invalid;
-    final newEmailState = shouldValidate
-        ? Email.validated(
-            newValue,
-          )
-        : Email.unvalidated(
-            newValue,
-          );
-
-    final newScreenState = state.copyWith(
-      email: newEmailState,
-    );
-
-    emit(newScreenState);
+    // TODO: Handle the user changing the value of the email field.
   }
 
   void onEmailUnfocused() {
-    final previousScreenState = state;
-    final previousEmailState = previousScreenState.email;
-    final previousEmailValue = previousEmailState.value;
-
-    final newEmailState = Email.validated(
-      previousEmailValue,
-    );
-    final newScreenState = previousScreenState.copyWith(
-      email: newEmailState,
-    );
-    emit(newScreenState);
+    // TODO: Handle the user taking the focus out of the email field.
   }
 
   void onPasswordChanged(String newValue) {
     final previousScreenState = state;
+
     final previousPasswordState = previousScreenState.password;
+
     final shouldValidate = previousPasswordState.invalid;
+
     final newPasswordState = shouldValidate
         ? Password.validated(
             newValue,
@@ -70,14 +48,17 @@ class SignInCubit extends Cubit<SignInState> {
   void onPasswordUnfocused() {
     final previousScreenState = state;
     final previousPasswordState = previousScreenState.password;
+
     final previousPasswordValue = previousPasswordState.value;
 
     final newPasswordState = Password.validated(
       previousPasswordValue,
     );
+
     final newScreenState = previousScreenState.copyWith(
       password: newPasswordState,
     );
+
     emit(newScreenState);
   }
 
@@ -104,9 +85,11 @@ class SignInCubit extends Cubit<SignInState> {
           email.value,
           password.value,
         );
+
         final newState = state.copyWith(
           submissionStatus: SubmissionStatus.success,
         );
+
         emit(newState);
       } catch (error) {
         final newState = state.copyWith(
@@ -114,6 +97,7 @@ class SignInCubit extends Cubit<SignInState> {
               ? SubmissionStatus.invalidCredentialsError
               : SubmissionStatus.genericError,
         );
+
         emit(newState);
       }
     }

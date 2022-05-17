@@ -22,10 +22,13 @@ class QuoteSliverGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = WonderTheme.of(context);
     final onQuoteSelected = this.onQuoteSelected;
+    final bloc = context.read<QuoteListBloc>();
+
     return SliverPadding(
       padding: EdgeInsets.symmetric(
         horizontal: theme.screenMargin,
       ),
+      // For a deep dive on how the pagination works, refer to: https://www.raywenderlich.com/14214369-infinite-scrolling-pagination-in-flutter
       sliver: PagedStaggeredSliverGrid.count(
         pagingController: pagingController,
         builderDelegate: PagedChildBuilderDelegate<Quote>(
@@ -38,7 +41,6 @@ class QuoteSliverGrid extends StatelessWidget {
               top: const OpeningQuoteSvgAsset(),
               bottom: const ClosingQuoteSvgAsset(),
               onFavorite: () {
-                final bloc = context.read<QuoteListBloc>();
                 bloc.add(
                   isFavorite
                       ? QuoteListItemUnfavorited(quote.id)
@@ -48,9 +50,9 @@ class QuoteSliverGrid extends StatelessWidget {
               onTap: onQuoteSelected != null
                   ? () async {
                       final updatedQuote = await onQuoteSelected(quote.id);
+
                       if (updatedQuote != null &&
                           updatedQuote.isFavorite != quote.isFavorite) {
-                        final bloc = context.read<QuoteListBloc>();
                         bloc.add(
                           QuoteListItemUpdated(
                             updatedQuote,
@@ -64,9 +66,8 @@ class QuoteSliverGrid extends StatelessWidget {
           firstPageErrorIndicatorBuilder: (context) {
             return ExceptionIndicator(
               onTryAgain: () {
-                final bloc = context.read<QuoteListBloc>();
                 bloc.add(
-                  const QuoteListFirstPageRequested(),
+                  const QuoteListFailedFetchRetried(),
                 );
               },
             );

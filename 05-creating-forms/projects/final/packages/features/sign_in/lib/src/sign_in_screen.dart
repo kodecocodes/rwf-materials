@@ -97,29 +97,27 @@ class _SignInForm extends StatefulWidget {
 }
 
 class _SignInFormState extends State<_SignInForm> {
-  final _emailFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
+
+  // TODO: Add _emailFocusNode.
 
   @override
   void initState() {
     super.initState();
     final cubit = context.read<SignInCubit>();
-    _emailFocusNode.addListener(() {
-      if (!_emailFocusNode.hasFocus) {
-        cubit.onEmailUnfocused();
-      }
-    });
     _passwordFocusNode.addListener(() {
       if (!_passwordFocusNode.hasFocus) {
         cubit.onPasswordUnfocused();
       }
     });
+
+    // TODO: Add a listener to _emailFocusNode.
   }
 
   @override
   void dispose() {
-    _emailFocusNode.dispose();
     _passwordFocusNode.dispose();
+    // TODO: Dispose _emailFocusNode.
     super.dispose();
   }
 
@@ -127,6 +125,8 @@ class _SignInFormState extends State<_SignInForm> {
   Widget build(BuildContext context) {
     final l10n = SignInLocalizations.of(context);
     return BlocConsumer<SignInCubit, SignInState>(
+      listenWhen: (oldState, newState) =>
+          oldState.submissionStatus != newState.submissionStatus,
       listener: (context, state) {
         if (state.submissionStatus == SubmissionStatus.success) {
           widget.onSignInSuccess();
@@ -152,9 +152,11 @@ class _SignInFormState extends State<_SignInForm> {
         }
       },
       builder: (context, state) {
-        final emailError = state.email.invalid ? state.email.error : null;
+        // TODO: Check for errors in the email state.
+
         final passwordError =
             state.password.invalid ? state.password.error : null;
+
         final isSubmissionInProgress =
             state.submissionStatus == SubmissionStatus.inProgress;
 
@@ -162,8 +164,8 @@ class _SignInFormState extends State<_SignInForm> {
         return Column(
           children: <Widget>[
             TextField(
-              focusNode: _emailFocusNode,
-              onChanged: cubit.onEmailChanged,
+              // TODO: Attach the _emailFocusNode.
+              // TODO: Forward email change events to the Cubit.
               textInputAction: TextInputAction.next,
               autocorrect: false,
               decoration: InputDecoration(
@@ -172,11 +174,7 @@ class _SignInFormState extends State<_SignInForm> {
                 ),
                 enabled: !isSubmissionInProgress,
                 labelText: l10n.emailTextFieldLabel,
-                errorText: emailError == null
-                    ? null
-                    : (emailError == EmailValidationError.empty
-                        ? l10n.emailTextFieldEmptyErrorMessage
-                        : l10n.emailTextFieldInvalidErrorMessage),
+                // TODO: Display the email validation error if any.
               ),
             ),
             const SizedBox(

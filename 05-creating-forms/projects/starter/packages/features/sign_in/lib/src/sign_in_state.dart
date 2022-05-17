@@ -3,6 +3,9 @@ part of 'sign_in_cubit.dart';
 // TODO: Create your state class.
 
 enum SubmissionStatus {
+  /// Used when the form has not been sent yet.
+  idle,
+
   /// Used to disable all buttons and add a progress indicator to the main one.
   inProgress,
 

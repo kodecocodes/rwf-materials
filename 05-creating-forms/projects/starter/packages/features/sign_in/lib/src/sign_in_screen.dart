@@ -104,6 +104,8 @@ class _SignInFormState extends State<_SignInForm> {
   Widget build(BuildContext context) {
     final l10n = SignInLocalizations.of(context);
     return BlocConsumer<SignInCubit, SignInState>(
+      listenWhen: (oldState, newState) =>
+          oldState.submissionStatus != newState.submissionStatus,
       listener: (context, state) {
         // TODO: Execute one-off actions based on state changes.
       },
@@ -115,7 +117,6 @@ class _SignInFormState extends State<_SignInForm> {
         final isSubmissionInProgress = false;
 
         final cubit = context.read<SignInCubit>();
-
         return Column(
           children: <Widget>[
             TextField(

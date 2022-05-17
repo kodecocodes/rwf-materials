@@ -1,14 +1,13 @@
 import 'dart:async';
+import 'dart:isolate';
 
 import 'package:component_library/component_library.dart';
 import 'package:domain_models/domain_models.dart';
 import 'package:fav_qs_api/fav_qs_api.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:forgot_my_password/forgot_my_password.dart';
 import 'package:key_value_storage/key_value_storage.dart';
+import 'package:monitoring/monitoring.dart';
 import 'package:profile_menu/profile_menu.dart';
 import 'package:quote_details/quote_details.dart';
 import 'package:quote_list/quote_list.dart';
@@ -20,16 +19,54 @@ import 'package:update_profile/update_profile.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:wonder_words/l10n/app_localizations.dart';
 import 'package:wonder_words/routes.dart';
+import 'package:wonder_words/screen_view_observer.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(
-    const WonderWords(),
+  // Has to be late so it doesn't instantiate before the
+  // `initializeMonitoringPackage()` call.
+  late final errorReportingService = ErrorReportingService();
+
+  runZonedGuarded<Future<void>>(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      await initializeMonitoringPackage();
+
+      final remoteValueService = RemoteValueService();
+      await remoteValueService.load();
+
+      FlutterError.onError = errorReportingService.recordFlutterError;
+
+      Isolate.current.addErrorListener(
+        RawReceivePort((pair) async {
+          final List<dynamic> errorAndStacktrace = pair;
+          await errorReportingService.recordError(
+            errorAndStacktrace.first,
+            errorAndStacktrace.last,
+          );
+        }).sendPort,
+      );
+
+      runApp(
+        WonderWords(
+          remoteValueService: remoteValueService,
+        ),
+      );
+    },
+    (error, stack) => errorReportingService.recordError(
+      error,
+      stack,
+      fatal: true,
+    ),
   );
 }
 
 class WonderWords extends StatefulWidget {
-  const WonderWords({Key? key}) : super(key: key);
+  const WonderWords({
+    required this.remoteValueService,
+    Key? key,
+  }) : super(key: key);
+
+  final RemoteValueService remoteValueService;
 
   @override
   _WonderWordsState createState() => _WonderWordsState();
@@ -37,6 +74,8 @@ class WonderWords extends StatefulWidget {
 
 class _WonderWordsState extends State<WonderWords> {
   final _keyValueStorage = KeyValueStorage();
+  final _analyticsService = AnalyticsService();
+  final _dynamicLinkService = DynamicLinkService();
   late final _favQsApi = FavQsApi(
     userTokenSupplier: () => _userRepository.getUserToken(),
   );
@@ -49,10 +88,17 @@ class _WonderWordsState extends State<WonderWords> {
     noSqlStorage: _keyValueStorage,
   );
   late final _navigator = RoutemasterDelegate(
+    observers: [
+      ScreenViewObserver(
+        analyticsService: _analyticsService,
+      ),
+    ],
     routesBuilder: (context) => Routes(
       navigator: _navigator,
       userRepository: _userRepository,
       quoteRepository: _quoteRepository,
+      remoteValueService: widget.remoteValueService,
+      dynamicLinkService: _dynamicLinkService,
     ),
   );
   final _lightTheme = LightWonderThemeData();
@@ -62,30 +108,16 @@ class _WonderWordsState extends State<WonderWords> {
   void initState() {
     super.initState();
     _openInitialDynamicLinkIfAny();
-    _setupDynamicLinksListener();
-  }
 
-  Future<void> _setupDynamicLinksListener() async {
-    FirebaseDynamicLinks.instance.onLink(
-      onSuccess: (
-        PendingDynamicLinkData? dynamicLink,
-      ) async {
-        final Uri? deepLink = dynamicLink?.link;
-
-        if (deepLink != null) {
-          _navigator.push(deepLink.path);
-        }
-      },
+    _dynamicLinkService.setListener(
+      (String path) => _navigator.push,
     );
   }
 
   Future<void> _openInitialDynamicLinkIfAny() async {
-    final PendingDynamicLinkData? data =
-        await FirebaseDynamicLinks.instance.getInitialLink();
-    final Uri? deepLink = data?.link;
-
-    if (deepLink != null) {
-      _navigator.push(deepLink.path);
+    final path = await _dynamicLinkService.getInitialDeepLinkPath();
+    if (path != null) {
+      _navigator.push(path);
     }
   }
 

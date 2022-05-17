@@ -41,8 +41,8 @@ class QuoteListRefreshed extends QuoteListEvent {
   const QuoteListRefreshed();
 }
 
-class QuoteListNewPageRequested extends QuoteListEvent {
-  const QuoteListNewPageRequested({
+class QuoteListNextPageRequested extends QuoteListEvent {
+  const QuoteListNextPageRequested({
     required this.pageNumber,
   });
 
@@ -73,12 +73,8 @@ class QuoteListFailedFetchRetried extends QuoteListEvent {
   const QuoteListFailedFetchRetried();
 }
 
-class QuoteListOpened extends QuoteListEvent {
-  const QuoteListOpened();
-}
-
-class QuoteListUserAuthenticationChanged extends QuoteListEvent {
-  const QuoteListUserAuthenticationChanged();
+class QuoteListUsernameObtained extends QuoteListEvent {
+  const QuoteListUsernameObtained();
 }
 
 class QuoteListItemUpdated extends QuoteListEvent {

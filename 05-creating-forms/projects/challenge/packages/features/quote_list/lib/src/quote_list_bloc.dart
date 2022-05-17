@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:domain_models/domain_models.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,21 +22,15 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
         ) {
     _registerEventsHandler();
 
-    add(
-      const QuoteListOpened(),
-    );
+    _authChangesSubscription = userRepository.getUser().listen(
+      (user) {
+        _authenticatedUsername = user?.username;
 
-    _authChangesSubscription = userRepository
-        .getUser()
-        .where(
-          (user) => user?.username != _authenticatedUsername,
-        )
-        .listen((user) {
-      _authenticatedUsername = user?.username;
-      add(
-        const QuoteListUserAuthenticationChanged(),
-      );
-    });
+        add(
+          const QuoteListUsernameObtained(),
+        );
+      },
+    );
   }
 
   late final StreamSubscription _authChangesSubscription;
@@ -46,148 +41,274 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
   void _registerEventsHandler() {
     on<QuoteListEvent>(
       (event, emitter) async {
-        if (event is QuoteListOpened || event is QuoteListFailedFetchRetried) {
-          emitter(
-            state.copyWithNewError(null),
-          );
-
-          final firstPageFetchStream = _fetchQuotePage(
-            1,
-            fetchPolicy: QuoteListPageFetchPolicy.cacheAndNetwork,
-          );
-
-          await emitter.onEach<QuoteListState>(
-            firstPageFetchStream,
-            onData: emitter,
-          );
+        if (event is QuoteListUsernameObtained) {
+          await _handleQuoteListUsernameObtained(emitter);
+        } else if (event is QuoteListFailedFetchRetried) {
+          await _handleQuoteListFailedFetchRetried(emitter);
         } else if (event is QuoteListItemUpdated) {
-          emitter(
-            state.copyWithUpdatedQuote(
-              event.updatedQuote,
-            ),
-          );
-        } else if (event is QuoteListUserAuthenticationChanged) {
-          emitter(
-            QuoteListState(
-              filter: state.filter,
-            ),
-          );
-
-          await emitter.onEach<QuoteListState>(
-            _fetchQuotePage(
-              1,
-              fetchPolicy: QuoteListPageFetchPolicy.cacheAndNetwork,
-            ),
-            onData: emitter,
-          );
+          _handleQuoteListItemUpdated(emitter, event);
         } else if (event is QuoteListTagChanged) {
-          emitter(
-            QuoteListState.loadingNewTag(tag: event.tag),
-          );
-
-          await emitter.onEach<QuoteListState>(
-            _fetchQuotePage(
-              1,
-              fetchPolicy: QuoteListPageFetchPolicy.cachePreferably,
-            ),
-            onData: emitter,
-          );
+          await _handleQuoteListTagChanged(emitter, event);
         } else if (event is QuoteListSearchTermChanged) {
-          emitter(
-            QuoteListState.loadingNewSearchTerm(
-              searchTerm: event.searchTerm,
-            ),
-          );
-
-          await emitter.onEach<QuoteListState>(
-            _fetchQuotePage(
-              1,
-              fetchPolicy: QuoteListPageFetchPolicy.cachePreferably,
-            ),
-            onData: emitter,
-          );
+          await _handleQuoteListSearchTermChanged(emitter, event);
         } else if (event is QuoteListRefreshed) {
-          await emitter.onEach<QuoteListState>(
-            _fetchQuotePage(
-              1,
-              fetchPolicy: QuoteListPageFetchPolicy.networkOnly,
-              isRefresh: true,
-            ),
-            onData: emitter,
-          );
-        } else if (event is QuoteListNewPageRequested) {
-          emitter(
-            state.copyWithNewError(null),
-          );
-
-          await emitter.onEach<QuoteListState>(
-            _fetchQuotePage(
-              event.pageNumber,
-              fetchPolicy: QuoteListPageFetchPolicy.networkPreferably,
-            ),
-            onData: emitter,
-          );
+          await _handleQuoteListRefreshed(emitter, event);
+        } else if (event is QuoteListNextPageRequested) {
+          await _handleQuoteListNextPageRequested(emitter, event);
         } else if (event is QuoteListItemFavoriteToggled) {
-          try {
-            final updatedQuote = await (event is QuoteListItemFavorited
-                ? _quoteRepository.favoriteQuote(
-                    event.id,
-                  )
-                : _quoteRepository.unfavoriteQuote(
-                    event.id,
-                  ));
-            final isFilteringByFavorites =
-                state.filter is QuoteListFilterByFavorites;
-            if (!isFilteringByFavorites) {
-              emitter(
-                state.copyWithUpdatedQuote(
-                  updatedQuote,
-                ),
-              );
-            } else {
-              emitter(
-                QuoteListState(
-                  filter: state.filter,
-                ),
-              );
-
-              await emitter.onEach<QuoteListState>(
-                _fetchQuotePage(
-                  1,
-                  fetchPolicy: QuoteListPageFetchPolicy.networkOnly,
-                ),
-                onData: emitter,
-              );
-            }
-          } catch (error) {
-            emitter(
-              state.copyWithFavoriteToggleError(
-                error,
-              ),
-            );
-          }
+          await _handleQuoteListItemFavoriteToggled(emitter, event);
         } else if (event is QuoteListFilterByFavoritesToggled) {
-          final isFilteringByFavorites =
-              state.filter is! QuoteListFilterByFavorites;
-
-          emitter(
-            QuoteListState.loadingToggledFavoritesFilter(
-              isFilteringByFavorites: isFilteringByFavorites,
-            ),
-          );
-
-          await emitter.onEach<QuoteListState>(
-            _fetchQuotePage(
-              1,
-              fetchPolicy: isFilteringByFavorites
-                  ? QuoteListPageFetchPolicy.cacheAndNetwork
-                  : QuoteListPageFetchPolicy.cachePreferably,
-            ),
-            onData: emitter,
-          );
+          await _handleQuoteListFilterByFavoritesToggled(emitter);
         }
       },
-      transformer: _transformEvents,
+      transformer: (eventStream, eventHandler) {
+        final nonDebounceEventStream = eventStream.where(
+          (event) => event is! QuoteListSearchTermChanged,
+        );
+
+        final debounceEventStream = eventStream
+            .whereType<QuoteListSearchTermChanged>()
+            .debounceTime(
+              const Duration(seconds: 1),
+            )
+            .where((event) {
+          final previousFilter = state.filter;
+          final previousSearchTerm =
+              previousFilter is QuoteListFilterBySearchTerm
+                  ? previousFilter.searchTerm
+                  : '';
+
+          return event.searchTerm != previousSearchTerm;
+        });
+
+        final mergedEventStream = MergeStream([
+          nonDebounceEventStream,
+          debounceEventStream,
+        ]);
+
+        final restartableTransformer = restartable<QuoteListEvent>();
+        return restartableTransformer(mergedEventStream, eventHandler);
+      },
+    );
+  }
+
+  Future<void> _handleQuoteListFailedFetchRetried(Emitter emitter) {
+    // Clears out the error and puts the loading indicator back on the screen.
+    emitter(
+      state.copyWithNewError(null),
+    );
+
+    final firstPageFetchStream = _fetchQuotePage(
+      1,
+      fetchPolicy: QuoteListPageFetchPolicy.cacheAndNetwork,
+    );
+
+    return emitter.onEach<QuoteListState>(
+      firstPageFetchStream,
+      onData: emitter,
+    );
+  }
+
+  void _handleQuoteListItemUpdated(
+    Emitter emitter,
+    QuoteListItemUpdated event,
+  ) {
+    // Replaces the updated quote in the current state and re-emits it.
+    emitter(
+      state.copyWithUpdatedQuote(
+        event.updatedQuote,
+      ),
+    );
+  }
+
+  Future<void> _handleQuoteListUsernameObtained(Emitter emitter) {
+    emitter(
+      QuoteListState(
+        filter: state.filter,
+      ),
+    );
+
+    final firstPageFetchStream = _fetchQuotePage(
+      1,
+      fetchPolicy: QuoteListPageFetchPolicy.cacheAndNetwork,
+    );
+
+    return emitter.onEach<QuoteListState>(
+      firstPageFetchStream,
+      onData: emitter,
+    );
+  }
+
+  Future<void> _handleQuoteListTagChanged(
+    Emitter emitter,
+    QuoteListTagChanged event,
+  ) {
+    emitter(
+      QuoteListState.loadingNewTag(tag: event.tag),
+    );
+
+    final firstPageFetchStream = _fetchQuotePage(
+      1,
+      // If the user is *deselecting* a tag, the `cachePreferably` fetch policy
+      // will return you the cached quotes. If the user is selecting a new tag
+      // instead, the `cachePreferably` fetch policy won't find any cached
+      // quotes and will instead use the network.
+      fetchPolicy: QuoteListPageFetchPolicy.cachePreferably,
+    );
+
+    return emitter.onEach<QuoteListState>(
+      firstPageFetchStream,
+      onData: emitter,
+    );
+  }
+
+  Future<void> _handleQuoteListSearchTermChanged(
+    Emitter emitter,
+    QuoteListSearchTermChanged event,
+  ) {
+    emitter(
+      QuoteListState.loadingNewSearchTerm(
+        searchTerm: event.searchTerm,
+      ),
+    );
+
+    final firstPageFetchStream = _fetchQuotePage(
+      1,
+      // If the user is *clearing out* the search bar, the `cachePreferably`
+      // fetch policy will return you the cached quotes. If the user is
+      // entering a new search instead, the `cachePreferably` fetch policy
+      // won't find any cached quotes and will instead use the network.
+      fetchPolicy: QuoteListPageFetchPolicy.cachePreferably,
+    );
+
+    return emitter.onEach<QuoteListState>(
+      firstPageFetchStream,
+      onData: emitter,
+    );
+  }
+
+  Future<void> _handleQuoteListRefreshed(
+    Emitter emitter,
+    QuoteListRefreshed event,
+  ) {
+    final firstPageFetchStream = _fetchQuotePage(
+      1,
+      // Since the user is asking for a refresh, you don't want to get cached
+      // quotes, thus the `networkOnly` fetch policy makes the most sense.
+      fetchPolicy: QuoteListPageFetchPolicy.networkOnly,
+      isRefresh: true,
+    );
+
+    return emitter.onEach<QuoteListState>(
+      firstPageFetchStream,
+      onData: emitter,
+    );
+  }
+
+  Future<void> _handleQuoteListNextPageRequested(
+    Emitter emitter,
+    QuoteListNextPageRequested event,
+  ) {
+    emitter(
+      state.copyWithNewError(null),
+    );
+
+    final nextPageFetchStream = _fetchQuotePage(
+      event.pageNumber,
+      // The `networkPreferably` fetch policy prioritizes fetching the new page
+      // from the server, and, if it fails, try grabbing it from the cache.
+      fetchPolicy: QuoteListPageFetchPolicy.networkPreferably,
+    );
+
+    return emitter.onEach<QuoteListState>(
+      nextPageFetchStream,
+      onData: emitter,
+    );
+  }
+
+  Future<void> _handleQuoteListItemFavoriteToggled(
+    Emitter emitter,
+    QuoteListItemFavoriteToggled event,
+  ) async {
+    try {
+      // The `favoriteQuote()` and `unfavoriteQuote()` functions return you the
+      // updated quote object.
+      final updatedQuote = await (event is QuoteListItemFavorited
+          ? _quoteRepository.favoriteQuote(
+              event.id,
+            )
+          : _quoteRepository.unfavoriteQuote(
+              event.id,
+            ));
+      final isFilteringByFavorites = state.filter is QuoteListFilterByFavorites;
+
+      // If the user isn't filtering by favorites, you just replace the changed
+      // quote on-screen.
+      if (!isFilteringByFavorites) {
+        emitter(
+          state.copyWithUpdatedQuote(
+            updatedQuote,
+          ),
+        );
+      } else {
+        // If the user *is* filtering by favorites, that means the user is
+        // actually *removing* a quote from the list, so you refresh the entire
+        // list to make sure you won't break the pagination.
+        emitter(
+          QuoteListState(
+            filter: state.filter,
+          ),
+        );
+
+        final firstPageFetchStream = _fetchQuotePage(
+          1,
+          fetchPolicy: QuoteListPageFetchPolicy.networkOnly,
+        );
+
+        await emitter.onEach<QuoteListState>(
+          firstPageFetchStream,
+          onData: emitter,
+        );
+      }
+    } catch (error) {
+      // If an error happens trying to (un)favorite a quote you attach an error
+      // to the current state which will result on the screen showing a snackbar
+      // to the user and possibly taking him to the Sign In screen in case the
+      // cause is the user being signed out.
+      emitter(
+        state.copyWithFavoriteToggleError(
+          error,
+        ),
+      );
+    }
+  }
+
+  Future<void> _handleQuoteListFilterByFavoritesToggled(
+    Emitter emitter,
+  ) {
+    final isFilteringByFavorites = state.filter is! QuoteListFilterByFavorites;
+
+    emitter(
+      QuoteListState.loadingToggledFavoritesFilter(
+        isFilteringByFavorites: isFilteringByFavorites,
+      ),
+    );
+
+    final firstPageFetchStream = _fetchQuotePage(
+      1,
+      // If the user is *adding* the favorites filter, you use the *cacheAndNetwork*
+      // fetch policy to show the cached data first followed by the updated list
+      // from the server.
+      // If the user is *removing* the favorites filter, you simply show the
+      // cached data they were seeing before applying the filter.
+      fetchPolicy: isFilteringByFavorites
+          ? QuoteListPageFetchPolicy.cacheAndNetwork
+          : QuoteListPageFetchPolicy.cachePreferably,
+    );
+
+    return emitter.onEach<QuoteListState>(
+      firstPageFetchStream,
+      onData: emitter,
     );
   }
 
@@ -254,37 +375,6 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
         }
       }
     }
-  }
-
-  Stream<QuoteListEvent> _transformEvents(
-    Stream<QuoteListEvent> events,
-    EventMapper<QuoteListEvent> mapper,
-  ) {
-    final nonDebounceEventStream = events.where(
-      (event) => event is! QuoteListSearchTermChanged,
-    );
-
-    final debounceEventStream = events
-        .whereType<QuoteListSearchTermChanged>()
-        .debounceTime(
-          const Duration(seconds: 1),
-        )
-        .where((event) {
-      final previousFilter = state.filter;
-      final previousSearchTerm = previousFilter is QuoteListFilterBySearchTerm
-          ? previousFilter.searchTerm
-          : '';
-
-      return event.searchTerm != previousSearchTerm;
-    });
-
-    final mergedEventStream = MergeStream([
-      nonDebounceEventStream,
-      debounceEventStream,
-    ]);
-
-    // Explanation: https://stackoverflow.com/questions/61569917/how-do-i-nest-streams-in-dart-map-streams-to-stream-events
-    return mergedEventStream.switchMap(mapper);
   }
 
   @override

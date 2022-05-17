@@ -162,8 +162,7 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
       email: email,
       password: password,
       passwordConfirmation: passwordConfirmation,
-      submissionStatus:
-          isFormValid ? SubmissionStatus.inProgress : null,
+      submissionStatus: isFormValid ? SubmissionStatus.inProgress : null,
     );
     emit(newState);
 
@@ -183,7 +182,7 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
           submissionStatus: error is! UsernameAlreadyTakenException &&
                   error is! EmailAlreadyRegisteredException
               ? SubmissionStatus.error
-              : null,
+              : SubmissionStatus.idle,
           username: error is UsernameAlreadyTakenException
               ? Username.validated(
                   username.value,

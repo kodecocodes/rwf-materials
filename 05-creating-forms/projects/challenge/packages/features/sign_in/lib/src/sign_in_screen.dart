@@ -98,6 +98,7 @@ class _SignInForm extends StatefulWidget {
 
 class _SignInFormState extends State<_SignInForm> {
   final _passwordFocusNode = FocusNode();
+
   final _emailFocusNode = FocusNode();
 
   @override
@@ -109,6 +110,7 @@ class _SignInFormState extends State<_SignInForm> {
         cubit.onPasswordUnfocused();
       }
     });
+
     _emailFocusNode.addListener(() {
       if (!_emailFocusNode.hasFocus) {
         cubit.onEmailUnfocused();
@@ -127,13 +129,17 @@ class _SignInFormState extends State<_SignInForm> {
   Widget build(BuildContext context) {
     final l10n = SignInLocalizations.of(context);
     return BlocConsumer<SignInCubit, SignInState>(
+      listenWhen: (oldState, newState) =>
+          oldState.submissionStatus != newState.submissionStatus,
       listener: (context, state) {
         // TODO: Execute one-off actions based on state changes.
       },
       builder: (context, state) {
         final emailError = state.email.invalid ? state.email.error : null;
+
         final passwordError =
             state.password.invalid ? state.password.error : null;
+
         final isSubmissionInProgress = false;
 
         final cubit = context.read<SignInCubit>();
