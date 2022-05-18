@@ -240,7 +240,7 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
     );
   }
 
-  // TODO: Create utilitary function that fetches a given page.
+  // TODO: Create a utilitary function that fetches a given page.
 
   // TODO: Dispose the auth changes subscription.
 }
