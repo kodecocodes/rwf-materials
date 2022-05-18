@@ -53,7 +53,7 @@ class UserRepository {
     // TODO: Expose the BehaviorSubject.
   }
 
-  Future<String?> getUserToken() {
+  Future<String?> getUserToken() async {
     // TODO: Provide the user token.
   }
 
