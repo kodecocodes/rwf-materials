@@ -4,12 +4,12 @@ class SignInState extends Equatable {
   const SignInState({
     this.email = const Email.unvalidated(),
     this.password = const Password.unvalidated(),
-    this.submissionStatus,
+    this.submissionStatus = SubmissionStatus.idle,
   });
 
   final Email email;
   final Password password;
-  final SubmissionStatus? submissionStatus;
+  final SubmissionStatus submissionStatus;
 
   SignInState copyWith({
     Email? email,
@@ -19,7 +19,7 @@ class SignInState extends Equatable {
     return SignInState(
       email: email ?? this.email,
       password: password ?? this.password,
-      submissionStatus: submissionStatus,
+      submissionStatus: submissionStatus ?? this.submissionStatus,
     );
   }
 
