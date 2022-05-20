@@ -219,9 +219,9 @@
     },
     {
       "name": "js",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/js-0.6.3",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/js-0.6.4",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.16"
     },
     {
       "name": "json_annotation",
@@ -572,7 +572,7 @@
       "languageVersion": "2.14"
     }
   ],
-  "generated": "2022-05-17T08:35:48.374864Z",
+  "generated": "2022-05-20T14:25:19.829127Z",
   "generator": "pub",
   "generatorVersion": "2.17.0"
 }

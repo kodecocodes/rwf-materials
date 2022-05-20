@@ -97,8 +97,7 @@ class _SignInForm extends StatefulWidget {
 }
 
 class _SignInFormState extends State<_SignInForm> {
-
-  // TODO: Add password focus node.
+  // TODO: Create the FocusNodes.
 
   @override
   Widget build(BuildContext context) {
@@ -110,18 +109,16 @@ class _SignInFormState extends State<_SignInForm> {
         // TODO: Execute one-off actions based on state changes.
       },
       builder: (context, state) {
-        // TODO: Check for errors in the email state.
-
+        final emailError = state.email.invalid ? state.email.error : null;
         // TODO: Check for errors in the password state.
-
         final isSubmissionInProgress = false;
 
         final cubit = context.read<SignInCubit>();
         return Column(
           children: <Widget>[
             TextField(
-              // TODO: Attach the _emailFocusNode.
-              // TODO: Forward email change events to the Cubit.
+              // TODO: Attach _emailFocusNode.
+              onChanged: cubit.onEmailChanged,
               textInputAction: TextInputAction.next,
               autocorrect: false,
               decoration: InputDecoration(
@@ -130,7 +127,11 @@ class _SignInFormState extends State<_SignInForm> {
                 ),
                 enabled: !isSubmissionInProgress,
                 labelText: l10n.emailTextFieldLabel,
-                // TODO: Display the email validation error if any.
+                errorText: emailError == null
+                    ? null
+                    : (emailError == EmailValidationError.empty
+                        ? l10n.emailTextFieldEmptyErrorMessage
+                        : l10n.emailTextFieldInvalidErrorMessage),
               ),
             ),
             const SizedBox(
