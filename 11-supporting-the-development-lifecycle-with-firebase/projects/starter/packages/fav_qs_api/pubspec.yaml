@@ -2,7 +2,7 @@ name: fav_qs_api
 publish_to: none
 
 environment:
-  sdk: ">=2.13.0 <3.0.0"
+  sdk: ">=2.13.0 <4.0.0"
 
 dependencies:
   dio: ^4.0.0
