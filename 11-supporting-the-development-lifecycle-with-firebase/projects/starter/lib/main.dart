@@ -19,6 +19,7 @@ import 'package:update_profile/update_profile.dart';
 import 'package:user_repository/user_repository.dart';
 import 'package:wonder_words/l10n/app_localizations.dart';
 import 'package:wonder_words/routes.dart';
+import 'package:wonder_words/screen_view_observer.dart';
 
 // TODO: replace the implementation of main() function
 void main() async {
@@ -26,6 +27,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // 2
   await initializeMonitoringPackage();
+
+  // TODO: Perform explicit crash
+
   // TODO: Add Error reporting
 
   // the following line of code will be relavant for next chapter
@@ -66,8 +70,11 @@ class _WonderWordsState extends State<WonderWords> {
     noSqlStorage: _keyValueStorage,
   );
   late final _navigator = RoutemasterDelegate(
-    // TODO: add observers to RoutemasterDelegate
-
+    observers: [
+      ScreenViewObserver(
+        analyticsService: _analyticsService,
+      ),
+    ],
     routesBuilder: (context) => Routes(
       navigator: _navigator,
       userRepository: _userRepository,
@@ -95,8 +102,6 @@ class _WonderWordsState extends State<WonderWords> {
       _navigator.push(path);
     }
   }
-
-  // TODO: Add explicit crash
 
   @override
   Widget build(BuildContext context) {
