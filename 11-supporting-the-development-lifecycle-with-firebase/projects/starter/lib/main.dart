@@ -71,9 +71,7 @@ class _WonderWordsState extends State<WonderWords> {
   );
   late final _navigator = RoutemasterDelegate(
     observers: [
-      ScreenViewObserver(
-        analyticsService: _analyticsService,
-      ),
+      // TODO: add observers to RoutemasterDelegate
     ],
     routesBuilder: (context) => Routes(
       navigator: _navigator,
