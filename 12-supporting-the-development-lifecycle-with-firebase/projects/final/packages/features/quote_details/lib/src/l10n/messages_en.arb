@@ -1,0 +1,10 @@
+{
+  "shareQuoteText": "Hey, take a look at this quote I just found on Wonder Words: {link}",
+  "@shareQuoteText": {
+    "placeholders": {
+      "link": {
+        "type": "String"
+      }
+    }
+  }
+}
