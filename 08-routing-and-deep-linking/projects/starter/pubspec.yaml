@@ -1,0 +1,83 @@
+name: wonder_words
+description: A new Flutter project.
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.14.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  routemaster: ^1.0.1
+  key_value_storage:
+    path: packages/key_value_storage
+  fav_qs_api:
+    path: packages/fav_qs_api
+  quote_repository:
+    path: packages/quote_repository
+  user_repository:
+    path: packages/user_repository
+  quote_list:
+    path: packages/features/quote_list
+  quote_details:
+    path: packages/features/quote_details
+  update_profile:
+    path: packages/features/update_profile
+  profile_menu:
+    path: packages/features/profile_menu
+  sign_in:
+    path: packages/features/sign_in
+  forgot_my_password:
+    path: packages/features/forgot_my_password
+  sign_up:
+    path: packages/features/sign_up
+  domain_models:
+    path: packages/domain_models
+  component_library:
+    path: packages/component_library
+  monitoring:
+    path: packages/monitoring
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^1.0.4
+
+
+flutter_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/logos/logo.png"
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
