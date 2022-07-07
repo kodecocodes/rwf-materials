@@ -11,7 +11,7 @@ dependencies:
   firebase_crashlytics: ^2.3.0
   firebase_dynamic_links: ^2.0.7
   firebase_analytics: ^8.3.0
-  firebase_remote_config: ^2.0.2
+  firebase_remote_config: ^2.0.8
   package_info: ^2.0.2
 
 dev_dependencies:
