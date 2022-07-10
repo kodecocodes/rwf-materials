@@ -63,7 +63,7 @@ dev_dependencies:
   # TODO: add missing package
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.4
+  flutter_lints: ^2.0.1
 
 
 flutter_icons:

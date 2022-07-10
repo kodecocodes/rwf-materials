@@ -12,10 +12,10 @@ dependencies:
   domain_models:
     path: ../domain_models
   rxdart: ^0.27.1
-  flutter_secure_storage: ^4.2.0
+  flutter_secure_storage: ^5.0.2
 
 dev_dependencies:
   # TODO: add mockito library
   test: ^1.16.8
-  lints: ^1.0.1
+  lints: ^2.0.0
   build_runner: ^2.0.5
