@@ -11,8 +11,8 @@ void main() {
     'Emits SignInState with unvalidated email when email is changed for the first time',
     build: () => SignInCubit(userRepository: MockUserRepository()),
     act: (cubit) => cubit.onEmailChanged('email@gmail.com'),
-    expect: () => const <SignInState>[
-      SignInState(
+    expect: () => <SignInState>[
+      const SignInState(
           email: Email.unvalidated(
         'email@gmail.com',
       ))
