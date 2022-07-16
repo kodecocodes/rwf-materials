@@ -19,6 +19,6 @@ void main() {
 
     await tester.pumpAndSettle();
 
-    expect(find.textContaining('life'), findsWidgets);
+    expect(find.byType(QuoteCard), findsWidgets);
   });
 }
