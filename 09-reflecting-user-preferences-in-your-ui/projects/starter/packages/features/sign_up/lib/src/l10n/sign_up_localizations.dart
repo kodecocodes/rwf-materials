@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'sign_up_localizations_en.dart';
+import 'sign_up_localizations_pt.dart';
 
 /// Callers can lookup localized strings with an instance of SignUpLocalizations returned
 /// by `SignUpLocalizations.of(context)`.
@@ -60,7 +60,8 @@ import 'sign_up_localizations_en.dart';
 /// be consistent with the languages listed in the SignUpLocalizations.supportedLocales
 /// property.
 abstract class SignUpLocalizations {
-  SignUpLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  SignUpLocalizations(String locale)
+      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -68,7 +69,8 @@ abstract class SignUpLocalizations {
     return Localizations.of<SignUpLocalizations>(context, SignUpLocalizations)!;
   }
 
-  static const LocalizationsDelegate<SignUpLocalizations> delegate = _SignUpLocalizationsDelegate();
+  static const LocalizationsDelegate<SignUpLocalizations> delegate =
+      _SignUpLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -80,7 +82,8 @@ abstract class SignUpLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -89,7 +92,8 @@ abstract class SignUpLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
-    Locale('en')
+    Locale('en'),
+    Locale('pt')
   ];
 
   /// No description provided for @invalidCredentialsErrorMessage.
@@ -195,33 +199,36 @@ abstract class SignUpLocalizations {
   String get passwordConfirmationTextFieldInvalidErrorMessage;
 }
 
-class _SignUpLocalizationsDelegate extends LocalizationsDelegate<SignUpLocalizations> {
+class _SignUpLocalizationsDelegate
+    extends LocalizationsDelegate<SignUpLocalizations> {
   const _SignUpLocalizationsDelegate();
 
   @override
   Future<SignUpLocalizations> load(Locale locale) {
-    return SynchronousFuture<SignUpLocalizations>(lookupSignUpLocalizations(locale));
+    return SynchronousFuture<SignUpLocalizations>(
+        lookupSignUpLocalizations(locale));
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['en', 'pt'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_SignUpLocalizationsDelegate old) => false;
 }
 
 SignUpLocalizations lookupSignUpLocalizations(Locale locale) {
-
-
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en': return SignUpLocalizationsEn();
+    case 'en':
+      return SignUpLocalizationsEn();
+    case 'pt':
+      return SignUpLocalizationsPt();
   }
 
   throw FlutterError(
-    'SignUpLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-    'an issue with the localizations generation tool. Please file an issue '
-    'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
-  );
+      'SignUpLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
 }

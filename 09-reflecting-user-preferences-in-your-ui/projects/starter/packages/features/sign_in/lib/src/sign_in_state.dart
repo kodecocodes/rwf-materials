@@ -1,29 +1,25 @@
-part of 'sign_in_bloc.dart';
+part of 'sign_in_cubit.dart';
 
 class SignInState extends Equatable {
   const SignInState({
-    this.email = const Email.pure(),
-    this.password = const Password.pure(),
-    this.error,
-    this.status = FormzStatus.pure,
+    this.email = const Email.unvalidated(),
+    this.password = const Password.unvalidated(),
+    this.submissionStatus = SubmissionStatus.idle,
   });
 
   final Email email;
   final Password password;
-  final dynamic error;
-  final FormzStatus status;
+  final SubmissionStatus submissionStatus;
 
   SignInState copyWith({
     Email? email,
     Password? password,
-    FormzStatus? status,
-    required dynamic error,
+    SubmissionStatus? submissionStatus,
   }) {
     return SignInState(
       email: email ?? this.email,
       password: password ?? this.password,
-      status: status ?? this.status,
-      error: error,
+      submissionStatus: submissionStatus ?? this.submissionStatus,
     );
   }
 
@@ -31,7 +27,23 @@ class SignInState extends Equatable {
   List<Object?> get props => [
         email,
         password,
-        error,
-        status,
+        submissionStatus,
       ];
+}
+
+enum SubmissionStatus {
+  /// Used when the form has not been sent yet.
+  idle,
+
+  /// Used to disable all buttons and add a progress indicator to the main one.
+  inProgress,
+
+  /// Used to close the screen and navigate back to the caller screen.
+  success,
+
+  /// Used to display a generic snack bar saying that an error has occurred, e.g., no internet connection.
+  genericError,
+
+  /// Used to show a more specific error telling the user they got the email and/or password wrong.
+  invalidCredentialsError,
 }

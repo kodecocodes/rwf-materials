@@ -1,4 +1,3 @@
-import 'package:async/async.dart';
 import 'package:domain_models/domain_models.dart';
 import 'package:fav_qs_api/fav_qs_api.dart';
 import 'package:key_value_storage/key_value_storage.dart';
@@ -24,40 +23,42 @@ class UserRepository {
   final UserLocalStorage _localStorage;
   final UserSecureStorage _secureStorage;
   final BehaviorSubject<User?> _userSubject = BehaviorSubject();
-  //TODO: declare BehaviorSubject
+  final BehaviorSubject<DarkModePreference> _darkModePreferenceSubject =
+      BehaviorSubject();
 
-  late final AsyncMemoizer _userTokenNormalizationMemoizer = AsyncMemoizer()
-    ..runOnce(
-      () async {
-        // If the app is uninstalled while the user was authenticated, we need to
-        // manually delete the token from our secure storage, since it persists
-        // between app installs.
-        final user = await _localStorage.getUser();
-        if (user == null) {
-          await _secureStorage.deleteUserToken();
-        }
-      },
-    );
+  Future<void> upsertDarkModePreference(DarkModePreference preference) async {
+    // TODO: add logic for upserting theme mode
+  }
+
+  Stream<DarkModePreference> getDarkModePreference() async* {
+    if (!_darkModePreferenceSubject.hasValue) {
+      final storedPreference = await _localStorage.getDarkModePreference();
+      _darkModePreferenceSubject.add(
+        storedPreference?.toDomainModel() ??
+            DarkModePreference.useSystemSettings,
+      );
+    }
+
+    yield* _darkModePreferenceSubject.stream;
+  }
 
   Future<void> signIn(String email, String password) async {
     try {
-      final user = await remoteApi.signIn(
+      final apiUser = await remoteApi.signIn(
         email,
         password,
       );
 
-      final cacheUser = user.toCacheModel();
-      await Future.wait([
-        _secureStorage.upsertUserToken(
-          user.token,
-        ),
-        _localStorage.upsertUser(
-          cacheUser,
-        )
-      ]);
+      await _secureStorage.upsertUserInfo(
+        username: apiUser.username,
+        email: apiUser.email,
+        token: apiUser.token,
+      );
+
+      final domainUser = apiUser.toDomainModel();
 
       _userSubject.add(
-        cacheUser.toDomainModel(),
+        domainUser,
       );
     } on InvalidCredentialsFavQsException catch (_) {
       throw InvalidCredentialsException();
@@ -66,11 +67,33 @@ class UserRepository {
 
   Stream<User?> getUser() async* {
     if (!_userSubject.hasValue) {
-      final cachedUser = await _localStorage.getUser();
-      _userSubject.add(cachedUser?.toDomainModel());
+      final userInfo = await Future.wait([
+        _secureStorage.getUserEmail(),
+        _secureStorage.getUsername(),
+      ]);
+
+      final email = userInfo[0];
+      final username = userInfo[1];
+
+      if (email != null && username != null) {
+        _userSubject.add(
+          User(
+            email: email,
+            username: username,
+          ),
+        );
+      } else {
+        _userSubject.add(
+          null,
+        );
+      }
     }
 
     yield* _userSubject.stream;
+  }
+
+  Future<String?> getUserToken() {
+    return _secureStorage.getUserToken();
   }
 
   Future<void> signUp(
@@ -85,22 +108,17 @@ class UserRepository {
         password,
       );
 
-      final cacheUser = UserCM(
+      await _secureStorage.upsertUserInfo(
         username: username,
         email: email,
+        token: userToken,
       );
 
-      await Future.wait([
-        _localStorage.upsertUser(
-          cacheUser,
-        ),
-        _secureStorage.upsertUserToken(
-          userToken,
-        ),
-      ]);
-
       _userSubject.add(
-        cacheUser.toDomainModel(),
+        User(
+          username: username,
+          email: email,
+        ),
       );
     } catch (error) {
       if (error is UsernameAlreadyTakenFavQsException) {
@@ -123,14 +141,17 @@ class UserRepository {
         email,
         newPassword,
       );
-      final cacheUser = UserCM(
+
+      await _secureStorage.upsertUserInfo(
         username: username,
         email: email,
       );
-      await _localStorage.upsertUser(cacheUser);
 
       _userSubject.add(
-        cacheUser.toDomainModel(),
+        User(
+          username: username,
+          email: email,
+        ),
       );
     } on UsernameAlreadyTakenFavQsException catch (_) {
       throw UsernameAlreadyTakenException();
@@ -139,22 +160,11 @@ class UserRepository {
 
   Future<void> signOut() async {
     await remoteApi.signOut();
-    await Future.wait(
-      [
-        _localStorage.deleteUser(),
-        _secureStorage.deleteUserToken(),
-      ],
-    );
+    await _secureStorage.deleteUserInfo();
     _userSubject.add(null);
   }
 
   Future<void> requestPasswordResetEmail(String email) async {
     await remoteApi.requestPasswordResetEmail(email);
-  }
-
-  Future<String?> getUserToken() async {
-    await _userTokenNormalizationMemoizer.future;
-    final userToken = await _secureStorage.getUserToken();
-    return userToken;
   }
 }

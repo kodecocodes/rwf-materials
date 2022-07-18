@@ -1,17 +1,15 @@
+import 'package:equatable/equatable.dart';
 import 'package:form_fields/form_fields.dart';
 
-enum PasswordConfirmationValidationError {
-  empty,
-  invalid,
-}
-
 class PasswordConfirmation
-    extends FormzInput<String, PasswordConfirmationValidationError> {
-  const PasswordConfirmation.pure([String value = ''])
-      : password = const Password.pure(),
+    extends FormzInput<String, PasswordConfirmationValidationError>
+    with EquatableMixin {
+  const PasswordConfirmation.unvalidated([
+    String value = '',
+  ])  : password = const Password.unvalidated(),
         super.pure(value);
 
-  const PasswordConfirmation.dirty(
+  const PasswordConfirmation.validated(
     String value, {
     required this.password,
   }) : super.dirty(value);
@@ -28,14 +26,14 @@ class PasswordConfirmation
   }
 
   @override
-  int get hashCode => value.hashCode ^ pure.hashCode ^ password.hashCode;
+  List<Object?> get props => [
+        value,
+        pure,
+        password,
+      ];
+}
 
-  @override
-  bool operator ==(Object other) {
-    if (other.runtimeType != runtimeType) return false;
-    return other is PasswordConfirmation &&
-        other.value == value &&
-        other.pure == pure &&
-        other.password == password;
-  }
+enum PasswordConfirmationValidationError {
+  empty,
+  invalid,
 }

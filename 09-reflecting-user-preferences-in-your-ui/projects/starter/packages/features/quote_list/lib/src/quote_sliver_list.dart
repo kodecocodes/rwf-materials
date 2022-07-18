@@ -20,64 +20,58 @@ class QuoteSliverList extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = WonderTheme.of(context);
     final onQuoteSelected = this.onQuoteSelected;
+    final bloc = context.read<QuoteListBloc>();
+
     return SliverPadding(
       padding: EdgeInsets.symmetric(
         horizontal: theme.screenMargin,
       ),
       sliver: PagedSliverList.separated(
-        pagingController: pagingController,
-        separatorBuilder: (_, __) => Divider(height: theme.listSpacing),
-        builderDelegate: PagedChildBuilderDelegate<Quote>(
-          itemBuilder: (context, quote, index) {
-            final isFavorite = quote.isFavorite ?? false;
-            return QuoteCard(
-              statement: quote.body,
-              author: quote.author,
-              isFavorite: isFavorite,
-              top: const OpeningQuoteSvgAsset(),
-              bottom: const ClosingQuoteSvgAsset(),
-              onFavorite: () {
-                final bloc = context.read<QuoteListBloc>();
-                bloc.add(
-                  isFavorite
-                      ? QuoteListItemUnfavorited(quote.id)
-                      : QuoteListItemFavorited(quote.id),
-                );
-              },
-              onTap: onQuoteSelected != null
-                  ? () async {
-                      final updatedQuote = await onQuoteSelected(quote.id);
-                      if (updatedQuote != null &&
-                          updatedQuote.isFavorite != quote.isFavorite) {
-                        final bloc = context.read<QuoteListBloc>();
-                        bloc.add(
-                          QuoteListItemUpdated(
-                            updatedQuote,
-                          ),
-                        );
+          pagingController: pagingController,
+          builderDelegate: PagedChildBuilderDelegate<Quote>(
+            itemBuilder: (context, quote, index) {
+              final isFavorite = quote.isFavorite ?? false;
+              return QuoteCard(
+                statement: quote.body,
+                author: quote.author,
+                isFavorite: isFavorite,
+                top: const OpeningQuoteSvgAsset(),
+                bottom: const ClosingQuoteSvgAsset(),
+                onFavorite: () {
+                  bloc.add(
+                    isFavorite
+                        ? QuoteListItemUnfavorited(quote.id)
+                        : QuoteListItemFavorited(quote.id),
+                  );
+                },
+                onTap: onQuoteSelected != null
+                    ? () async {
+                        final updatedQuote = await onQuoteSelected(quote.id);
+
+                        if (updatedQuote != null &&
+                            updatedQuote.isFavorite != quote.isFavorite) {
+                          bloc.add(
+                            QuoteListItemUpdated(
+                              updatedQuote,
+                            ),
+                          );
+                        }
                       }
-                    }
-                  : null,
-            );
-          },
-          firstPageErrorIndicatorBuilder: (context) {
-            return ExceptionIndicator(
-              onTryAgain: () {
-                final bloc = context.read<QuoteListBloc>();
-                bloc.add(
-                  const QuoteListFirstPageRequested(),
-                );
-              },
-            );
-          },
-          firstPageProgressIndicatorBuilder: (context) {
-            return const LoadingIndicator();
-          },
-          newPageProgressIndicatorBuilder: (context) {
-            return const LoadingIndicator();
-          },
-        ),
-      ),
+                    : null,
+              );
+            },
+            firstPageErrorIndicatorBuilder: (context) {
+              return ExceptionIndicator(
+                onTryAgain: () {
+                  bloc.add(
+                    const QuoteListFailedFetchRetried(),
+                  );
+                },
+              );
+            },
+          ),
+          separatorBuilder: (context, index) =>
+              SizedBox(height: theme.gridSpacing)),
     );
   }
 }

@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'update_profile_localizations_en.dart';
+import 'update_profile_localizations_pt.dart';
 
 /// Callers can lookup localized strings with an instance of UpdateProfileLocalizations returned
 /// by `UpdateProfileLocalizations.of(context)`.
@@ -60,15 +60,18 @@ import 'update_profile_localizations_en.dart';
 /// be consistent with the languages listed in the UpdateProfileLocalizations.supportedLocales
 /// property.
 abstract class UpdateProfileLocalizations {
-  UpdateProfileLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  UpdateProfileLocalizations(String locale)
+      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
   static UpdateProfileLocalizations of(BuildContext context) {
-    return Localizations.of<UpdateProfileLocalizations>(context, UpdateProfileLocalizations)!;
+    return Localizations.of<UpdateProfileLocalizations>(
+        context, UpdateProfileLocalizations)!;
   }
 
-  static const LocalizationsDelegate<UpdateProfileLocalizations> delegate = _UpdateProfileLocalizationsDelegate();
+  static const LocalizationsDelegate<UpdateProfileLocalizations> delegate =
+      _UpdateProfileLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -80,7 +83,8 @@ abstract class UpdateProfileLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -89,7 +93,8 @@ abstract class UpdateProfileLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
-    Locale('en')
+    Locale('en'),
+    Locale('pt')
   ];
 
   /// No description provided for @appBarTitle.
@@ -155,7 +160,7 @@ abstract class UpdateProfileLocalizations {
   /// No description provided for @passwordTextFieldLabel.
   ///
   /// In en, this message translates to:
-  /// **'Password'**
+  /// **'New Password'**
   String get passwordTextFieldLabel;
 
   /// No description provided for @passwordTextFieldInvalidErrorMessage.
@@ -167,7 +172,7 @@ abstract class UpdateProfileLocalizations {
   /// No description provided for @passwordConfirmationTextFieldLabel.
   ///
   /// In en, this message translates to:
-  /// **'Password Confirmation'**
+  /// **'New Password Confirmation'**
   String get passwordConfirmationTextFieldLabel;
 
   /// No description provided for @passwordConfirmationTextFieldInvalidErrorMessage.
@@ -177,33 +182,36 @@ abstract class UpdateProfileLocalizations {
   String get passwordConfirmationTextFieldInvalidErrorMessage;
 }
 
-class _UpdateProfileLocalizationsDelegate extends LocalizationsDelegate<UpdateProfileLocalizations> {
+class _UpdateProfileLocalizationsDelegate
+    extends LocalizationsDelegate<UpdateProfileLocalizations> {
   const _UpdateProfileLocalizationsDelegate();
 
   @override
   Future<UpdateProfileLocalizations> load(Locale locale) {
-    return SynchronousFuture<UpdateProfileLocalizations>(lookupUpdateProfileLocalizations(locale));
+    return SynchronousFuture<UpdateProfileLocalizations>(
+        lookupUpdateProfileLocalizations(locale));
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['en', 'pt'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_UpdateProfileLocalizationsDelegate old) => false;
 }
 
 UpdateProfileLocalizations lookupUpdateProfileLocalizations(Locale locale) {
-
-
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en': return UpdateProfileLocalizationsEn();
+    case 'en':
+      return UpdateProfileLocalizationsEn();
+    case 'pt':
+      return UpdateProfileLocalizationsPt();
   }
 
   throw FlutterError(
-    'UpdateProfileLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-    'an issue with the localizations generation tool. Please file an issue '
-    'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
-  );
+      'UpdateProfileLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
 }

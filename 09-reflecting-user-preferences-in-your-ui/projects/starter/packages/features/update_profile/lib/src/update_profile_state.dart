@@ -1,4 +1,4 @@
-part of 'update_profile_bloc.dart';
+part of 'update_profile_cubit.dart';
 
 abstract class UpdateProfileState extends Equatable {
   const UpdateProfileState();
@@ -13,48 +13,52 @@ class UpdateProfileInProgress extends UpdateProfileState {
 
 class UpdateProfileLoaded extends UpdateProfileState {
   const UpdateProfileLoaded({
-    required this.username,
     required this.email,
-    this.password = const OptionalPassword.pure(),
-    this.passwordConfirmation = const OptionalPasswordConfirmation.pure(),
-    this.error,
-    this.status = FormzStatus.pure,
+    required this.username,
+    this.password = const OptionalPassword.unvalidated(),
+    this.passwordConfirmation =
+        const OptionalPasswordConfirmation.unvalidated(),
+    this.submissionStatus = SubmissionStatus.idle,
   });
 
-  final Username username;
   final Email email;
+  final Username username;
   final OptionalPassword password;
   final OptionalPasswordConfirmation passwordConfirmation;
-  final dynamic error;
-  final FormzStatus status;
+  final SubmissionStatus submissionStatus;
 
-  bool get isSubmissionInProgress => status == FormzStatus.submissionInProgress;
+  bool get isSubmissionInProgress =>
+      submissionStatus == SubmissionStatus.inProgress;
 
   UpdateProfileLoaded copyWith({
-    Username? username,
     Email? email,
+    Username? username,
     OptionalPassword? password,
     OptionalPasswordConfirmation? passwordConfirmation,
-    FormzStatus? status,
-    required dynamic error,
+    SubmissionStatus? submissionStatus,
   }) {
     return UpdateProfileLoaded(
-      username: username ?? this.username,
       email: email ?? this.email,
+      username: username ?? this.username,
       password: password ?? this.password,
       passwordConfirmation: passwordConfirmation ?? this.passwordConfirmation,
-      status: status ?? this.status,
-      error: error,
+      submissionStatus: submissionStatus ?? this.submissionStatus,
     );
   }
 
   @override
   List<Object?> get props => [
-        username,
         email,
+        username,
         password,
         passwordConfirmation,
-        error,
-        status,
+        submissionStatus,
       ];
+}
+
+enum SubmissionStatus {
+  idle,
+  inProgress,
+  success,
+  error,
 }

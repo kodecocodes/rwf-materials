@@ -45,10 +45,14 @@ class QuoteCard extends StatelessWidget {
                     child: top,
                   ),
                 const Spacer(),
-                FavoriteIconButton(
-                  isFavorite: isFavorite,
-                  onTap: onFavorite,
-                ),
+                IconButton(
+                  onPressed: onFavorite,
+                  icon: Icon(
+                    isFavorite
+                        ? Icons.favorite
+                        : Icons.favorite_border_outlined,
+                  ),
+                )
               ],
             ),
             Padding(

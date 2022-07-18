@@ -15,19 +15,14 @@ class WonderTheme extends InheritedWidget {
   final WonderThemeData lightTheme;
   final WonderThemeData darkTheme;
 
+  // TODO: replace with correct implementation of updateShouldNotify
   @override
-  bool updateShouldNotify(
-    WonderTheme oldWidget,
-  ) =>
-      oldWidget.lightTheme != lightTheme || oldWidget.darkTheme != darkTheme;
+  bool updateShouldNotify(WonderTheme oldWidget) {
+    return false;
+  }
 
+  // TODO: replace with correct implementation of service locator function
   static WonderThemeData of(BuildContext context) {
-    final WonderTheme? inheritedTheme =
-        context.dependOnInheritedWidgetOfExactType<WonderTheme>();
-    assert(inheritedTheme != null, 'No WonderTheme found in context');
-    final currentBrightness = Theme.of(context).brightness;
-    return currentBrightness == Brightness.dark
-        ? inheritedTheme!.darkTheme
-        : inheritedTheme!.lightTheme;
+    return LightWonderThemeData();
   }
 }

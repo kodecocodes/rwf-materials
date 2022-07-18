@@ -36,13 +36,10 @@ class DarkModePreferencePicker extends StatelessWidget {
                 l10n.darkModePreferencesAlwaysDarkTileLabel,
               ),
               value: DarkModePreference.alwaysDark,
-              groupValue: currentValue,
+              // TODO: set correct group value
+              groupValue: null,
               onChanged: (newOption) {
-                bloc.add(
-                  const ProfileMenuDarkModePreferenceChanged(
-                    DarkModePreference.alwaysDark,
-                  ),
-                );
+                // TODO: add ProfileMenuDarkModePreferenceChanged triggering for dark mode
               },
             ),
             RadioListTile<DarkModePreference>(
@@ -50,13 +47,10 @@ class DarkModePreferencePicker extends StatelessWidget {
                 l10n.darkModePreferencesAlwaysLightTileLabel,
               ),
               value: DarkModePreference.alwaysLight,
-              groupValue: currentValue,
+              // TODO: set correct group value
+              groupValue: null,
               onChanged: (newOption) {
-                bloc.add(
-                  const ProfileMenuDarkModePreferenceChanged(
-                    DarkModePreference.alwaysLight,
-                  ),
-                );
+                // TODO: add ProfileMenuDarkModePreferenceChanged triggering for light mode
               },
             ),
             RadioListTile<DarkModePreference>(
@@ -64,13 +58,10 @@ class DarkModePreferencePicker extends StatelessWidget {
                 l10n.darkModePreferencesUseSystemSettingsTileLabel,
               ),
               value: DarkModePreference.useSystemSettings,
-              groupValue: currentValue,
+              // TODO: set correct group value
+              groupValue: null,
               onChanged: (newOption) {
-                bloc.add(
-                  const ProfileMenuDarkModePreferenceChanged(
-                    DarkModePreference.useSystemSettings,
-                  ),
-                );
+                // TODO: add ProfileMenuDarkModePreferenceChanged triggering for system mode
               },
             ),
           ],

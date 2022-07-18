@@ -9,7 +9,7 @@ dependencies:
     path: ../../component_library
   flutter:
     sdk: flutter
-  flutter_bloc: ^7.1.0
+  flutter_bloc: ^8.0.1
   user_repository:
     path: ../../user_repository
   form_fields:

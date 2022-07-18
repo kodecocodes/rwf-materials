@@ -3,6 +3,7 @@ import 'package:domain_models/domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:monitoring/monitoring.dart';
 import 'package:quote_list/src/filter_horizontal_list.dart';
 import 'package:quote_list/src/l10n/quote_list_localizations.dart';
 import 'package:quote_list/src/quote_list_bloc.dart';
@@ -18,12 +19,14 @@ class QuoteListScreen extends StatelessWidget {
     required this.quoteRepository,
     required this.userRepository,
     required this.onAuthenticationError,
+    required this.remoteValueService,
     this.onQuoteSelected,
     Key? key,
   }) : super(key: key);
 
   final QuoteRepository quoteRepository;
   final UserRepository userRepository;
+  final RemoteValueService remoteValueService;
   final QuoteSelected? onQuoteSelected;
   final void Function(BuildContext context) onAuthenticationError;
 
@@ -37,6 +40,7 @@ class QuoteListScreen extends StatelessWidget {
       child: QuoteListView(
         onAuthenticationError: onAuthenticationError,
         onQuoteSelected: onQuoteSelected,
+        remoteValueService: remoteValueService,
       ),
     );
   }
@@ -45,11 +49,13 @@ class QuoteListScreen extends StatelessWidget {
 @visibleForTesting
 class QuoteListView extends StatefulWidget {
   const QuoteListView({
+    required this.remoteValueService,
     required this.onAuthenticationError,
     this.onQuoteSelected,
     Key? key,
   }) : super(key: key);
 
+  final RemoteValueService remoteValueService;
   final QuoteSelected? onQuoteSelected;
   final void Function(BuildContext context) onAuthenticationError;
 
@@ -58,21 +64,22 @@ class QuoteListView extends StatefulWidget {
 }
 
 class _QuoteListViewState extends State<QuoteListView> {
+  // For a deep dive on PagingController refer to: https://www.raywenderlich.com/14214369-infinite-scrolling-pagination-in-flutter
   final PagingController<int, Quote> _pagingController = PagingController(
     firstPageKey: 1,
   );
 
   final TextEditingController _searchBarController = TextEditingController();
-  bool isGridView = true;
+
+  QuoteListBloc get _bloc => context.read<QuoteListBloc>();
 
   @override
   void initState() {
     _pagingController.addPageRequestListener((pageNumber) {
       final isSubsequentPage = pageNumber > 1;
       if (isSubsequentPage) {
-        final bloc = context.read<QuoteListBloc>();
-        bloc.add(
-          QuoteListNewPageRequested(
+        _bloc.add(
+          QuoteListNextPageRequested(
             pageNumber: pageNumber,
           ),
         );
@@ -80,8 +87,7 @@ class _QuoteListViewState extends State<QuoteListView> {
     });
 
     _searchBarController.addListener(() {
-      final bloc = context.read<QuoteListBloc>();
-      bloc.add(
+      _bloc.add(
         QuoteListSearchTermChanged(
           _searchBarController.text,
         ),
@@ -130,27 +136,18 @@ class _QuoteListViewState extends State<QuoteListView> {
       child: StyledStatusBar.dark(
         child: SafeArea(
           child: Scaffold(
-            floatingActionButton: FloatingActionButton.extended(
-              onPressed: () {
-                setState(() {
-                  isGridView = !isGridView;
-                });
-              },
-              label: Text(isGridView ? 'List' : 'Grid'),
-              icon: Icon(
-                isGridView ? Icons.list : Icons.grid_on,
-              ),
-            ),
             body: GestureDetector(
               onTap: () => _releaseFocus(context),
               child: RefreshIndicator(
                 onRefresh: () {
-                  final bloc = context.read<QuoteListBloc>();
-                  bloc.add(
+                  _bloc.add(
                     const QuoteListRefreshed(),
                   );
 
-                  final stateChangeFuture = bloc.stream.first;
+                  // Returning a Future inside `onRefresh` enables the loading
+                  // indicator to disappear automatically once the refresh is
+                  // complete.
+                  final stateChangeFuture = _bloc.stream.first;
                   return stateChangeFuture;
                 },
                 child: CustomScrollView(
@@ -159,7 +156,6 @@ class _QuoteListViewState extends State<QuoteListView> {
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: theme.screenMargin,
-                          vertical: theme.searchBarMargin,
                         ),
                         child: SearchBar(
                           controller: _searchBarController,
@@ -169,7 +165,7 @@ class _QuoteListViewState extends State<QuoteListView> {
                     const SliverToBoxAdapter(
                       child: FilterHorizontalList(),
                     ),
-                    isGridView
+                    widget.remoteValueService.isGridQuotesViewEnabled
                         ? QuoteSliverGrid(
                             pagingController: _pagingController,
                             onQuoteSelected: widget.onQuoteSelected,

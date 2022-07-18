@@ -2,13 +2,14 @@ part of 'profile_menu_bloc.dart';
 
 abstract class ProfileMenuState extends Equatable {
   const ProfileMenuState();
+
   @override
   List<Object?> get props => [];
 }
 
 class ProfileMenuLoaded extends ProfileMenuState {
   const ProfileMenuLoaded({
-    this.darkModePreference = DarkModePreference.alwaysLight,
+    this.darkModePreference = DarkModePreference.useSystemSettings,
     this.isSignOutInProgress = false,
     this.username,
   });
