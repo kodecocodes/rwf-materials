@@ -1,0 +1,18 @@
+name: fav_qs_api
+publish_to: none
+
+environment:
+  sdk: ">=2.13.0 <3.0.0"
+
+dependencies:
+  dio: ^4.0.0
+  equatable: ^2.0.3
+  json_annotation: ^4.0.1
+
+dev_dependencies:
+  http_mock_adapter: ^0.3.3
+  mockito: ^5.2.0
+  build_runner: ^2.0.5
+  json_serializable: ^6.2.0
+  test: ^1.21.2
+  lints: ^1.0.1
