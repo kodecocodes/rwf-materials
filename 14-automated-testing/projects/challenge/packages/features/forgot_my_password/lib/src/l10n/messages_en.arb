@@ -1,0 +1,10 @@
+{
+  "dialogTitle": "Forgot My Password",
+  "emailTextFieldLabel": "Email",
+  "emailTextFieldEmptyErrorMessage": "Your email can't be empty.",
+  "emailTextFieldInvalidErrorMessage": "This email is not valid.",
+  "emailRequestSuccessMessage": "If this email is registered in our systems, a link will be sent to you with instructions on how to reset your password.",
+  "confirmButtonLabel": "Confirm",
+  "cancelButtonLabel": "Cancel",
+  "errorMessage": "There has been an error. Please, check your internet connection."
+}
