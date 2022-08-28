@@ -1,0 +1,6 @@
+arb-dir: lib/src/l10n
+template-arb-file: messages_en.arb
+output-localization-file: sign_in_localizations.dart
+output-class: SignInLocalizations
+synthetic-package: false
+nullable-getter: false

@@ -1,0 +1,19 @@
+name: quote_repository
+publish_to: none
+
+environment:
+  sdk: ">=2.13.0 <3.0.0"
+
+dependencies:
+  equatable: ^2.0.3
+  fav_qs_api:
+    path: ../fav_qs_api
+  key_value_storage:
+    path: ../key_value_storage
+  domain_models:
+    path: ../domain_models
+
+dev_dependencies:
+  mocktail: 0.1.4
+  test: ^1.16.8
+  lints: ^1.0.1

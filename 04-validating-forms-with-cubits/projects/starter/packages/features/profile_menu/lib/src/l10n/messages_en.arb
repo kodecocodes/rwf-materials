@@ -1,0 +1,19 @@
+{
+  "signInButtonLabel": "Sign In",
+  "signedInUserGreeting": "Hi, {username}!",
+  "@signedInUserGreeting": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "updateProfileTileLabel": "Update Profile",
+  "darkModePreferencesHeaderTileLabel": "Dark Mode Preferences",
+  "darkModePreferencesAlwaysDarkTileLabel": "Always Dark",
+  "darkModePreferencesAlwaysLightTileLabel": "Always Light",
+  "darkModePreferencesUseSystemSettingsTileLabel": "Use System Settings",
+  "signOutButtonLabel": "Sign Out",
+  "signUpOpeningText": "Don't have an account?",
+  "signUpButtonLabel": "Sign up"
+}

@@ -1,0 +1,14 @@
+{
+  "invalidCredentialsErrorMessage": "Invalid email and/or password.",
+  "appBarTitle": "Sign In",
+  "emailTextFieldLabel": "Email",
+  "emailTextFieldEmptyErrorMessage": "Your email can't be empty.",
+  "emailTextFieldInvalidErrorMessage": "This email is not valid.",
+  "passwordTextFieldLabel": "Password",
+  "passwordTextFieldEmptyErrorMessage": "Your password can't be empty.",
+  "passwordTextFieldInvalidErrorMessage": "Password must be at least five characters long.",
+  "forgotMyPasswordButtonLabel": "Forgot my password",
+  "signInButtonLabel": "Sign In",
+  "signUpOpeningText": "Don't have an account?",
+  "signUpButtonLabel": "Sign up"
+}
