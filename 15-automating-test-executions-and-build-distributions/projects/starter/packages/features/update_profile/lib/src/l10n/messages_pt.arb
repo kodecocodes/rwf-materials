@@ -1,0 +1,16 @@
+{
+  "appBarTitle": "Atualizar Perfil",
+  "updateProfileButtonLabel": "Atualizar",
+  "usernameTextFieldLabel": "Usuário",
+  "usernameTextFieldEmptyErrorMessage": "Seu usuário não pode ser vazio.",
+  "usernameTextFieldInvalidErrorMessage": "Seu usuário precisa ter entre 1 e 20 caracteres e pode conter apenas letras, números, e underline (_).",
+  "usernameTextFieldAlreadyTakenErrorMessage": "Este usuário já está cadastrado.",
+  "emailTextFieldLabel": "Email",
+  "emailTextFieldEmptyErrorMessage": "Seu email não pode ser vazio.",
+  "emailTextFieldInvalidErrorMessage": "Este email não é válido.",
+  "emailTextFieldAlreadyRegisteredErrorMessage": "Este email já está cadastrado.",
+  "passwordTextFieldLabel": "Nova Senha",
+  "passwordTextFieldInvalidErrorMessage": "Sua senha precisa ter pelo menos cinco caracteres.",
+  "passwordConfirmationTextFieldLabel": "Confirmação da Nova Senha",
+  "passwordConfirmationTextFieldInvalidErrorMessage": "Suas senhas precisam ser iguais."
+}

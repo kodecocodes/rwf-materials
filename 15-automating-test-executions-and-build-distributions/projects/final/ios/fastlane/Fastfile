@@ -1,0 +1,102 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+def delete_temp_keychain(name)
+    delete_keychain(
+      name: name
+    ) if File.exist? File.expand_path("~/Library/Keychains/#{name}-db")
+end
+
+def create_temp_keychain(name, password)
+    create_keychain(
+      name: name,
+      password: password,
+      unlock: false,
+      timeout: 0
+    )
+end
+
+def ensure_temp_keychain(name, password)
+    delete_temp_keychain(name)
+    create_temp_keychain(name, password)
+end
+
+
+platform :ios do
+  desc "iOS Lanes"
+    lane :install_certificate_and_profile do
+
+        api_key = app_store_connect_api_key(
+            key_id: ENV["APPLE_KEY_ID"],
+            issuer_id: ENV["APPLE_ISSUER_ID"],
+            key_content: ENV["APPLE_KEY_CONTENT"],
+            duration: 1200,
+            in_house: false
+        )
+
+        keychain_name = ENV["TEMP_KEYCHAIN_USER"]
+        keychain_password = ENV["TEMP_KEYCHAIN_PASSWORD"]
+        ensure_temp_keychain(keychain_name, keychain_password)
+
+        match(
+            type: 'development',
+            git_basic_authorization: ENV["GIT_AUTHORIZATION_TOKEN"],
+            keychain_name: keychain_name,
+            keychain_password: keychain_password,
+            api_key: api_key
+        )
+
+    end
+
+    lane :set_xcode_version do
+
+      increment_build_number
+
+    end
+
+    lane :build do
+        gym(
+            workspace: "Runner.xcworkspace",
+            configuration: "Release",
+            scheme: "Runner",
+            export_method: "development",
+            clean: false,
+            output_directory: "../build/ios/ipa/",
+            output_name: "wonder_words.ipa",
+            export_options: {
+                provisioningProfiles: { 
+                    ENV["BUNDLE_ID"] => ENV["PROVISION_PROFILE_NAME"]
+                }
+            }
+        )
+    end
+
+    
+
+    lane :distribute_ios_app do
+
+        firebase_app_distribution(
+            app: ENV["FIREBASE_APP_ID_IOS"],
+            groups: ENV["TESTERS_GROUPS"],
+            release_notes: "Test",
+            firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
+            ipa_path: "../build/ios/ipa/wonder_words.ipa"
+        )
+        
+    end
+
+end
