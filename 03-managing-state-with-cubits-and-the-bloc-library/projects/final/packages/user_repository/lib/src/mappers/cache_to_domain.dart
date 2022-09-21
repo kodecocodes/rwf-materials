@@ -13,12 +13,3 @@ extension DarkModePreferenceCMToDomain on DarkModePreferenceCM {
     }
   }
 }
-
-extension UserCMToDomain on UserCM {
-  User toDomainModel() {
-    return User(
-      username: username,
-      email: email,
-    );
-  }
-}

@@ -73,12 +73,8 @@ class QuoteListFailedFetchRetried extends QuoteListEvent {
   const QuoteListFailedFetchRetried();
 }
 
-class QuoteListOpened extends QuoteListEvent {
-  const QuoteListOpened();
-}
-
-class QuoteListUserAuthenticationChanged extends QuoteListEvent {
-  const QuoteListUserAuthenticationChanged();
+class QuoteListUsernameObtained extends QuoteListEvent {
+  const QuoteListUsernameObtained();
 }
 
 class QuoteListItemUpdated extends QuoteListEvent {

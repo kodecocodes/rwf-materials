@@ -3,11 +3,11 @@ part of 'forgot_my_password_cubit.dart';
 class ForgotMyPasswordState extends Equatable {
   const ForgotMyPasswordState({
     this.email = const Email.unvalidated(),
-    this.submissionStatus,
+    this.submissionStatus = SubmissionStatus.idle,
   });
 
   final Email email;
-  final SubmissionStatus? submissionStatus;
+  final SubmissionStatus submissionStatus;
 
   ForgotMyPasswordState copyWith({
     Email? email,
@@ -16,7 +16,7 @@ class ForgotMyPasswordState extends Equatable {
   }) {
     return ForgotMyPasswordState(
       email: email ?? this.email,
-      submissionStatus: submissionStatus,
+      submissionStatus: submissionStatus ?? this.submissionStatus,
     );
   }
 
@@ -28,6 +28,7 @@ class ForgotMyPasswordState extends Equatable {
 }
 
 enum SubmissionStatus {
+  idle,
   inProgress,
   success,
   error,
