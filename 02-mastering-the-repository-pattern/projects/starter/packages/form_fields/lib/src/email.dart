@@ -1,19 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 
-enum EmailValidationError {
-  empty,
-  invalid,
-  alreadyRegistered,
-}
-
 class Email extends FormzInput<String, EmailValidationError>
     with EquatableMixin {
-  const Email.pure([String value = ''])
-      : isAlreadyRegistered = false,
+  const Email.unvalidated([
+    String value = '',
+  ])  : isAlreadyRegistered = false,
         super.pure(value);
 
-  const Email.dirty(
+  const Email.validated(
     String value, {
     this.isAlreadyRegistered = false,
   }) : super.dirty(value);
@@ -24,6 +19,7 @@ class Email extends FormzInput<String, EmailValidationError>
     '([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])'
     ')|([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})\$',
   );
+
   final bool isAlreadyRegistered;
 
   @override
@@ -43,4 +39,10 @@ class Email extends FormzInput<String, EmailValidationError>
         pure,
         isAlreadyRegistered,
       ];
+}
+
+enum EmailValidationError {
+  empty,
+  invalid,
+  alreadyRegistered,
 }
