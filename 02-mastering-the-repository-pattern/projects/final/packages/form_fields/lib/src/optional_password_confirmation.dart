@@ -1,17 +1,19 @@
+import 'package:equatable/equatable.dart';
 import 'package:form_fields/form_fields.dart';
 
-enum OptionalPasswordConfirmationValidationError {
-  empty,
-  invalid,
-}
-
+/// Represents an optional password confirmation field.
+///
+/// Used in conjunction with [OptionalPassword] when the password can or can't
+/// be changed, such as in the update profile screen.
 class OptionalPasswordConfirmation
-    extends FormzInput<String, OptionalPasswordConfirmationValidationError> {
-  const OptionalPasswordConfirmation.pure([String value = ''])
-      : password = const OptionalPassword.pure(),
+    extends FormzInput<String, OptionalPasswordConfirmationValidationError>
+    with EquatableMixin {
+  const OptionalPasswordConfirmation.unvalidated([
+    String value = '',
+  ])  : password = const OptionalPassword.unvalidated(),
         super.pure(value);
 
-  const OptionalPasswordConfirmation.dirty(
+  const OptionalPasswordConfirmation.validated(
     String value, {
     required this.password,
   }) : super.dirty(value);
@@ -30,14 +32,14 @@ class OptionalPasswordConfirmation
   }
 
   @override
-  int get hashCode => value.hashCode ^ pure.hashCode ^ password.hashCode;
+  List<Object?> get props => [
+        value,
+        pure,
+        password,
+      ];
+}
 
-  @override
-  bool operator ==(Object other) {
-    if (other.runtimeType != runtimeType) return false;
-    return other is OptionalPasswordConfirmation &&
-        other.value == value &&
-        other.pure == pure &&
-        other.password == password;
-  }
+enum OptionalPasswordConfirmationValidationError {
+  empty,
+  invalid,
 }

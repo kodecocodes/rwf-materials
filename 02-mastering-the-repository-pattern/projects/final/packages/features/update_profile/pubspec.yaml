@@ -9,7 +9,7 @@ dependencies:
     path: ../../component_library
   flutter:
     sdk: flutter
-  flutter_bloc: ^8.0.0-dev.2
+  flutter_bloc: ^8.0.1
   user_repository:
     path: ../../user_repository
   form_fields:
@@ -25,4 +25,5 @@ dev_dependencies:
   flutter_lints: ^1.0.4
 
 flutter:
+  generate: true
   uses-material-design: true
