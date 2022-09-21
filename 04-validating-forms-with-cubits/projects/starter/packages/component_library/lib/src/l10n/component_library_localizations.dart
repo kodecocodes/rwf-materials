@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'component_library_localizations_en.dart';
+import 'component_library_localizations_pt.dart';
 
 /// Callers can lookup localized strings with an instance of ComponentLibraryLocalizations returned
 /// by `ComponentLibraryLocalizations.of(context)`.
@@ -91,7 +92,10 @@ abstract class ComponentLibraryLocalizations {
   ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('pt')
+  ];
 
   /// No description provided for @downvoteIconButtonTooltip.
   ///
@@ -144,7 +148,7 @@ abstract class ComponentLibraryLocalizations {
   /// No description provided for @exceptionIndicatorGenericMessage.
   ///
   /// In en, this message translates to:
-  /// **'The application has encountered an error.\nPlease, check your internet connection and try again later.'**
+  /// **'There has been an error.\nPlease, check your internet connection and try again later.'**
   String get exceptionIndicatorGenericMessage;
 
   /// No description provided for @genericErrorSnackbarMessage.
@@ -167,23 +171,25 @@ class _ComponentLibraryLocalizationsDelegate
   @override
   Future<ComponentLibraryLocalizations> load(Locale locale) {
     return SynchronousFuture<ComponentLibraryLocalizations>(
-        _lookupComponentLibraryLocalizations(locale));
+        lookupComponentLibraryLocalizations(locale));
   }
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en'].contains(locale.languageCode);
+      <String>['en', 'pt'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_ComponentLibraryLocalizationsDelegate old) => false;
 }
 
-ComponentLibraryLocalizations _lookupComponentLibraryLocalizations(
+ComponentLibraryLocalizations lookupComponentLibraryLocalizations(
     Locale locale) {
-// Lookup logic when only language code is specified.
+  // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
     case 'en':
       return ComponentLibraryLocalizationsEn();
+    case 'pt':
+      return ComponentLibraryLocalizationsPt();
   }
 
   throw FlutterError(
