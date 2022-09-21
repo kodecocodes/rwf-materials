@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'update_profile_localizations_en.dart';
+import 'update_profile_localizations_pt.dart';
 
 /// Callers can lookup localized strings with an instance of UpdateProfileLocalizations returned
 /// by `UpdateProfileLocalizations.of(context)`.
@@ -91,7 +92,10 @@ abstract class UpdateProfileLocalizations {
   ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('pt')
+  ];
 
   /// No description provided for @appBarTitle.
   ///
@@ -156,7 +160,7 @@ abstract class UpdateProfileLocalizations {
   /// No description provided for @passwordTextFieldLabel.
   ///
   /// In en, this message translates to:
-  /// **'Password'**
+  /// **'New Password'**
   String get passwordTextFieldLabel;
 
   /// No description provided for @passwordTextFieldInvalidErrorMessage.
@@ -168,7 +172,7 @@ abstract class UpdateProfileLocalizations {
   /// No description provided for @passwordConfirmationTextFieldLabel.
   ///
   /// In en, this message translates to:
-  /// **'Password Confirmation'**
+  /// **'New Password Confirmation'**
   String get passwordConfirmationTextFieldLabel;
 
   /// No description provided for @passwordConfirmationTextFieldInvalidErrorMessage.
@@ -185,22 +189,24 @@ class _UpdateProfileLocalizationsDelegate
   @override
   Future<UpdateProfileLocalizations> load(Locale locale) {
     return SynchronousFuture<UpdateProfileLocalizations>(
-        _lookupUpdateProfileLocalizations(locale));
+        lookupUpdateProfileLocalizations(locale));
   }
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en'].contains(locale.languageCode);
+      <String>['en', 'pt'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_UpdateProfileLocalizationsDelegate old) => false;
 }
 
-UpdateProfileLocalizations _lookupUpdateProfileLocalizations(Locale locale) {
-// Lookup logic when only language code is specified.
+UpdateProfileLocalizations lookupUpdateProfileLocalizations(Locale locale) {
+  // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
     case 'en':
       return UpdateProfileLocalizationsEn();
+    case 'pt':
+      return UpdateProfileLocalizationsPt();
   }
 
   throw FlutterError(

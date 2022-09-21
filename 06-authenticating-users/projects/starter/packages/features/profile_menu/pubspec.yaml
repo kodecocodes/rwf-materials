@@ -17,8 +17,6 @@ dependencies:
   flutter_bloc: ^8.0.1
   user_repository:
     path: ../../user_repository
-  monitoring:
-    path: ../../monitoring
   domain_models:
     path: ../../domain_models
   rxdart: ^0.27.1

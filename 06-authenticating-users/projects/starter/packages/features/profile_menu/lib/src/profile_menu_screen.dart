@@ -1,18 +1,18 @@
 import 'package:component_library/component_library.dart';
+import 'package:domain_models/domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:monitoring/monitoring.dart';
 import 'package:profile_menu/profile_menu.dart';
-import 'package:profile_menu/src/dark_mode_preference_picker.dart';
 import 'package:profile_menu/src/profile_menu_bloc.dart';
 import 'package:quote_repository/quote_repository.dart';
 import 'package:user_repository/user_repository.dart';
+
+part './dark_mode_preference_picker.dart';
 
 class ProfileMenuScreen extends StatelessWidget {
   const ProfileMenuScreen({
     required this.userRepository,
     required this.quoteRepository,
-    required this.remoteValueService,
     this.onSignInTap,
     this.onSignUpTap,
     this.onUpdateProfileTap,
@@ -24,7 +24,6 @@ class ProfileMenuScreen extends StatelessWidget {
   final VoidCallback? onSignUpTap;
   final UserRepository userRepository;
   final QuoteRepository quoteRepository;
-  final RemoteValueService remoteValueService;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +36,6 @@ class ProfileMenuScreen extends StatelessWidget {
         onSignInTap: onSignInTap,
         onUpdateProfileTap: onUpdateProfileTap,
         onSignUpTap: onSignUpTap,
-        remoteValueService: remoteValueService,
       ),
     );
   }
@@ -46,7 +44,6 @@ class ProfileMenuScreen extends StatelessWidget {
 @visibleForTesting
 class ProfileMenuView extends StatelessWidget {
   const ProfileMenuView({
-    required this.remoteValueService,
     this.onSignInTap,
     this.onSignUpTap,
     this.onUpdateProfileTap,
@@ -56,7 +53,6 @@ class ProfileMenuView extends StatelessWidget {
   final VoidCallback? onSignInTap;
   final VoidCallback? onSignUpTap;
   final VoidCallback? onUpdateProfileTap;
-  final RemoteValueService remoteValueService;
 
   @override
   Widget build(BuildContext context) {
@@ -116,10 +112,9 @@ class ProfileMenuView extends StatelessWidget {
                         height: Spacing.mediumLarge,
                       ),
                     ],
-                    if (remoteValueService.shouldDisplayDarkModePreferencePicker)
-                      DarkModePreferencePicker(
-                        currentValue: state.darkModePreference,
-                      ),
+                    DarkModePreferencePicker(
+                      currentValue: state.darkModePreference,
+                    ),
                     if (state.isUserAuthenticated) ...[
                       const Spacer(),
                       _SignOutButton(
