@@ -117,14 +117,19 @@ class _UpdateProfileFormState extends State<_UpdateProfileForm> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UpdateProfileCubit, UpdateProfileState>(
+      listenWhen: (oldState, newState) =>
+          (oldState is UpdateProfileLoaded
+              ? oldState.submissionStatus
+              : null) !=
+          (newState is UpdateProfileLoaded ? newState.submissionStatus : null),
       listener: (context, state) {
         if (state is UpdateProfileLoaded) {
-          if (state.status == FormzStatus.submissionSuccess) {
+          if (state.submissionStatus == SubmissionStatus.success) {
             widget.onUpdateProfileSuccess();
             return;
           }
 
-          if (state.error != null) {
+          if (state.submissionStatus == SubmissionStatus.error) {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
