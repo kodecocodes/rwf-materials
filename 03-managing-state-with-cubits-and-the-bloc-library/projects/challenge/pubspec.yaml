@@ -25,10 +25,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  routemaster: ^0.9.5
-  firebase: ^9.0.1
-  firebase_dynamic_links: ^2.0.7
-  package_info: ^2.0.2
+  routemaster: ^1.0.1
   key_value_storage:
     path: packages/key_value_storage
   fav_qs_api:
@@ -55,16 +52,21 @@ dependencies:
     path: packages/domain_models
   component_library:
     path: packages/component_library
+  monitoring:
+    path: packages/monitoring
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
+  integration_test:
+    sdk: flutter
   flutter_test:
     sdk: flutter
   flutter_lints: ^1.0.4
-  
+
+
 flutter_icons:
   android: true
   ios: true

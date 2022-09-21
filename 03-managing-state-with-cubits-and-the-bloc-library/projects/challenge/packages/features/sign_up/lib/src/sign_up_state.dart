@@ -2,41 +2,48 @@ part of 'sign_up_cubit.dart';
 
 class SignUpState extends Equatable {
   const SignUpState({
-    this.username = const Username.pure(),
-    this.email = const Email.pure(),
-    this.password = const Password.pure(),
-    this.passwordConfirmation = const PasswordConfirmation.pure(),
-    this.status = FormzStatus.pure,
+    this.email = const Email.unvalidated(),
+    this.username = const Username.unvalidated(),
+    this.password = const Password.unvalidated(),
+    this.passwordConfirmation = const PasswordConfirmation.unvalidated(),
+    this.submissionStatus = SubmissionStatus.idle,
   });
 
-  final Username username;
   final Email email;
+  final Username username;
   final Password password;
   final PasswordConfirmation passwordConfirmation;
-  final FormzStatus status;
+  final SubmissionStatus submissionStatus;
 
   SignUpState copyWith({
-    Username? username,
     Email? email,
+    Username? username,
     Password? password,
     PasswordConfirmation? passwordConfirmation,
-    FormzStatus? status,
+    SubmissionStatus? submissionStatus,
   }) {
     return SignUpState(
-      username: username ?? this.username,
       email: email ?? this.email,
+      username: username ?? this.username,
       password: password ?? this.password,
       passwordConfirmation: passwordConfirmation ?? this.passwordConfirmation,
-      status: status ?? this.status,
+      submissionStatus: submissionStatus ?? this.submissionStatus,
     );
   }
 
   @override
   List<Object?> get props => [
-        username,
         email,
+        username,
         password,
         passwordConfirmation,
-        status,
+        submissionStatus,
       ];
+}
+
+enum SubmissionStatus {
+  idle,
+  inProgress,
+  success,
+  error,
 }
