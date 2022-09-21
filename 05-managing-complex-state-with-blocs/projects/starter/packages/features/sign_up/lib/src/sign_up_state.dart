@@ -6,14 +6,14 @@ class SignUpState extends Equatable {
     this.username = const Username.unvalidated(),
     this.password = const Password.unvalidated(),
     this.passwordConfirmation = const PasswordConfirmation.unvalidated(),
-    this.submissionStatus,
+    this.submissionStatus = SubmissionStatus.idle,
   });
 
   final Email email;
   final Username username;
   final Password password;
   final PasswordConfirmation passwordConfirmation;
-  final SubmissionStatus? submissionStatus;
+  final SubmissionStatus submissionStatus;
 
   SignUpState copyWith({
     Email? email,
@@ -27,7 +27,7 @@ class SignUpState extends Equatable {
       username: username ?? this.username,
       password: password ?? this.password,
       passwordConfirmation: passwordConfirmation ?? this.passwordConfirmation,
-      submissionStatus: submissionStatus,
+      submissionStatus: submissionStatus ?? this.submissionStatus,
     );
   }
 
@@ -42,6 +42,7 @@ class SignUpState extends Equatable {
 }
 
 enum SubmissionStatus {
+  idle,
   inProgress,
   success,
   error,

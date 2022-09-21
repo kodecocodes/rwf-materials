@@ -171,7 +171,7 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
       final isFilteringByFavorites = state.filter is QuoteListFilterByFavorites;
 
       // If the user isn't filtering by favorites, you just replace the changed
-      // quote on-screen. 
+      // quote on-screen.
       if (!isFilteringByFavorites) {
         emitter(
           state.copyWithUpdatedQuote(
@@ -240,7 +240,7 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
     );
   }
 
-  // TODO: Create a utilitary function that fetches a given page.
+  // TODO: Create a utility function that fetches a given page.
 
   // TODO: Dispose the auth changes subscription.
 }

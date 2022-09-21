@@ -1,0 +1,11 @@
+{
+  "quoteListRefreshErrorMessage": "Não conseguimos atualizar seus itens.\nPor favor, confira sua conexão com a internet e tente novamente mais tarde.",
+  "favoritesTagLabel": "Favoritos",
+  "lifeTagLabel": "Vida",
+  "happinessTagLabel": "Felicidade",
+  "workTagLabel": "Trabalho",
+  "natureTagLabel": "Natureza",
+  "scienceTagLabel": "Ciência",
+  "loveTagLabel": "Amor",
+  "funnyTagLabel": "Engraçadas"
+}
