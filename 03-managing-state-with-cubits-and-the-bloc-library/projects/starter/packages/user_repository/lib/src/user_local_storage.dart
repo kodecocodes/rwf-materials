@@ -16,19 +16,4 @@ class UserLocalStorage {
     final box = await noSqlStorage.darkModePreferenceBox;
     return box.get(0);
   }
-
-  Future<void> upsertUser(UserCM user) async {
-    final box = await noSqlStorage.userBox;
-    await box.put(0, user);
-  }
-
-  Future<UserCM?> getUser() async {
-    final box = await noSqlStorage.userBox;
-    return box.get(0);
-  }
-
-  Future<void> deleteUser() async {
-    final box = await noSqlStorage.userBox;
-    await box.clear();
-  }
 }
