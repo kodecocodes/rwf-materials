@@ -1,0 +1,13 @@
+{
+  "downvoteIconButtonTooltip": "Negativo",
+  "upvoteIconButtonTooltip": "Positivo",
+  "searchBarHintText": "jornada",
+  "searchBarLabelText": "Pesquisar",
+  "shareIconButtonTooltip": "Compartilhar",
+  "favoriteIconButtonTooltip": "Favoritar",
+  "exceptionIndicatorGenericTitle": "Algo deu errado",
+  "exceptionIndicatorTryAgainButton": "Tentar Novamente",
+  "exceptionIndicatorGenericMessage": "Ocorreu um erro.\nPor favor, confira sua conexão com a internet e tente novamente mais tarde.",
+  "genericErrorSnackbarMessage": "Ocorreu um erro. Por favor, confira sua conexão com a internet.",
+  "authenticationRequiredErrorSnackbarMessage": "Você precisa estar logado para executar essa ação."
+}
