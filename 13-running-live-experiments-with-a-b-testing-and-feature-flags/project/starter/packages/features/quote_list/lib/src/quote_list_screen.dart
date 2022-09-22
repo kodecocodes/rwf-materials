@@ -7,8 +7,8 @@ import 'package:monitoring/monitoring.dart';
 import 'package:quote_list/src/filter_horizontal_list.dart';
 import 'package:quote_list/src/l10n/quote_list_localizations.dart';
 import 'package:quote_list/src/quote_list_bloc.dart';
-import 'package:quote_list/src/quote_sliver_grid.dart';
-import 'package:quote_list/src/quote_sliver_list.dart';
+import 'package:quote_list/src/quote_paged_grid_view.dart';
+import 'package:quote_list/src/quote_paged_list_view.dart';
 import 'package:quote_repository/quote_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -138,40 +138,37 @@ class _QuoteListViewState extends State<QuoteListView> {
           child: Scaffold(
             body: GestureDetector(
               onTap: () => _releaseFocus(context),
-              child: RefreshIndicator(
-                onRefresh: () {
-                  _bloc.add(
-                    const QuoteListRefreshed(),
-                  );
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: theme.screenMargin,
+                    ),
+                    child: SearchBar(
+                      controller: _searchBarController,
+                    ),
+                  ),
+                  const FilterHorizontalList(),
+                  Expanded(
+                    child: RefreshIndicator(
+                        onRefresh: () {
+                          _bloc.add(
+                            const QuoteListRefreshed(),
+                          );
 
-                  // Returning a Future inside `onRefresh` enables the loading
-                  // indicator to disappear automatically once the refresh is
-                  // complete.
-                  final stateChangeFuture = _bloc.stream.first;
-                  return stateChangeFuture;
-                },
-                child: CustomScrollView(
-                  slivers: [
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: theme.screenMargin,
-                        ),
-                        child: SearchBar(
-                          controller: _searchBarController,
-                        ),
-                      ),
-                    ),
-                    const SliverToBoxAdapter(
-                      child: FilterHorizontalList(),
-                    ),
-                    // TODO: display different UI based on the value of grid_quotes_view_enabled parameter
-                    QuoteSliverGrid(
-                      pagingController: _pagingController,
-                      onQuoteSelected: widget.onQuoteSelected,
-                    )
-                  ],
-                ),
+                          // Returning a Future inside `onRefresh` enables the loading
+                          // indicator to disappear automatically once the refresh is
+                          // complete.
+                          final stateChangeFuture = _bloc.stream.first;
+                          return stateChangeFuture;
+                        },
+                        // TODO: display different UI based on the value of grid_quotes_view_enabled parameter
+                        child: QuotePagedGridView(
+                          pagingController: _pagingController,
+                          onQuoteSelected: widget.onQuoteSelected,
+                        )),
+                  ),
+                ],
               ),
             ),
           ),
