@@ -124,7 +124,10 @@ class ProfileMenuView extends StatelessWidget {
                   ],
                 );
               } else {
-                return const CenteredCircularProgressIndicator();
+                // TODO: replace with centered circular progress indicator
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
               }
             },
           ),
