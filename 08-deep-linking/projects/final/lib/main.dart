@@ -5,11 +5,11 @@ import 'package:component_library/component_library.dart';
 import 'package:domain_models/domain_models.dart';
 import 'package:fav_qs_api/fav_qs_api.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:forgot_my_password/forgot_my_password.dart';
 import 'package:key_value_storage/key_value_storage.dart';
 import 'package:monitoring/monitoring.dart';
 import 'package:profile_menu/profile_menu.dart';
-import 'package:quote_details/quote_details.dart';
 import 'package:quote_list/quote_list.dart';
 import 'package:quote_repository/quote_repository.dart';
 import 'package:routemaster/routemaster.dart';
@@ -143,12 +143,17 @@ class _WonderWordsState extends State<WonderWords> {
             theme: _lightTheme.materialThemeData,
             darkTheme: _darkTheme.materialThemeData,
             themeMode: darkModePreference?.toThemeMode(),
+            supportedLocales: const [
+              Locale('en', ''),
+              Locale('pt', 'BR'),
+            ],
             localizationsDelegates: const [
+              GlobalCupertinoLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
               AppLocalizations.delegate,
               ComponentLibraryLocalizations.delegate,
               ProfileMenuLocalizations.delegate,
               QuoteListLocalizations.delegate,
-              QuoteDetailsLocalizations.delegate,
               SignInLocalizations.delegate,
               ForgotMyPasswordLocalizations.delegate,
               SignUpLocalizations.delegate,
