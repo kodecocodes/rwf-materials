@@ -30,4 +30,10 @@ class ProfileMenuLocalizationsEn extends ProfileMenuLocalizations {
 
   @override
   String get signOutButtonLabel => 'Sign Out';
+
+  @override
+  String get signUpOpeningText => 'Don\'t have an account?';
+
+  @override
+  String get signUpButtonLabel => 'Sign up';
 }

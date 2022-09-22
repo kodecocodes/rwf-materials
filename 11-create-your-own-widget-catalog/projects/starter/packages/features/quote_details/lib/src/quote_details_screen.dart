@@ -2,7 +2,6 @@ import 'package:component_library/component_library.dart';
 import 'package:domain_models/domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quote_details/src/l10n/quote_details_localizations.dart';
 import 'package:quote_details/src/quote_details_cubit.dart';
 import 'package:quote_repository/quote_repository.dart';
 import 'package:share_plus/share_plus.dart';
@@ -16,14 +15,14 @@ class QuoteDetailsScreen extends StatelessWidget {
     required this.quoteId,
     required this.onAuthenticationError,
     required this.quoteRepository,
-    required this.shareableLinkGenerator,
+    this.shareableLinkGenerator,
     Key? key,
   }) : super(key: key);
 
   final int quoteId;
   final VoidCallback onAuthenticationError;
   final QuoteRepository quoteRepository;
-  final QuoteDetailsShareableLinkGenerator shareableLinkGenerator;
+  final QuoteDetailsShareableLinkGenerator? shareableLinkGenerator;
 
   @override
   Widget build(BuildContext context) {
@@ -44,105 +43,64 @@ class QuoteDetailsScreen extends StatelessWidget {
 class QuoteDetailsView extends StatelessWidget {
   const QuoteDetailsView({
     required this.onAuthenticationError,
-    required this.shareableLinkGenerator,
+    this.shareableLinkGenerator,
     Key? key,
   }) : super(key: key);
 
   final VoidCallback onAuthenticationError;
-  final QuoteDetailsShareableLinkGenerator shareableLinkGenerator;
+  final QuoteDetailsShareableLinkGenerator? shareableLinkGenerator;
 
   @override
   Widget build(BuildContext context) {
-    final theme = WonderTheme.of(context);
     return StyledStatusBar.dark(
       child: BlocConsumer<QuoteDetailsCubit, QuoteDetailsState>(
         listener: (context, state) {
-          final eventError =
-              state is QuoteDetailsSuccess ? state.eventError : null;
-          if (eventError != null) {
-            final snackBar = eventError is UserAuthenticationRequiredException
-                ? const AuthenticationRequiredErrorSnackBar()
-                : const GenericErrorSnackBar();
+          final quoteUpdateError =
+              state is QuoteDetailsSuccess ? state.quoteUpdateError : null;
+          if (quoteUpdateError != null) {
+            final snackBar =
+                quoteUpdateError is UserAuthenticationRequiredException
+                    ? const AuthenticationRequiredErrorSnackBar()
+                    : const GenericErrorSnackBar();
 
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(snackBar);
 
-            if (eventError is UserAuthenticationRequiredException) {
+            if (quoteUpdateError is UserAuthenticationRequiredException) {
               onAuthenticationError();
             }
           }
         },
         builder: (context, state) {
-          final quote = state is QuoteDetailsSuccess ? state.quote : null;
-          final cubit = context.read<QuoteDetailsCubit>();
           return WillPopScope(
             onWillPop: () async {
-              Navigator.of(context).pop(quote);
+              final displayedQuote =
+                  state is QuoteDetailsSuccess ? state.quote : null;
+              Navigator.of(context).pop(displayedQuote);
               return false;
             },
             child: Scaffold(
-              appBar: RowAppBar(
-                children: [
-                  if (quote != null) ...[
-                    FavoriteIconButton(
-                      isFavorite: quote.isFavorite ?? false,
-                      onTap: () {
-                        if (quote.isFavorite == true) {
-                          cubit.unfavoriteQuote();
-                        } else {
-                          cubit.favoriteQuote();
-                        }
-                      },
-                    ),
-                    UpvoteIconButton(
-                      count: quote.upvotesCount,
-                      isUpvoted: quote.isUpvoted ?? false,
-                      onTap: () {
-                        if (quote.isUpvoted == true) {
-                          cubit.unvoteQuote();
-                        } else {
-                          cubit.upvoteQuote();
-                        }
-                      },
-                    ),
-                    DownvoteIconButton(
-                      count: quote.downvotesCount,
-                      isDownvoted: quote.isDownvoted ?? false,
-                      onTap: () {
-                        if (quote.isDownvoted == true) {
-                          cubit.unvoteQuote();
-                        } else {
-                          cubit.downvoteQuote();
-                        }
-                      },
-                    ),
-                    ShareIconButton(
-                      onTap: () async {
-                        final url = await shareableLinkGenerator(quote);
-                        Share.share(
-                          QuoteDetailsLocalizations.of(context).shareQuoteText(
-                            url,
-                          ),
-                        );
-                      },
-                    ),
-                  ]
-                ],
-              ),
+              appBar: state is QuoteDetailsSuccess
+                  ? _QuoteActionsAppBar(
+                      quote: state.quote,
+                      shareableLinkGenerator: shareableLinkGenerator,
+                    )
+                  : null,
               body: SafeArea(
                 child: Padding(
                   padding: EdgeInsets.all(
-                    theme.screenMargin,
+                    WonderTheme.of(context).screenMargin,
                   ),
-                  child: quote != null
+                  child: state is QuoteDetailsSuccess
                       ? _Quote(
-                          quote: quote,
+                          quote: state.quote,
                         )
                       : state is QuoteDetailsFailure
                           ? ExceptionIndicator(
                               onTryAgain: () {
-                                cubit.refresh();
+                                final cubit = context.read<QuoteDetailsCubit>();
+                                cubit.refetch();
                               },
                             )
                           : // TODO: replace with centered circular progress indicator
@@ -157,6 +115,72 @@ class QuoteDetailsView extends StatelessWidget {
       ),
     );
   }
+}
+
+class _QuoteActionsAppBar extends StatelessWidget
+    implements PreferredSizeWidget {
+  const _QuoteActionsAppBar({
+    required this.quote,
+    this.shareableLinkGenerator,
+    Key? key,
+  }) : super(key: key);
+
+  final Quote quote;
+  final QuoteDetailsShareableLinkGenerator? shareableLinkGenerator;
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<QuoteDetailsCubit>();
+    final shareableLinkGenerator = this.shareableLinkGenerator;
+    return RowAppBar(
+      children: [
+        FavoriteIconButton(
+          isFavorite: quote.isFavorite ?? false,
+          onTap: () {
+            if (quote.isFavorite == true) {
+              cubit.unfavoriteQuote();
+            } else {
+              cubit.favoriteQuote();
+            }
+          },
+        ),
+        UpvoteIconButton(
+          count: quote.upvotesCount,
+          isUpvoted: quote.isUpvoted ?? false,
+          onTap: () {
+            if (quote.isUpvoted == true) {
+              cubit.unvoteQuote();
+            } else {
+              cubit.upvoteQuote();
+            }
+          },
+        ),
+        DownvoteIconButton(
+          count: quote.downvotesCount,
+          isDownvoted: quote.isDownvoted ?? false,
+          onTap: () {
+            if (quote.isDownvoted == true) {
+              cubit.unvoteQuote();
+            } else {
+              cubit.downvoteQuote();
+            }
+          },
+        ),
+        if (shareableLinkGenerator != null)
+          ShareIconButton(
+            onTap: () async {
+              final url = await shareableLinkGenerator(quote);
+              Share.share(
+                url,
+              );
+            },
+          ),
+      ],
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
 class _Quote extends StatelessWidget {

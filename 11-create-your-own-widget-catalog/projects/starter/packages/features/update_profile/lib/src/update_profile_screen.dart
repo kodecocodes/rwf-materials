@@ -31,7 +31,7 @@ class UpdateProfileScreen extends StatelessWidget {
 }
 
 @visibleForTesting
-class UpdateProfileView extends StatefulWidget {
+class UpdateProfileView extends StatelessWidget {
   const UpdateProfileView({
     required this.onUpdateProfileSuccess,
     Key? key,
@@ -40,10 +40,46 @@ class UpdateProfileView extends StatefulWidget {
   final VoidCallback onUpdateProfileSuccess;
 
   @override
-  _UpdateProfileViewState createState() => _UpdateProfileViewState();
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _releaseFocus(context),
+      child: Scaffold(
+        appBar: AppBar(
+          systemOverlayStyle: SystemUiOverlayStyle.light,
+          title: Text(
+            UpdateProfileLocalizations.of(context).appBarTitle,
+          ),
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.only(
+            left: Spacing.mediumLarge,
+            right: Spacing.mediumLarge,
+            top: Spacing.mediumLarge,
+          ),
+          child: _UpdateProfileForm(
+            onUpdateProfileSuccess: onUpdateProfileSuccess,
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _releaseFocus(BuildContext context) => FocusScope.of(context).unfocus();
 }
 
-class _UpdateProfileViewState extends State<UpdateProfileView> {
+class _UpdateProfileForm extends StatefulWidget {
+  const _UpdateProfileForm({
+    required this.onUpdateProfileSuccess,
+    Key? key,
+  }) : super(key: key);
+
+  final VoidCallback onUpdateProfileSuccess;
+
+  @override
+  State<_UpdateProfileForm> createState() => _UpdateProfileFormState();
+}
+
+class _UpdateProfileFormState extends State<_UpdateProfileForm> {
   final _usernameFocusNode = FocusNode();
   final _emailFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
@@ -80,15 +116,20 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<UpdateProfileCubit, UpdateProfileState>(
+    return BlocConsumer<UpdateProfileCubit, UpdateProfileState>(
+      listenWhen: (oldState, newState) =>
+          (oldState is UpdateProfileLoaded
+              ? oldState.submissionStatus
+              : null) !=
+          (newState is UpdateProfileLoaded ? newState.submissionStatus : null),
       listener: (context, state) {
         if (state is UpdateProfileLoaded) {
-          if (state.status == FormzStatus.submissionSuccess) {
+          if (state.submissionStatus == SubmissionStatus.success) {
             widget.onUpdateProfileSuccess();
             return;
           }
 
-          if (state.error != null) {
+          if (state.submissionStatus == SubmissionStatus.error) {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
@@ -97,53 +138,6 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
           }
         }
       },
-      child: GestureDetector(
-        onTap: () => _releaseFocus(context),
-        child: Scaffold(
-          appBar: AppBar(
-            systemOverlayStyle: SystemUiOverlayStyle.light,
-            title: Text(
-              UpdateProfileLocalizations.of(context).appBarTitle,
-            ),
-          ),
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.only(
-              left: Spacing.mediumLarge,
-              right: Spacing.mediumLarge,
-              top: Spacing.mediumLarge,
-            ),
-            child: _UpdateProfileForm(
-              usernameFocusNode: _usernameFocusNode,
-              emailFocusNode: _emailFocusNode,
-              passwordFocusNode: _passwordFocusNode,
-              passwordConfirmationFocusNode: _passwordConfirmationFocusNode,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _releaseFocus(BuildContext context) => FocusScope.of(context).unfocus();
-}
-
-class _UpdateProfileForm extends StatelessWidget {
-  const _UpdateProfileForm({
-    required this.usernameFocusNode,
-    required this.emailFocusNode,
-    required this.passwordFocusNode,
-    required this.passwordConfirmationFocusNode,
-    Key? key,
-  }) : super(key: key);
-
-  final FocusNode usernameFocusNode;
-  final FocusNode emailFocusNode;
-  final FocusNode passwordFocusNode;
-  final FocusNode passwordConfirmationFocusNode;
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<UpdateProfileCubit, UpdateProfileState>(
       builder: (context, state) {
         final l10n = UpdateProfileLocalizations.of(context);
         if (state is UpdateProfileLoaded) {
@@ -159,10 +153,11 @@ class _UpdateProfileForm extends StatelessWidget {
           return Column(
             children: <Widget>[
               TextFormField(
-                focusNode: usernameFocusNode,
+                focusNode: _usernameFocusNode,
                 initialValue: state.username.value,
                 onChanged: cubit.onUsernameChanged,
                 textInputAction: TextInputAction.next,
+                autocorrect: false,
                 decoration: InputDecoration(
                   suffixIcon: const Icon(
                     Icons.person,
@@ -183,10 +178,11 @@ class _UpdateProfileForm extends StatelessWidget {
                 height: Spacing.mediumLarge,
               ),
               TextFormField(
-                focusNode: emailFocusNode,
+                focusNode: _emailFocusNode,
                 initialValue: state.email.value,
                 onChanged: cubit.onEmailChanged,
                 textInputAction: TextInputAction.next,
+                autocorrect: false,
                 decoration: InputDecoration(
                   suffixIcon: const Icon(
                     Icons.alternate_email,
@@ -207,7 +203,7 @@ class _UpdateProfileForm extends StatelessWidget {
                 height: Spacing.mediumLarge,
               ),
               TextField(
-                focusNode: passwordFocusNode,
+                focusNode: _passwordFocusNode,
                 onChanged: cubit.onPasswordChanged,
                 textInputAction: TextInputAction.next,
                 obscureText: true,
@@ -226,7 +222,7 @@ class _UpdateProfileForm extends StatelessWidget {
                 height: Spacing.mediumLarge,
               ),
               TextField(
-                focusNode: passwordConfirmationFocusNode,
+                focusNode: _passwordConfirmationFocusNode,
                 onChanged: cubit.onPasswordConfirmationChanged,
                 onEditingComplete: cubit.onSubmit,
                 obscureText: true,
@@ -265,5 +261,14 @@ class _UpdateProfileForm extends StatelessWidget {
         }
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _usernameFocusNode.dispose();
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    _passwordConfirmationFocusNode.dispose();
+    super.dispose();
   }
 }

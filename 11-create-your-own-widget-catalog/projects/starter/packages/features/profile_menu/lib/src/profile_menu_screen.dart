@@ -1,23 +1,27 @@
 import 'package:component_library/component_library.dart';
+import 'package:domain_models/domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:profile_menu/profile_menu.dart';
-import 'package:profile_menu/src/dark_mode_preference_picker.dart';
 import 'package:profile_menu/src/profile_menu_bloc.dart';
 import 'package:quote_repository/quote_repository.dart';
 import 'package:user_repository/user_repository.dart';
+
+part './dark_mode_preference_picker.dart';
 
 class ProfileMenuScreen extends StatelessWidget {
   const ProfileMenuScreen({
     required this.userRepository,
     required this.quoteRepository,
     this.onSignInTap,
+    this.onSignUpTap,
     this.onUpdateProfileTap,
     Key? key,
   }) : super(key: key);
 
   final VoidCallback? onSignInTap;
   final VoidCallback? onUpdateProfileTap;
+  final VoidCallback? onSignUpTap;
   final UserRepository userRepository;
   final QuoteRepository quoteRepository;
 
@@ -31,6 +35,7 @@ class ProfileMenuScreen extends StatelessWidget {
       child: ProfileMenuView(
         onSignInTap: onSignInTap,
         onUpdateProfileTap: onUpdateProfileTap,
+        onSignUpTap: onSignUpTap,
       ),
     );
   }
@@ -40,11 +45,13 @@ class ProfileMenuScreen extends StatelessWidget {
 class ProfileMenuView extends StatelessWidget {
   const ProfileMenuView({
     this.onSignInTap,
+    this.onSignUpTap,
     this.onUpdateProfileTap,
     Key? key,
   }) : super(key: key);
 
   final VoidCallback? onSignInTap;
+  final VoidCallback? onSignUpTap;
   final VoidCallback? onUpdateProfileTap;
 
   @override
@@ -59,10 +66,26 @@ class ProfileMenuView extends StatelessWidget {
                 final username = state.username;
                 return Column(
                   children: [
-                    if (!state.isUserAuthenticated)
+                    if (!state.isUserAuthenticated) ...[
                       _SignInButton(
                         onSignInTap: onSignInTap,
                       ),
+                      const SizedBox(
+                        height: Spacing.xLarge,
+                      ),
+                      Text(
+                        l10n.signUpOpeningText,
+                      ),
+                      TextButton(
+                        child: Text(
+                          l10n.signUpButtonLabel,
+                        ),
+                        onPressed: onSignUpTap,
+                      ),
+                      const SizedBox(
+                        height: Spacing.large,
+                      ),
+                    ],
                     if (username != null) ...[
                       Expanded(
                         child: Center(
@@ -101,10 +124,7 @@ class ProfileMenuView extends StatelessWidget {
                   ],
                 );
               } else {
-                // TODO: replace with centered circular progress indicator
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
+                return const CenteredCircularProgressIndicator();
               }
             },
           ),
@@ -127,9 +147,10 @@ class _SignInButton extends StatelessWidget {
     final theme = WonderTheme.of(context);
     final l10n = ProfileMenuLocalizations.of(context);
     return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: theme.screenMargin,
-        vertical: Spacing.xxLarge,
+      padding: EdgeInsets.only(
+        left: theme.screenMargin,
+        right: theme.screenMargin,
+        top: Spacing.xxLarge,
       ),
       child: ExpandedElevatedButton(
         onTap: onSignInTap,

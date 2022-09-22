@@ -1,14 +1,18 @@
 import 'package:formz/formz.dart';
 
-enum OptionalPasswordValidationError {
-  invalid,
-}
-
+/// Represents an optional password field.
+///
+/// Useful when the password can or can't be changed, such as in the update
+/// profile screen.
 class OptionalPassword
     extends FormzInput<String, OptionalPasswordValidationError> {
-  const OptionalPassword.pure([String value = '']) : super.pure(value);
+  const OptionalPassword.unvalidated([
+    String value = '',
+  ]) : super.pure(value);
 
-  const OptionalPassword.dirty([String value = '']) : super.dirty(value);
+  const OptionalPassword.validated([
+    String value = '',
+  ]) : super.dirty(value);
 
   @override
   OptionalPasswordValidationError? validator(String value) {
@@ -18,4 +22,8 @@ class OptionalPassword
             ? null
             : OptionalPasswordValidationError.invalid);
   }
+}
+
+enum OptionalPasswordValidationError {
+  invalid,
 }
