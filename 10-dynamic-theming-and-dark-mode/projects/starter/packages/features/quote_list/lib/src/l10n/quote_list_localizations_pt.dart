@@ -1,3 +1,6 @@
+
+
+
 import 'quote_list_localizations.dart';
 
 /// The translations for Portuguese (`pt`).
@@ -5,8 +8,10 @@ class QuoteListLocalizationsPt extends QuoteListLocalizations {
   QuoteListLocalizationsPt([String locale = 'pt']) : super(locale);
 
   @override
-  String get quoteListRefreshErrorMessage =>
-      'Não conseguimos atualizar seus itens.\nPor favor, confira sua conexão com a internet e tente novamente mais tarde.';
+  String get quoteListRefreshErrorMessage => 'Não conseguimos atualizar seus itens.\nPor favor, confira sua conexão com a internet e tente novamente mais tarde.';
+
+  @override
+  String get favoritesTagLabel => 'Favoritos';
 
   @override
   String get lifeTagLabel => 'Vida';

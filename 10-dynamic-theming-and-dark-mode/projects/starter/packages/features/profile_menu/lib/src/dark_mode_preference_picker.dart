@@ -1,9 +1,4 @@
-import 'package:component_library/component_library.dart';
-import 'package:domain_models/domain_models.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:profile_menu/profile_menu.dart';
-import 'package:profile_menu/src/profile_menu_bloc.dart';
+part of './profile_menu_screen.dart';
 
 class DarkModePreferencePicker extends StatelessWidget {
   const DarkModePreferencePicker({

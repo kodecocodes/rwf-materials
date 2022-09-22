@@ -1,5 +1,4 @@
 import 'package:component_library/component_library.dart';
-import 'package:component_library/src/theme/spacing.dart';
 import 'package:flutter/material.dart';
 
 class QuoteCard extends StatelessWidget {
