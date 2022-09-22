@@ -30,7 +30,7 @@ class ComponentLibraryLocalizationsEn extends ComponentLibraryLocalizations {
 
   @override
   String get exceptionIndicatorGenericMessage =>
-      'The application has encountered an error.\nPlease, check your internet connection and try again later.';
+      'There has been an error.\nPlease, check your internet connection and try again later.';
 
   @override
   String get genericErrorSnackbarMessage =>

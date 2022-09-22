@@ -20,18 +20,15 @@ dependencies:
     path: ../../user_repository
   monitoring:
     path: ../../monitoring
-  infinite_scroll_pagination:
-    git:
-      url: https://github.com/EdsonBueno/infinite_scroll_pagination.git
-      ref: develop
+  infinite_scroll_pagination: ^4.0.0-dev.1
   rxdart: ^0.27.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  mocktail: ^0.3.0
+  mocktail: 0.1.4
   test: ^1.16.8
-  flutter_lints: ^2.0.1
+  flutter_lints: ^1.0.4
 
 flutter:
   uses-material-design: true
