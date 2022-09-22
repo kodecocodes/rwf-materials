@@ -28,13 +28,5 @@ void main() {
 
       expect(await _userRepository.getUserToken(), 'token');
     });
-    // Challange
-    test(
-        'When calling getUserToken before successful authentication, return authentication null',
-        () async {
-      when(_userSecureStorage.getUserToken()).thenAnswer((_) async => null);
-
-      expect(await _userRepository.getUserToken(), null);
-    });
   });
 }

@@ -5,23 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('FavoriteIconButton tests: ', () {
-    //Challange
-    testWidgets(
-        'FavoriteIconButton uses outlined favorite icon when is not favorite',
-        (tester) async {
-      await tester.pumpWidget(const MaterialApp(
-        locale: Locale('en'),
-        localizationsDelegates: [ComponentLibraryLocalizations.delegate],
-        home: Scaffold(
-            body: FavoriteIconButton(
-          isFavorite: false,
-        )),
-      ));
-
-      final outlinedIconFinder = find.byIcon(Icons.favorite_border_outlined);
-      expect(outlinedIconFinder, findsOneWidget);
-    });
-
     testWidgets('onTap() callback is executed when tapping on button',
         (tester) async {
       bool value = false;

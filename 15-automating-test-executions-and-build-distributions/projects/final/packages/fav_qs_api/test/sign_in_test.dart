@@ -41,22 +41,5 @@ void main() {
 
       expect(await remoteApi.signIn(email, password), isA<UserRM>());
     });
-
-    // Challange:
-    test(
-        'When user enters wrong credentials, throws InvalidCredentialsFavQsException',
-        () async {
-      dioAdapter.onPost(
-        url,
-        (server) => server.reply(
-          200,
-          {"error_code": 21, "message": "Invalid login or password."},
-          delay: const Duration(seconds: 1),
-        ),
-        data: requestJsonBody,
-      );
-      expect(() async => await remoteApi.signIn(email, password),
-          throwsA(isA<InvalidCredentialsFavQsException>()));
-    });
   });
 }
