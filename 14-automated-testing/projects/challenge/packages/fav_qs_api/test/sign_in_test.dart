@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:fav_qs_api/src/fav_qs_api.dart';
-import 'package:fav_qs_api/src/models/exceptions.dart';
 import 'package:fav_qs_api/src/models/models.dart';
 import 'package:fav_qs_api/src/url_builder.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
