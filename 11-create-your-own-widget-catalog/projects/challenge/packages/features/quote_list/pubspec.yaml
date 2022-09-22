@@ -8,7 +8,8 @@ dependencies:
   component_library:
     path: ../../component_library
   equatable: ^2.0.3
-  flutter_bloc: ^8.0.0-dev.2
+  flutter_bloc: ^8.0.1
+  bloc_concurrency: ^0.2.0
   flutter:
     sdk: flutter
   domain_models:
@@ -17,11 +18,10 @@ dependencies:
     path: ../../quote_repository
   user_repository:
     path: ../../user_repository
-  infinite_scroll_pagination:
-    git:
-      url: git://github.com/EdsonBueno/infinite_scroll_pagination.git
-      ref: feature/staggered-grid
-  rxdart: ^0.27.1
+  monitoring:
+    path: ../../monitoring
+  infinite_scroll_pagination: ^4.0.0-dev.1
+  rxdart: ^0.27.3
 
 dev_dependencies:
   flutter_test:

@@ -163,14 +163,6 @@ List<Story> getStories(WonderThemeData theme) {
             : null,
       ),
     ),
-    Story.simple(
-      name: 'Loading Indicator',
-      section: 'Indicators',
-      child: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 200.0),
-        child: LoadingIndicator(),
-      ),
-    ),
     Story(
       name: 'QuoteCard',
       section: 'Quote',
@@ -198,8 +190,8 @@ List<Story> getStories(WonderThemeData theme) {
         child: ListView.separated(
           itemCount: 15,
           itemBuilder: (_, __) => child,
-          separatorBuilder: (_, __) => Divider(
-            height: theme.listSpacing,
+          separatorBuilder: (_, __) => const Divider(
+            height: 16.0,
           ),
         ),
       ),
@@ -244,6 +236,10 @@ List<Story> getStories(WonderThemeData theme) {
           initial: 'Author name',
         ),
       ),
+    ),
+    Story.simple(
+      name: 'Centered Circular Progress Indicator',
+      child: const CenteredCircularProgressIndicator(),
     ),
     Story(
       name: 'Rounded Choice Chip',
