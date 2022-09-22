@@ -9,7 +9,7 @@ dependencies:
     path: ../../component_library
   equatable: ^2.0.3
   flutter_bloc: ^8.0.1
-  share_plus: ^2.1.4
+  share_plus: ^4.0.10
   flutter:
     sdk: flutter
   quote_repository:

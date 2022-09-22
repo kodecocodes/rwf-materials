@@ -2,7 +2,6 @@ import 'package:component_library/component_library.dart';
 import 'package:domain_models/domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quote_details/quote_details.dart';
 import 'package:quote_details/src/quote_details_cubit.dart';
 import 'package:quote_repository/quote_repository.dart';
 import 'package:share_plus/share_plus.dart';
@@ -16,14 +15,14 @@ class QuoteDetailsScreen extends StatelessWidget {
     required this.quoteId,
     required this.onAuthenticationError,
     required this.quoteRepository,
-    required this.shareableLinkGenerator,
+    this.shareableLinkGenerator,
     Key? key,
   }) : super(key: key);
 
   final int quoteId;
   final VoidCallback onAuthenticationError;
   final QuoteRepository quoteRepository;
-  final QuoteDetailsShareableLinkGenerator shareableLinkGenerator;
+  final QuoteDetailsShareableLinkGenerator? shareableLinkGenerator;
 
   @override
   Widget build(BuildContext context) {
@@ -44,12 +43,12 @@ class QuoteDetailsScreen extends StatelessWidget {
 class QuoteDetailsView extends StatelessWidget {
   const QuoteDetailsView({
     required this.onAuthenticationError,
-    required this.shareableLinkGenerator,
+    this.shareableLinkGenerator,
     Key? key,
   }) : super(key: key);
 
   final VoidCallback onAuthenticationError;
-  final QuoteDetailsShareableLinkGenerator shareableLinkGenerator;
+  final QuoteDetailsShareableLinkGenerator? shareableLinkGenerator;
 
   @override
   Widget build(BuildContext context) {
@@ -119,16 +118,17 @@ class _QuoteActionsAppBar extends StatelessWidget
     implements PreferredSizeWidget {
   const _QuoteActionsAppBar({
     required this.quote,
-    required this.shareableLinkGenerator,
+    this.shareableLinkGenerator,
     Key? key,
   }) : super(key: key);
 
   final Quote quote;
-  final QuoteDetailsShareableLinkGenerator shareableLinkGenerator;
+  final QuoteDetailsShareableLinkGenerator? shareableLinkGenerator;
 
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<QuoteDetailsCubit>();
+    final shareableLinkGenerator = this.shareableLinkGenerator;
     return RowAppBar(
       children: [
         FavoriteIconButton(
@@ -163,16 +163,15 @@ class _QuoteActionsAppBar extends StatelessWidget
             }
           },
         ),
-        ShareIconButton(
-          onTap: () async {
-            final url = await shareableLinkGenerator(quote);
-            Share.share(
-              QuoteDetailsLocalizations.of(context).shareQuoteText(
+        if (shareableLinkGenerator != null)
+          ShareIconButton(
+            onTap: () async {
+              final url = await shareableLinkGenerator(quote);
+              Share.share(
                 url,
-              ),
-            );
-          },
-        ),
+              );
+            },
+          ),
       ],
     );
   }

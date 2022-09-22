@@ -19,13 +19,13 @@ class ForgotMyPasswordCubit extends Cubit<ForgotMyPasswordState> {
     final shouldValidate = previousValue.invalid;
     final newState = state.copyWith(
       email: shouldValidate
-          ? Email.dirty(
+          ? Email.validated(
               newValue,
               isAlreadyRegistered: newValue == previousValue.value
                   ? previousValue.isAlreadyRegistered
                   : false,
             )
-          : Email.pure(
+          : Email.unvalidated(
               newValue,
             ),
     );
@@ -35,7 +35,7 @@ class ForgotMyPasswordCubit extends Cubit<ForgotMyPasswordState> {
 
   void onEmailUnfocused() {
     final newState = state.copyWith(
-      email: Email.dirty(
+      email: Email.validated(
         state.email.value,
       ),
     );
@@ -43,10 +43,10 @@ class ForgotMyPasswordCubit extends Cubit<ForgotMyPasswordState> {
   }
 
   void onSubmit() async {
-    final email = Email.dirty(state.email.value);
+    final email = Email.validated(state.email.value);
     final newState = state.copyWith(
       email: email,
-      status: email.valid ? FormzStatus.submissionInProgress : state.status,
+      submissionStatus: email.valid ? SubmissionStatus.inProgress : null,
     );
     emit(newState);
     if (email.valid) {
@@ -55,12 +55,12 @@ class ForgotMyPasswordCubit extends Cubit<ForgotMyPasswordState> {
           email.value,
         );
         final newState = state.copyWith(
-          status: FormzStatus.submissionSuccess,
+          submissionStatus: SubmissionStatus.success,
         );
         emit(newState);
-      } catch (error) {
+      } catch (_) {
         final newState = state.copyWith(
-          status: FormzStatus.submissionFailure,
+          submissionStatus: SubmissionStatus.error,
         );
         emit(newState);
       }

@@ -3,10 +3,12 @@ import 'package:domain_models/domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:monitoring/monitoring.dart';
 import 'package:quote_list/src/filter_horizontal_list.dart';
 import 'package:quote_list/src/l10n/quote_list_localizations.dart';
 import 'package:quote_list/src/quote_list_bloc.dart';
-import 'package:quote_list/src/quote_sliver_grid.dart';
+import 'package:quote_list/src/quote_paged_grid_view.dart';
+import 'package:quote_list/src/quote_paged_list_view.dart';
 import 'package:quote_repository/quote_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -17,12 +19,14 @@ class QuoteListScreen extends StatelessWidget {
     required this.quoteRepository,
     required this.userRepository,
     required this.onAuthenticationError,
+    required this.remoteValueService,
     this.onQuoteSelected,
     Key? key,
   }) : super(key: key);
 
   final QuoteRepository quoteRepository;
   final UserRepository userRepository;
+  final RemoteValueService remoteValueService;
   final QuoteSelected? onQuoteSelected;
   final void Function(BuildContext context) onAuthenticationError;
 
@@ -36,6 +40,7 @@ class QuoteListScreen extends StatelessWidget {
       child: QuoteListView(
         onAuthenticationError: onAuthenticationError,
         onQuoteSelected: onQuoteSelected,
+        remoteValueService: remoteValueService,
       ),
     );
   }
@@ -44,11 +49,13 @@ class QuoteListScreen extends StatelessWidget {
 @visibleForTesting
 class QuoteListView extends StatefulWidget {
   const QuoteListView({
+    required this.remoteValueService,
     required this.onAuthenticationError,
     this.onQuoteSelected,
     Key? key,
   }) : super(key: key);
 
+  final RemoteValueService remoteValueService;
   final QuoteSelected? onQuoteSelected;
   final void Function(BuildContext context) onAuthenticationError;
 
@@ -116,37 +123,40 @@ class _QuoteListViewState extends State<QuoteListView> {
           child: Scaffold(
             body: GestureDetector(
               onTap: () => _releaseFocus(context),
-              child: RefreshIndicator(
-                onRefresh: () {
-                  // TODO: Forward pull-to-refresh gestures to the Bloc.
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: theme.screenMargin,
+                    ),
+                    child: SearchBar(
+                      controller: _searchBarController,
+                    ),
+                  ),
+                  const FilterHorizontalList(),
+                  Expanded(
+                    child: RefreshIndicator(
+                      onRefresh: () {
+                        // TODO: Forward pull-to-refresh gestures to the Bloc.
 
-                  // Returning a Future inside `onRefresh` enables the loading
-                  // indicator to disappear automatically once the refresh is
-                  // complete.
-                  final stateChangeFuture = _bloc.stream.first;
-                  return stateChangeFuture;
-                },
-                child: CustomScrollView(
-                  slivers: [
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: theme.screenMargin,
-                        ),
-                        child: SearchBar(
-                          controller: _searchBarController,
-                        ),
-                      ),
+                        // Returning a Future inside `onRefresh` enables the loading
+                        // indicator to disappear automatically once the refresh is
+                        // complete.
+                        final stateChangeFuture = _bloc.stream.first;
+                        return stateChangeFuture;
+                      },
+                      child: widget.remoteValueService.isGridQuotesViewEnabled
+                          ? QuotePagedGridView(
+                              pagingController: _pagingController,
+                              onQuoteSelected: widget.onQuoteSelected,
+                            )
+                          : QuotePagedListView(
+                              pagingController: _pagingController,
+                              onQuoteSelected: widget.onQuoteSelected,
+                            ),
                     ),
-                    const SliverToBoxAdapter(
-                      child: FilterHorizontalList(),
-                    ),
-                    QuoteSliverGrid(
-                      pagingController: _pagingController,
-                      onQuoteSelected: widget.onQuoteSelected,
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

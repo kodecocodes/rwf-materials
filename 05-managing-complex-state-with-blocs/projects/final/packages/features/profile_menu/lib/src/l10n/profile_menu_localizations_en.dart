@@ -1,6 +1,3 @@
-
-
-
 import 'profile_menu_localizations.dart';
 
 /// The translations for English (`en`).
@@ -28,7 +25,8 @@ class ProfileMenuLocalizationsEn extends ProfileMenuLocalizations {
   String get darkModePreferencesAlwaysLightTileLabel => 'Always Light';
 
   @override
-  String get darkModePreferencesUseSystemSettingsTileLabel => 'Use System Settings';
+  String get darkModePreferencesUseSystemSettingsTileLabel =>
+      'Use System Settings';
 
   @override
   String get signOutButtonLabel => 'Sign Out';

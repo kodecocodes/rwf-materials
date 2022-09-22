@@ -53,8 +53,9 @@ class _FavoritesChip extends StatelessWidget {
           return isFilteringByFavorites;
         },
         builder: (context, isFavoritesOnly) {
+          final l10n = QuoteListLocalizations.of(context);
           return RoundedChoiceChip(
-            label: 'Favorites',
+            label: l10n.favoritesTagLabel,
             avatar: Icon(
               isFavoritesOnly ? Icons.favorite : Icons.favorite_border_outlined,
               color: isFavoritesOnly

@@ -21,9 +21,9 @@
     },
     {
       "name": "async",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/async-2.8.2",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/async-2.9.0",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.14"
     },
     {
       "name": "auto_size_text",
@@ -38,14 +38,38 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "bloc_test",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/bloc_test-9.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "boolean_selector",
       "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/boolean_selector-2.1.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
+      "name": "build",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/build-2.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "built_collection",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/built_collection-5.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "built_value",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/built_value-8.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "characters",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/characters-1.2.0",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/characters-1.2.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -57,9 +81,15 @@
     },
     {
       "name": "clock",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/clock-1.1.0",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/clock-1.1.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "code_builder",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/code_builder-4.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
     },
     {
       "name": "collection",
@@ -92,6 +122,18 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "dart_style",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/dart_style-2.2.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "diff_match_patch",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/diff_match_patch-0.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "dio",
       "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/dio-4.0.4",
       "packageUri": "lib/",
@@ -111,7 +153,7 @@
     },
     {
       "name": "fake_async",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/fake_async-1.3.0",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/fake_async-1.3.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -134,10 +176,16 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "fixnum",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/fixnum-1.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter",
       "rootUri": "file:///Users/edson/fvm/versions/stable/packages/flutter",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.17"
     },
     {
       "name": "flutter_bloc",
@@ -261,19 +309,19 @@
     },
     {
       "name": "matcher",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/matcher-0.12.11",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/matcher-0.12.12",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "material_color_utilities",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/material_color_utilities-0.1.4",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/material_color_utilities-0.1.5",
       "packageUri": "lib/",
       "languageVersion": "2.13"
     },
     {
       "name": "meta",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/meta-1.7.0",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/meta-1.8.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -284,8 +332,14 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "mockito",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/mockito-5.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "mocktail",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/mocktail-0.1.4",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/mocktail-0.3.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -309,7 +363,7 @@
     },
     {
       "name": "path",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/path-1.8.1",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/path-1.8.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -446,6 +500,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "source_gen",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/source_gen-1.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "source_map_stack_trace",
       "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/source_map_stack_trace-2.1.0",
       "packageUri": "lib/",
@@ -459,7 +519,7 @@
     },
     {
       "name": "source_span",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/source_span-1.8.2",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/source_span-1.9.0",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
@@ -477,31 +537,31 @@
     },
     {
       "name": "string_scanner",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/string_scanner-1.1.0",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/string_scanner-1.1.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "term_glyph",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/term_glyph-1.2.0",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/term_glyph-1.2.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "test",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/test-1.21.1",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/test-1.21.4",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "test_api",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/test_api-0.4.9",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/test_api-0.4.12",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "test_core",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/test_core-0.4.13",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/test_core-0.4.16",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
@@ -578,7 +638,7 @@
       "languageVersion": "2.14"
     }
   ],
-  "generated": "2022-05-20T14:25:26.290273Z",
+  "generated": "2022-09-21T13:17:52.689414Z",
   "generator": "pub",
-  "generatorVersion": "2.17.0"
+  "generatorVersion": "2.18.1"
 }

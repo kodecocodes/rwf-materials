@@ -1,19 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 
-enum UsernameValidationError {
-  empty,
-  invalid,
-  alreadyTaken,
-}
-
 class Username extends FormzInput<String, UsernameValidationError>
     with EquatableMixin {
-  const Username.pure([String value = ''])
-      : isAlreadyRegistered = false,
+  const Username.unvalidated([
+    String value = '',
+  ])  : isAlreadyRegistered = false,
         super.pure(value);
 
-  const Username.dirty(
+  const Username.validated(
     String value, {
     this.isAlreadyRegistered = false,
   }) : super.dirty(value);
@@ -41,4 +36,10 @@ class Username extends FormzInput<String, UsernameValidationError>
         pure,
         isAlreadyRegistered,
       ];
+}
+
+enum UsernameValidationError {
+  empty,
+  invalid,
+  alreadyTaken,
 }

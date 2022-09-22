@@ -33,13 +33,19 @@
     },
     {
       "name": "characters",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/characters-1.2.0",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/characters-1.2.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "charcode",
       "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/charcode-1.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "clock",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/clock-1.1.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -68,86 +74,92 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "fake_async",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/fake_async-1.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "file",
       "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/file-6.1.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
-      "name": "firebase",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase-9.0.2",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "firebase_analytics",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase_analytics-8.3.4",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase_analytics-9.1.12",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.16"
     },
     {
       "name": "firebase_analytics_platform_interface",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase_analytics_platform_interface-2.0.1",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase_analytics_platform_interface-3.1.10",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.16"
     },
     {
       "name": "firebase_analytics_web",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase_analytics_web-0.3.0+1",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase_analytics_web-0.4.0+17",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.16"
     },
     {
       "name": "firebase_core",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase_core-1.14.0",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase_core-1.19.1",
       "packageUri": "lib/",
       "languageVersion": "2.16"
     },
     {
       "name": "firebase_core_platform_interface",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase_core_platform_interface-4.2.5",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase_core_platform_interface-4.4.3",
       "packageUri": "lib/",
       "languageVersion": "2.16"
     },
     {
       "name": "firebase_core_web",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase_core_web-1.6.1",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase_core_web-1.6.6",
       "packageUri": "lib/",
       "languageVersion": "2.16"
     },
     {
       "name": "firebase_crashlytics",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase_crashlytics-2.6.0",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase_crashlytics-2.8.4",
       "packageUri": "lib/",
       "languageVersion": "2.16"
     },
     {
       "name": "firebase_crashlytics_platform_interface",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase_crashlytics_platform_interface-3.2.2",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase_crashlytics_platform_interface-3.2.10",
       "packageUri": "lib/",
       "languageVersion": "2.16"
     },
     {
       "name": "firebase_dynamic_links",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase_dynamic_links-2.0.11",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase_dynamic_links-4.3.1",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.16"
+    },
+    {
+      "name": "firebase_dynamic_links_platform_interface",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase_dynamic_links_platform_interface-0.2.3+6",
+      "packageUri": "lib/",
+      "languageVersion": "2.16"
     },
     {
       "name": "firebase_remote_config",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase_remote_config-2.0.3",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase_remote_config-2.0.11",
       "packageUri": "lib/",
       "languageVersion": "2.16"
     },
     {
       "name": "firebase_remote_config_platform_interface",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase_remote_config_platform_interface-1.1.2",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase_remote_config_platform_interface-1.1.10",
       "packageUri": "lib/",
       "languageVersion": "2.16"
     },
     {
       "name": "firebase_remote_config_web",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase_remote_config_web-1.0.8",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/firebase_remote_config_web-1.0.16",
       "packageUri": "lib/",
       "languageVersion": "2.16"
     },
@@ -155,7 +167,13 @@
       "name": "flutter",
       "rootUri": "file:///Users/edson/fvm/versions/stable/packages/flutter",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "flutter_test",
+      "rootUri": "file:///Users/edson/fvm/versions/stable/packages/flutter_test",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
     },
     {
       "name": "flutter_web_plugins",
@@ -172,12 +190,6 @@
     {
       "name": "glob",
       "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/glob-2.0.2",
-      "packageUri": "lib/",
-      "languageVersion": "2.14"
-    },
-    {
-      "name": "http",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/http-0.13.4",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
@@ -219,19 +231,19 @@
     },
     {
       "name": "matcher",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/matcher-0.12.11",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/matcher-0.12.12",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "material_color_utilities",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/material_color_utilities-0.1.4",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/material_color_utilities-0.1.5",
       "packageUri": "lib/",
       "languageVersion": "2.13"
     },
     {
       "name": "meta",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/meta-1.7.0",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/meta-1.8.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -254,14 +266,8 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "package_info",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/package_info-2.0.2",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "path",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/path-1.8.1",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/path-1.8.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -327,7 +333,7 @@
     },
     {
       "name": "source_span",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/source_span-1.8.2",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/source_span-1.9.0",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
@@ -345,31 +351,31 @@
     },
     {
       "name": "string_scanner",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/string_scanner-1.1.0",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/string_scanner-1.1.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "term_glyph",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/term_glyph-1.2.0",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/term_glyph-1.2.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "test",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/test-1.20.2",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/test-1.21.4",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "test_api",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/test_api-0.4.9",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/test_api-0.4.12",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "test_core",
-      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/test_core-0.4.11",
+      "rootUri": "file:///Users/edson/.pub-cache/hosted/pub.dartlang.org/test_core-0.4.16",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
@@ -422,7 +428,7 @@
       "languageVersion": "2.13"
     }
   ],
-  "generated": "2022-05-20T14:25:42.975963Z",
+  "generated": "2022-09-21T13:18:12.102821Z",
   "generator": "pub",
-  "generatorVersion": "2.17.0"
+  "generatorVersion": "2.18.1"
 }

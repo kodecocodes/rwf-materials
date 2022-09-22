@@ -1,0 +1,19 @@
+{
+  "signInButtonLabel": "Entrar",
+  "signedInUserGreeting": "Olá, {username}!",
+  "@signedInUserGreeting": {
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "updateProfileTileLabel": "Atualizar Perfil",
+  "darkModePreferencesHeaderTileLabel": "Configurações de Modo Noturno",
+  "darkModePreferencesAlwaysDarkTileLabel": "Sempre Escuro",
+  "darkModePreferencesAlwaysLightTileLabel": "Sempre Claro",
+  "darkModePreferencesUseSystemSettingsTileLabel": "De Acordo com o Sistema",
+  "signOutButtonLabel": "Sair",
+  "signUpOpeningText": "Não tem uma conta?",
+  "signUpButtonLabel": "Cadastrar"
+}

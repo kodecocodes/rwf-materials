@@ -18,14 +18,14 @@ class UpdateProfileLoaded extends UpdateProfileState {
     this.password = const OptionalPassword.unvalidated(),
     this.passwordConfirmation =
         const OptionalPasswordConfirmation.unvalidated(),
-    this.submissionStatus,
+    this.submissionStatus = SubmissionStatus.idle,
   });
 
   final Email email;
   final Username username;
   final OptionalPassword password;
   final OptionalPasswordConfirmation passwordConfirmation;
-  final SubmissionStatus? submissionStatus;
+  final SubmissionStatus submissionStatus;
 
   bool get isSubmissionInProgress =>
       submissionStatus == SubmissionStatus.inProgress;
@@ -42,7 +42,7 @@ class UpdateProfileLoaded extends UpdateProfileState {
       username: username ?? this.username,
       password: password ?? this.password,
       passwordConfirmation: passwordConfirmation ?? this.passwordConfirmation,
-      submissionStatus: submissionStatus,
+      submissionStatus: submissionStatus ?? this.submissionStatus,
     );
   }
 
@@ -57,6 +57,7 @@ class UpdateProfileLoaded extends UpdateProfileState {
 }
 
 enum SubmissionStatus {
+  idle,
   inProgress,
   success,
   error,

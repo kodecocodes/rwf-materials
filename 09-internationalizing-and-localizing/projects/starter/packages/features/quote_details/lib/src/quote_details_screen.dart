@@ -2,7 +2,6 @@ import 'package:component_library/component_library.dart';
 import 'package:domain_models/domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quote_details/quote_details.dart';
 import 'package:quote_details/src/quote_details_cubit.dart';
 import 'package:quote_repository/quote_repository.dart';
 import 'package:share_plus/share_plus.dart';

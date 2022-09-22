@@ -127,6 +127,8 @@ class _SignInFormState extends State<_SignInForm> {
   Widget build(BuildContext context) {
     final l10n = SignInLocalizations.of(context);
     return BlocConsumer<SignInCubit, SignInState>(
+      listenWhen: (oldState, newState) =>
+          oldState.submissionStatus != newState.submissionStatus,
       listener: (context, state) {
         if (state.submissionStatus == SubmissionStatus.success) {
           widget.onSignInSuccess();

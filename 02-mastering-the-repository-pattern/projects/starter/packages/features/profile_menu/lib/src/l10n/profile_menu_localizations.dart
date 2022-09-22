@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'profile_menu_localizations_en.dart';
+import 'profile_menu_localizations_pt.dart';
 
 /// Callers can lookup localized strings with an instance of ProfileMenuLocalizations returned
 /// by `ProfileMenuLocalizations.of(context)`.
@@ -91,7 +92,10 @@ abstract class ProfileMenuLocalizations {
   ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('pt')
+  ];
 
   /// No description provided for @signInButtonLabel.
   ///
@@ -140,6 +144,18 @@ abstract class ProfileMenuLocalizations {
   /// In en, this message translates to:
   /// **'Sign Out'**
   String get signOutButtonLabel;
+
+  /// No description provided for @signUpOpeningText.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account?'**
+  String get signUpOpeningText;
+
+  /// No description provided for @signUpButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign up'**
+  String get signUpButtonLabel;
 }
 
 class _ProfileMenuLocalizationsDelegate
@@ -149,22 +165,24 @@ class _ProfileMenuLocalizationsDelegate
   @override
   Future<ProfileMenuLocalizations> load(Locale locale) {
     return SynchronousFuture<ProfileMenuLocalizations>(
-        _lookupProfileMenuLocalizations(locale));
+        lookupProfileMenuLocalizations(locale));
   }
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en'].contains(locale.languageCode);
+      <String>['en', 'pt'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_ProfileMenuLocalizationsDelegate old) => false;
 }
 
-ProfileMenuLocalizations _lookupProfileMenuLocalizations(Locale locale) {
-// Lookup logic when only language code is specified.
+ProfileMenuLocalizations lookupProfileMenuLocalizations(Locale locale) {
+  // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
     case 'en':
       return ProfileMenuLocalizationsEn();
+    case 'pt':
+      return ProfileMenuLocalizationsPt();
   }
 
   throw FlutterError(
