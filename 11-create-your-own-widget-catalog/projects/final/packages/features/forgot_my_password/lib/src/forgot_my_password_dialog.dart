@@ -66,7 +66,7 @@ class _ForgotMyPasswordViewState extends State<ForgotMyPasswordView> {
     final l10n = ForgotMyPasswordLocalizations.of(context);
     return BlocConsumer<ForgotMyPasswordCubit, ForgotMyPasswordState>(
       listener: (context, state) {
-        if (state.status == FormzStatus.submissionSuccess) {
+        if (state.submissionStatus == SubmissionStatus.success) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
@@ -86,7 +86,7 @@ class _ForgotMyPasswordViewState extends State<ForgotMyPasswordView> {
       builder: (context, state) {
         final cubit = context.read<ForgotMyPasswordCubit>();
         final isSubmissionInProgress =
-            state.status == FormzStatus.submissionInProgress;
+            state.submissionStatus == SubmissionStatus.inProgress;
         final emailError = state.email.invalid ? state.email.error : null;
         return GestureDetector(
           onTap: () => _releaseFocus(context),
@@ -100,6 +100,7 @@ class _ForgotMyPasswordViewState extends State<ForgotMyPasswordView> {
                   enabled: !isSubmissionInProgress,
                   onEditingComplete: cubit.onSubmit,
                   onChanged: cubit.onEmailChanged,
+                  autocorrect: false,
                   decoration: InputDecoration(
                     suffixIcon: const Icon(
                       Icons.alternate_email,
@@ -113,18 +114,18 @@ class _ForgotMyPasswordViewState extends State<ForgotMyPasswordView> {
                             : l10n.emailTextFieldInvalidErrorMessage),
                   ),
                 ),
-                if (state.status.isSubmissionFailure)
+                if (state.submissionStatus == SubmissionStatus.error) ...[
                   const SizedBox(
                     height: Spacing.medium,
                   ),
-                if (state.status.isSubmissionFailure)
                   Text(
                     l10n.errorMessage,
                     style: const TextStyle(
                       color: Colors.red,
                       fontSize: FontSize.medium,
                     ),
-                  )
+                  ),
+                ],
               ],
             ),
             actions: [

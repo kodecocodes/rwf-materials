@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:monitoring/monitoring.dart';
 import 'package:routemaster/routemaster.dart';
 
-typedef ScreenNameExtractor = String? Function(RouteSettings settings);
-
-String? defaultNameExtractor(RouteSettings settings) => settings.name;
-
 class ScreenViewObserver extends RoutemasterObserver {
   ScreenViewObserver({
-    this.nameExtractor = defaultNameExtractor,
-    Function(PlatformException error)? onError,
-  }) : _onError = onError;
+    required this.analyticsService,
+  });
 
-  final ScreenNameExtractor nameExtractor;
-  final void Function(PlatformException error)? _onError;
+  final AnalyticsService analyticsService;
+
+  void _sendScreenView(PageRoute<dynamic> route) {
+    final String? screenName = route.settings.name;
+
+    if (screenName != null) {
+      analyticsService.setCurrentScreen(screenName);
+    }
+  }
 
   @override
   void didPush(Route route, Route? previousRoute) {
@@ -29,26 +30,6 @@ class ScreenViewObserver extends RoutemasterObserver {
     super.didPop(route, previousRoute);
     if (previousRoute is PageRoute && route is PageRoute) {
       _sendScreenView(previousRoute);
-    }
-  }
-
-  @override
-  void didChangeRoute(RouteData routeData, Page page) {}
-
-  void _sendScreenView(PageRoute<dynamic> route) {
-    final String? screenName = nameExtractor(route.settings);
-    if (screenName != null) {
-      analytics.setCurrentScreen(screenName: screenName).catchError(
-        (Object error) {
-          final _onError = this._onError;
-          if (_onError == null) {
-            log.e('$ScreenViewObserver: $error');
-          } else {
-            _onError(error as PlatformException);
-          }
-        },
-        test: (Object error) => error is PlatformException,
-      );
     }
   }
 }

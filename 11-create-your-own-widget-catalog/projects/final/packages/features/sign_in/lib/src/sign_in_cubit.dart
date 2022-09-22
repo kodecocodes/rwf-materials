@@ -1,3 +1,4 @@
+import 'package:domain_models/domain_models.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_fields/form_fields.dart';
@@ -15,76 +16,88 @@ class SignInCubit extends Cubit<SignInState> {
   final UserRepository userRepository;
 
   void onEmailChanged(String newValue) {
-    final previousValue = state.email;
-    final shouldValidate = previousValue.invalid;
-    final newState = state.copyWith(
-      email: shouldValidate
-          ? Email.dirty(
-              newValue,
-            )
-          : Email.pure(
-              newValue,
-            ),
-      error: null,
+    final previousScreenState = state;
+    final previousEmailState = previousScreenState.email;
+    final shouldValidate = previousEmailState.invalid;
+    final newEmailState = shouldValidate
+        ? Email.validated(
+            newValue,
+          )
+        : Email.unvalidated(
+            newValue,
+          );
+
+    final newScreenState = state.copyWith(
+      email: newEmailState,
     );
 
-    emit(newState);
-  }
-
-  void onPasswordChanged(String newValue) {
-    final previousValue = state.password;
-    final shouldValidate = previousValue.invalid;
-    final newState = state.copyWith(
-      password: shouldValidate
-          ? Password.dirty(
-              newValue,
-            )
-          : Password.pure(
-              newValue,
-            ),
-      error: null,
-    );
-
-    emit(newState);
+    emit(newScreenState);
   }
 
   void onEmailUnfocused() {
-    final newState = state.copyWith(
-      email: Email.dirty(
-        state.email.value,
-      ),
-      error: null,
+    final previousScreenState = state;
+    final previousEmailState = previousScreenState.email;
+    final previousEmailValue = previousEmailState.value;
+
+    final newEmailState = Email.validated(
+      previousEmailValue,
+    );
+    final newScreenState = previousScreenState.copyWith(
+      email: newEmailState,
+    );
+    emit(newScreenState);
+  }
+
+  void onPasswordChanged(String newValue) {
+    final previousScreenState = state;
+    final previousPasswordState = previousScreenState.password;
+    final shouldValidate = previousPasswordState.invalid;
+    final newPasswordState = shouldValidate
+        ? Password.validated(
+            newValue,
+          )
+        : Password.unvalidated(
+            newValue,
+          );
+
+    final newScreenState = state.copyWith(
+      password: newPasswordState,
     );
 
-    emit(newState);
+    emit(newScreenState);
   }
 
   void onPasswordUnfocused() {
-    final newState = state.copyWith(
-      password: Password.dirty(
-        state.password.value,
-      ),
-      error: null,
-    );
+    final previousScreenState = state;
+    final previousPasswordState = previousScreenState.password;
+    final previousPasswordValue = previousPasswordState.value;
 
-    emit(newState);
+    final newPasswordState = Password.validated(
+      previousPasswordValue,
+    );
+    final newScreenState = previousScreenState.copyWith(
+      password: newPasswordState,
+    );
+    emit(newScreenState);
   }
 
   void onSubmit() async {
-    final email = Email.dirty(state.email.value);
-    final password = Password.dirty(state.password.value);
+    final email = Email.validated(state.email.value);
+    final password = Password.validated(state.password.value);
+
     final isFormValid = Formz.validate([
-          email,
-          password,
-        ]) ==
-        FormzStatus.valid;
+      email,
+      password,
+    ]).isValid;
+
     final newState = state.copyWith(
       email: email,
       password: password,
-      status: isFormValid ? FormzStatus.submissionInProgress : state.status,
-      error: null,
+      submissionStatus: isFormValid ? SubmissionStatus.inProgress : null,
     );
+
     emit(newState);
+
     if (isFormValid) {
       try {
         await userRepository.signIn(
@@ -92,14 +105,14 @@ class SignInCubit extends Cubit<SignInState> {
           password.value,
         );
         final newState = state.copyWith(
-          status: FormzStatus.submissionSuccess,
-          error: null,
+          submissionStatus: SubmissionStatus.success,
         );
         emit(newState);
       } catch (error) {
         final newState = state.copyWith(
-          error: error,
-          status: FormzStatus.submissionFailure,
+          submissionStatus: error is InvalidCredentialsException
+              ? SubmissionStatus.invalidCredentialsError
+              : SubmissionStatus.genericError,
         );
         emit(newState);
       }
