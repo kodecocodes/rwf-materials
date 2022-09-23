@@ -151,22 +151,23 @@ class _QuoteListViewState extends State<QuoteListView> {
                   const FilterHorizontalList(),
                   Expanded(
                     child: RefreshIndicator(
-                        onRefresh: () {
-                          _bloc.add(
-                            const QuoteListRefreshed(),
-                          );
+                      onRefresh: () {
+                        _bloc.add(
+                          const QuoteListRefreshed(),
+                        );
 
-                          // Returning a Future inside `onRefresh` enables the loading
-                          // indicator to disappear automatically once the refresh is
-                          // complete.
-                          final stateChangeFuture = _bloc.stream.first;
-                          return stateChangeFuture;
-                        },
-                        // TODO: display different UI based on the value of grid_quotes_view_enabled parameter
-                        child: QuotePagedGridView(
-                          pagingController: _pagingController,
-                          onQuoteSelected: widget.onQuoteSelected,
-                        )),
+                        // Returning a Future inside `onRefresh` enables the loading
+                        // indicator to disappear automatically once the refresh is
+                        // complete.
+                        final stateChangeFuture = _bloc.stream.first;
+                        return stateChangeFuture;
+                      },
+                      // TODO: display different UI based on the value of grid_quotes_view_enabled parameter
+                      child: QuotePagedGridView(
+                        pagingController: _pagingController,
+                        onQuoteSelected: widget.onQuoteSelected,
+                      ),
+                    ),
                   ),
                 ],
               ),
