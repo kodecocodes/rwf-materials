@@ -5,6 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('FavoriteIconButton tests: ', () {
-    // TODO: add implementation of widgetTest
+    // TODO: add an implementation of widgetTest
   });
 }
