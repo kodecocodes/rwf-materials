@@ -9,7 +9,7 @@ class ScreenViewObserver extends RoutemasterObserver {
 
   final AnalyticsService analyticsService;
 
-  // TODO: add _sendScreenView() hellper method
+  // TODO: add _sendScreenView() helper method
 
   // TODO: override didPush and didPop method
 }
