@@ -10,9 +10,7 @@ import 'user_repository_test.mocks.dart';
 
 @GenerateMocks([UserSecureStorage])
 void main() {
-  test(
-      'When calling getUserToken after successful authentication, return authentication token',
-      () async {
+  group('User authentication token:', () {
     final _userSecureStorage = MockUserSecureStorage();
 
     final _userRepository = UserRepository(
@@ -22,10 +20,13 @@ void main() {
         userTokenSupplier: () => Future.value(),
       ),
     );
-    when(_userSecureStorage.getUserToken()).thenAnswer((_) async => 'token');
 
-    expect(await _userRepository.getUserToken(), 'token');
+    test(
+        'When calling getUserToken after successful authentication, return authentication token',
+        () async {
+      when(_userSecureStorage.getUserToken()).thenAnswer((_) async => 'token');
+
+      expect(await _userRepository.getUserToken(), 'token');
+    });
   });
-
-  // Challenge
 }

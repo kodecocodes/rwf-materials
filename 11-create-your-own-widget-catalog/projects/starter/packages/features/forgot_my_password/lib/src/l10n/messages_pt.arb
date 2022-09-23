@@ -1,0 +1,10 @@
+{
+  "dialogTitle": "Esqueci Minha Senha",
+  "emailTextFieldLabel": "Email",
+  "emailTextFieldEmptyErrorMessage": "Seu email não pode ser vazio.",
+  "emailTextFieldInvalidErrorMessage": "Este email não é válido.",
+  "emailRequestSuccessMessage": "Se este email estiver registrado em nossos servidores, um link será enviado para você com instruções sobre como resetar sua senha.",
+  "confirmButtonLabel": "Confirmar",
+  "cancelButtonLabel": "Cancelar",
+  "errorMessage": "Ocorreu um erro. Por favor, confira sua conexão com a internet."
+}

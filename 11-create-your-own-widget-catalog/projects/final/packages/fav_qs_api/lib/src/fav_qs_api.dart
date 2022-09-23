@@ -1,12 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:fav_qs_api/src/models/exceptions.dart';
 import 'package:fav_qs_api/src/models/models.dart';
-import 'package:fav_qs_api/src/models/request/password_reset_email_request_rm.dart';
-import 'package:fav_qs_api/src/models/request/user_email_rm.dart';
 import 'package:fav_qs_api/src/url_builder.dart';
 import 'package:meta/meta.dart';
-
-import 'models/models.dart';
 
 typedef UserTokenSupplier = Future<String?> Function();
 

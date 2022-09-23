@@ -2,7 +2,7 @@ name: quote_list
 publish_to: none
 
 environment:
-  sdk: ">=2.14.0 <4.0.0"
+  sdk: ">=2.14.0 <3.0.0"
 
 dependencies:
   component_library:
@@ -20,10 +20,7 @@ dependencies:
     path: ../../user_repository
   monitoring:
     path: ../../monitoring
-  infinite_scroll_pagination:
-    git:
-      url: https://github.com/EdsonBueno/infinite_scroll_pagination.git
-      ref: develop
+  infinite_scroll_pagination: ^4.0.0-dev.1
   rxdart: ^0.27.3
 
 dev_dependencies:

@@ -10,6 +10,14 @@ print:
 		echo $${package} ; \
 	done
 
+pods-clean:
+	rm -Rf ios/Pods ; \
+	rm -Rf ios/.symlinks ; \
+	rm -Rf ios/Flutter/Flutter.framework ; \
+	rm -Rf ios/Flutter/Flutter.podspec ; \
+	rm ios/Podfile ; \
+	rm ios/Podfile.lock ; \
+
 
 get:
 	flutter pub get
@@ -23,6 +31,21 @@ get:
 		cd $${package} ; \
 		echo "Updating dependencies on $${package}" ; \
 		flutter pub get ; \
+		cd ../../ ; \
+	done
+
+upgrade:
+	flutter pub upgrade
+	for feature in $(FEATURES); do \
+		cd $${feature} ; \
+		echo "Updating dependencies on $${feature}" ; \
+		flutter pub upgrade ; \
+		cd ../../../ ; \
+	done
+	for package in $(PACKAGES); do \
+		cd $${package} ; \
+		echo "Updating dependencies on $${package}" ; \
+		flutter pub upgrade ; \
 		cd ../../ ; \
 	done
 

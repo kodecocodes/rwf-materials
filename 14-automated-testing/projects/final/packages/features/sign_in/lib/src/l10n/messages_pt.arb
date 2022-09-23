@@ -1,0 +1,14 @@
+{
+  "invalidCredentialsErrorMessage": "Email e/ou senha inválida.",
+  "appBarTitle": "Entrar",
+  "emailTextFieldLabel": "Email",
+  "emailTextFieldEmptyErrorMessage": "Seu email não pode ser vazio.",
+  "emailTextFieldInvalidErrorMessage": "Este email não é válido.",
+  "passwordTextFieldLabel": "Senha",
+  "passwordTextFieldEmptyErrorMessage": "Sua senha não pode ser vazia.",
+  "passwordTextFieldInvalidErrorMessage": "Sua senha precisa ter pelo menos cinco caracteres.",
+  "forgotMyPasswordButtonLabel": "Esqueci minha senha",
+  "signInButtonLabel": "Entrar",
+  "signUpOpeningText": "Não tem uma conta?",
+  "signUpButtonLabel": "Cadastrar"
+}

@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'sign_in_localizations_en.dart';
+import 'sign_in_localizations_pt.dart';
 
 /// Callers can lookup localized strings with an instance of SignInLocalizations returned
 /// by `SignInLocalizations.of(context)`.
@@ -90,7 +91,10 @@ abstract class SignInLocalizations {
   ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('pt')
+  ];
 
   /// No description provided for @invalidCredentialsErrorMessage.
   ///
@@ -172,22 +176,24 @@ class _SignInLocalizationsDelegate
   @override
   Future<SignInLocalizations> load(Locale locale) {
     return SynchronousFuture<SignInLocalizations>(
-        _lookupSignInLocalizations(locale));
+        lookupSignInLocalizations(locale));
   }
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en'].contains(locale.languageCode);
+      <String>['en', 'pt'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_SignInLocalizationsDelegate old) => false;
 }
 
-SignInLocalizations _lookupSignInLocalizations(Locale locale) {
-// Lookup logic when only language code is specified.
+SignInLocalizations lookupSignInLocalizations(Locale locale) {
+  // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
     case 'en':
       return SignInLocalizationsEn();
+    case 'pt':
+      return SignInLocalizationsPt();
   }
 
   throw FlutterError(

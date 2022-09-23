@@ -345,8 +345,9 @@ class QuoteListBloc extends Bloc<QuoteListEvent, QuoteListState> {
         await for (final newPage in pagesStream) {
           final newItemList = newPage.quoteList;
           final oldItemList = state.itemList ?? [];
-          final completeItemList =
-              isRefresh ? newItemList : (oldItemList + newItemList);
+          final completeItemList = isRefresh || page == 1
+              ? newItemList
+              : (oldItemList + newItemList);
 
           final nextPage = newPage.isLastPage ? null : page + 1;
 

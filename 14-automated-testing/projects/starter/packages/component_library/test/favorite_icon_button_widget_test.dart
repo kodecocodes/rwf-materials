@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  // TODO: add implementation of widgetTest
-
-  // Challenge
+  group('FavoriteIconButton tests: ', () {
+    // TODO: add an implementation of widgetTest
+  });
 }

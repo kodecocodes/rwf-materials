@@ -7,13 +7,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_core: ^1.8.0
-  firebase_crashlytics: ^2.3.0
-  firebase_dynamic_links: ^2.0.7
+  firebase_core: ^1.19.1
+  firebase_crashlytics: ^2.8.4
+  firebase_dynamic_links: ^4.3.1
   firebase_analytics: ^9.1.12
-  firebase_remote_config: ^2.0.2
-  package_info: ^2.0.2
+  firebase_remote_config: ^2.0.11
 
 dev_dependencies:
-  lints: ^2.0.0
+  lints: ^1.0.1
   test: ^1.16.8

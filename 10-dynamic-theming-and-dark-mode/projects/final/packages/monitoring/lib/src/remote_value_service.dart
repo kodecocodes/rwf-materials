@@ -13,7 +13,7 @@ class RemoteValueService {
 
   Future<void> load() async {
     await _remoteConfig.setDefaults(<String, dynamic>{
-      _gridQuotesViewEnabledKey: false,
+      _gridQuotesViewEnabledKey: true,
     });
     await _remoteConfig.fetchAndActivate();
   }

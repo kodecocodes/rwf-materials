@@ -31,7 +31,7 @@ class QuoteDetailsCubit extends Cubit<QuoteDetailsState> {
     }
   }
 
-  void refresh() {
+  Future<void> refetch() async {
     emit(
       const QuoteDetailsInProgress(),
     );
@@ -39,37 +39,37 @@ class QuoteDetailsCubit extends Cubit<QuoteDetailsState> {
     _fetchQuoteDetails();
   }
 
-  void upvoteQuote() {
-    _executeQuoteUpdateOperation(
+  void upvoteQuote() async {
+    await _executeQuoteUpdateOperation(
       () => quoteRepository.upvoteQuote(quoteId),
     );
   }
 
-  void downvoteQuote() {
-    _executeQuoteUpdateOperation(
+  void downvoteQuote() async {
+    await _executeQuoteUpdateOperation(
       () => quoteRepository.downvoteQuote(quoteId),
     );
   }
 
-  void unvoteQuote() {
-    _executeQuoteUpdateOperation(
+  void unvoteQuote() async {
+    await _executeQuoteUpdateOperation(
       () => quoteRepository.unvoteQuote(quoteId),
     );
   }
 
-  void favoriteQuote() {
-    _executeQuoteUpdateOperation(
+  void favoriteQuote() async {
+    await _executeQuoteUpdateOperation(
       () => quoteRepository.favoriteQuote(quoteId),
     );
   }
 
-  void unfavoriteQuote() {
-    _executeQuoteUpdateOperation(
+  void unfavoriteQuote() async {
+    await _executeQuoteUpdateOperation(
       () => quoteRepository.unfavoriteQuote(quoteId),
     );
   }
 
-  void _executeQuoteUpdateOperation(
+  Future<void> _executeQuoteUpdateOperation(
     Future<Quote> Function() updateQuote,
   ) async {
     try {
@@ -85,7 +85,7 @@ class QuoteDetailsCubit extends Cubit<QuoteDetailsState> {
         emit(
           QuoteDetailsSuccess(
             quote: lastState.quote,
-            eventError: error,
+            quoteUpdateError: error,
           ),
         );
       }

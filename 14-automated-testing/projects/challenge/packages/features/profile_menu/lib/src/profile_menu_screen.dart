@@ -1,11 +1,13 @@
 import 'package:component_library/component_library.dart';
+import 'package:domain_models/domain_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:profile_menu/profile_menu.dart';
-import 'package:profile_menu/src/dark_mode_preference_picker.dart';
 import 'package:profile_menu/src/profile_menu_bloc.dart';
 import 'package:quote_repository/quote_repository.dart';
 import 'package:user_repository/user_repository.dart';
+
+part './dark_mode_preference_picker.dart';
 
 class ProfileMenuScreen extends StatelessWidget {
   const ProfileMenuScreen({

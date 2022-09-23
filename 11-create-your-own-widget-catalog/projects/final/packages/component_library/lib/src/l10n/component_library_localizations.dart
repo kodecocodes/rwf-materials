@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'component_library_localizations_en.dart';
+import 'component_library_localizations_pt.dart';
 
 /// Callers can lookup localized strings with an instance of ComponentLibraryLocalizations returned
 /// by `ComponentLibraryLocalizations.of(context)`.
@@ -60,15 +60,18 @@ import 'component_library_localizations_en.dart';
 /// be consistent with the languages listed in the ComponentLibraryLocalizations.supportedLocales
 /// property.
 abstract class ComponentLibraryLocalizations {
-  ComponentLibraryLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  ComponentLibraryLocalizations(String locale)
+      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
   static ComponentLibraryLocalizations of(BuildContext context) {
-    return Localizations.of<ComponentLibraryLocalizations>(context, ComponentLibraryLocalizations)!;
+    return Localizations.of<ComponentLibraryLocalizations>(
+        context, ComponentLibraryLocalizations)!;
   }
 
-  static const LocalizationsDelegate<ComponentLibraryLocalizations> delegate = _ComponentLibraryLocalizationsDelegate();
+  static const LocalizationsDelegate<ComponentLibraryLocalizations> delegate =
+      _ComponentLibraryLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -80,7 +83,8 @@ abstract class ComponentLibraryLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
     delegate,
     GlobalMaterialLocalizations.delegate,
     GlobalCupertinoLocalizations.delegate,
@@ -89,7 +93,8 @@ abstract class ComponentLibraryLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
-    Locale('en')
+    Locale('en'),
+    Locale('pt')
   ];
 
   /// No description provided for @downvoteIconButtonTooltip.
@@ -159,33 +164,37 @@ abstract class ComponentLibraryLocalizations {
   String get authenticationRequiredErrorSnackbarMessage;
 }
 
-class _ComponentLibraryLocalizationsDelegate extends LocalizationsDelegate<ComponentLibraryLocalizations> {
+class _ComponentLibraryLocalizationsDelegate
+    extends LocalizationsDelegate<ComponentLibraryLocalizations> {
   const _ComponentLibraryLocalizationsDelegate();
 
   @override
   Future<ComponentLibraryLocalizations> load(Locale locale) {
-    return SynchronousFuture<ComponentLibraryLocalizations>(lookupComponentLibraryLocalizations(locale));
+    return SynchronousFuture<ComponentLibraryLocalizations>(
+        lookupComponentLibraryLocalizations(locale));
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['en', 'pt'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_ComponentLibraryLocalizationsDelegate old) => false;
 }
 
-ComponentLibraryLocalizations lookupComponentLibraryLocalizations(Locale locale) {
-
-
+ComponentLibraryLocalizations lookupComponentLibraryLocalizations(
+    Locale locale) {
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en': return ComponentLibraryLocalizationsEn();
+    case 'en':
+      return ComponentLibraryLocalizationsEn();
+    case 'pt':
+      return ComponentLibraryLocalizationsPt();
   }
 
   throw FlutterError(
-    'ComponentLibraryLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-    'an issue with the localizations generation tool. Please file an issue '
-    'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
-  );
+      'ComponentLibraryLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
 }

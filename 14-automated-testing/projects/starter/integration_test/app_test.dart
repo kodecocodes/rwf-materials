@@ -5,5 +5,5 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:wonder_words/main.dart' as app;
 
 void main() {
-  // TODO: add implementation of integration test
+  // TODO: add an implementation of integration test
 }

@@ -1,8 +1,7 @@
 import 'package:component_library/component_library.dart';
-import 'package:component_library/src/mixins/animation_mixin.dart';
 import 'package:flutter/material.dart';
 
-class RoundedChoiceChip extends StatefulWidget {
+class RoundedChoiceChip extends StatelessWidget {
   const RoundedChoiceChip({
     required this.label,
     required this.isSelected,
@@ -25,43 +24,28 @@ class RoundedChoiceChip extends StatefulWidget {
   final bool isSelected;
 
   @override
-  State<RoundedChoiceChip> createState() => _RoundedChoiceChipState();
-}
-
-class _RoundedChoiceChipState extends State<RoundedChoiceChip>
-    with SingleTickerProviderStateMixin, ScaleAnimationMixin {
-  @override
-  double get scaleTo => 0.9;
-
-  @override
   Widget build(BuildContext context) {
-    final WonderThemeData theme = WonderTheme.of(context);
-    return ScaleTransition(
-      scale: scaleAnimation,
-      child: ChoiceChip(
-        shape: const StadiumBorder(
-          side: BorderSide(),
-        ),
-        avatar: widget.avatar,
-        label: Text(
-          widget.label,
-          style: TextStyle(
-            color: widget.isSelected
-                ? (widget.selectedLabelColor ??
-                    theme.roundedChoiceChipSelectedLabelColor)
-                : (widget.labelColor ?? theme.roundedChoiceChipLabelColor),
-          ),
-        ),
-        onSelected: (isSelected) {
-          widget.onSelected?.call(isSelected);
-          animate();
-        },
-        selected: widget.isSelected,
-        backgroundColor:
-            (widget.backgroundColor ?? theme.roundedChoiceChipBackgroundColor),
-        selectedColor: (widget.selectedBackgroundColor ??
-            theme.roundedChoiceChipSelectedBackgroundColor),
+    final theme = WonderTheme.of(context);
+    return ChoiceChip(
+      shape: const StadiumBorder(
+        side: BorderSide(),
       ),
+      avatar: avatar,
+      label: Text(
+        label,
+        style: TextStyle(
+          color: isSelected
+              ? (selectedLabelColor ??
+                  theme.roundedChoiceChipSelectedLabelColor)
+              : (labelColor ?? theme.roundedChoiceChipLabelColor),
+        ),
+      ),
+      onSelected: onSelected,
+      selected: isSelected,
+      backgroundColor:
+          (backgroundColor ?? theme.roundedChoiceChipBackgroundColor),
+      selectedColor: (selectedBackgroundColor ??
+          theme.roundedChoiceChipSelectedBackgroundColor),
     );
   }
 }

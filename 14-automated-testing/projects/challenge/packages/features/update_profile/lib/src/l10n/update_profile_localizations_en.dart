@@ -39,14 +39,14 @@ class UpdateProfileLocalizationsEn extends UpdateProfileLocalizations {
       'This email is already registered.';
 
   @override
-  String get passwordTextFieldLabel => 'Password';
+  String get passwordTextFieldLabel => 'New Password';
 
   @override
   String get passwordTextFieldInvalidErrorMessage =>
       'Password must be at least five characters long.';
 
   @override
-  String get passwordConfirmationTextFieldLabel => 'Password Confirmation';
+  String get passwordConfirmationTextFieldLabel => 'New Password Confirmation';
 
   @override
   String get passwordConfirmationTextFieldInvalidErrorMessage =>

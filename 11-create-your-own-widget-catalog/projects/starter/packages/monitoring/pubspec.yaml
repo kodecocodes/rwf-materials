@@ -1,5 +1,4 @@
 name: monitoring
-version: 0.0.1
 publish_to: none
 
 environment:
@@ -8,8 +7,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_analytics: ^8.3.0
-  logger: ^1.0.0
+  firebase_core: ^1.19.1
+  firebase_crashlytics: ^2.8.4
+  firebase_dynamic_links: ^4.3.1
+  firebase_analytics: ^9.1.12
+  firebase_remote_config: ^2.0.11
 
 dev_dependencies:
   lints: ^1.0.1

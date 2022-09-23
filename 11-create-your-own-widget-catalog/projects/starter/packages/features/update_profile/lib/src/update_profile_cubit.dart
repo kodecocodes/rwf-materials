@@ -23,16 +23,15 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
     final shouldValidate = previousValue.invalid;
     final newState = currentState.copyWith(
       username: shouldValidate
-          ? Username.dirty(
+          ? Username.validated(
               newValue,
               isAlreadyRegistered: newValue == previousValue.value
                   ? previousValue.isAlreadyRegistered
                   : false,
             )
-          : Username.pure(
+          : Username.unvalidated(
               newValue,
             ),
-      error: null,
     );
 
     emit(newState);
@@ -44,16 +43,15 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
     final shouldValidate = previousValue.invalid;
     final newState = currentState.copyWith(
       email: shouldValidate
-          ? Email.dirty(
+          ? Email.validated(
               newValue,
               isAlreadyRegistered: newValue == previousValue.value
                   ? previousValue.isAlreadyRegistered
                   : false,
             )
-          : Email.pure(
+          : Email.unvalidated(
               newValue,
             ),
-      error: null,
     );
     emit(newState);
   }
@@ -64,13 +62,12 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
     final shouldValidate = previousValue.invalid && newValue.isNotEmpty;
     final newState = currentState.copyWith(
       password: shouldValidate
-          ? OptionalPassword.dirty(
+          ? OptionalPassword.validated(
               newValue,
             )
-          : OptionalPassword.pure(
+          : OptionalPassword.unvalidated(
               newValue,
             ),
-      error: null,
     );
     emit(newState);
   }
@@ -81,14 +78,13 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
     final shouldValidate = previousValue.invalid;
     final newState = currentState.copyWith(
       passwordConfirmation: shouldValidate
-          ? OptionalPasswordConfirmation.dirty(
+          ? OptionalPasswordConfirmation.validated(
               newValue,
               password: currentState.password,
             )
-          : OptionalPasswordConfirmation.pure(
+          : OptionalPasswordConfirmation.unvalidated(
               newValue,
             ),
-      error: null,
     );
     emit(newState);
   }
@@ -96,11 +92,10 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
   void onUsernameUnfocused() {
     final currentState = state as UpdateProfileLoaded;
     final newState = currentState.copyWith(
-      username: Username.dirty(
+      username: Username.validated(
         currentState.username.value,
         isAlreadyRegistered: currentState.username.isAlreadyRegistered,
       ),
-      error: null,
     );
     emit(newState);
   }
@@ -108,11 +103,10 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
   void onEmailUnfocused() {
     final currentState = state as UpdateProfileLoaded;
     final newState = currentState.copyWith(
-      email: Email.dirty(
+      email: Email.validated(
         currentState.email.value,
         isAlreadyRegistered: currentState.email.isAlreadyRegistered,
       ),
-      error: null,
     );
     emit(newState);
   }
@@ -120,41 +114,39 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
   void onPasswordUnfocused() {
     final currentState = state as UpdateProfileLoaded;
     final newState = currentState.copyWith(
-      password: OptionalPassword.dirty(
+      password: OptionalPassword.validated(
         currentState.password.value,
       ),
-      error: null,
     );
     emit(newState);
   }
 
   void onPasswordConfirmationUnfocused() {
     final currentState = state as UpdateProfileLoaded;
-    final confirmation = OptionalPasswordConfirmation.dirty(
+    final confirmation = OptionalPasswordConfirmation.validated(
       currentState.passwordConfirmation.value,
       password: currentState.password,
     );
     final newState = currentState.copyWith(
       passwordConfirmation: confirmation,
-      error: null,
     );
     emit(newState);
   }
 
   void onSubmit() async {
     final currentState = state as UpdateProfileLoaded;
-    final username = Username.dirty(
+    final username = Username.validated(
       currentState.username.value,
       isAlreadyRegistered: currentState.username.isAlreadyRegistered,
     );
-    final email = Email.dirty(
+    final email = Email.validated(
       currentState.email.value,
       isAlreadyRegistered: currentState.email.isAlreadyRegistered,
     );
-    final password = OptionalPassword.dirty(
+    final password = OptionalPassword.validated(
       currentState.password.value,
     );
-    final passwordConfirmation = OptionalPasswordConfirmation.dirty(
+    final passwordConfirmation = OptionalPasswordConfirmation.validated(
       currentState.passwordConfirmation.value,
       password: password,
     );
@@ -170,9 +162,7 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
       email: email,
       password: password,
       passwordConfirmation: passwordConfirmation,
-      status:
-          isFormValid ? FormzStatus.submissionInProgress : currentState.status,
-      error: null,
+      submissionStatus: isFormValid ? SubmissionStatus.inProgress : null,
     );
     emit(newState);
 
@@ -184,25 +174,23 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
           password.value,
         );
         final newState = currentState.copyWith(
-          status: FormzStatus.submissionSuccess,
-          error: null,
+          submissionStatus: SubmissionStatus.success,
         );
         emit(newState);
       } catch (error) {
         final newState = currentState.copyWith(
-          error: error is! UsernameAlreadyTakenException &&
+          submissionStatus: error is! UsernameAlreadyTakenException &&
                   error is! EmailAlreadyRegisteredException
-              ? error
-              : null,
-          status: FormzStatus.submissionFailure,
+              ? SubmissionStatus.error
+              : SubmissionStatus.idle,
           username: error is UsernameAlreadyTakenException
-              ? Username.dirty(
+              ? Username.validated(
                   username.value,
                   isAlreadyRegistered: true,
                 )
               : null,
           email: error is EmailAlreadyRegisteredException
-              ? Email.dirty(
+              ? Email.validated(
                   email.value,
                   isAlreadyRegistered: true,
                 )
@@ -217,8 +205,8 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
     final user = await userRepository.getUser().first;
     if (user != null) {
       final newState = UpdateProfileLoaded(
-        username: Username.pure(user.username),
-        email: Email.pure(user.email),
+        username: Username.unvalidated(user.username),
+        email: Email.unvalidated(user.email),
       );
       emit(newState);
     }

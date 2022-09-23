@@ -73,7 +73,7 @@ class LightWonderThemeData extends WonderThemeData {
 }
 
 class DarkWonderThemeData extends WonderThemeData {
-  // TODO: Add dark theme implementation for materialThemeData
+// TODO: Add dark theme implementation for materialThemeData
   @override
   ThemeData get materialThemeData => ThemeData();
 

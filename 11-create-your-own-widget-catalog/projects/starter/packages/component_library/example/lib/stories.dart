@@ -75,9 +75,7 @@ List<Story> getStories(WonderThemeData theme) {
       section: 'Count Indicator Buttons',
       builder: (_, k) => UpvoteIconButton(
         // TODO: replace with implementation of int knob
-        count: k.sliderInt(
-          label: 'count',
-        ),
+        count: 2,
         onTap: () {},
         isUpvoted: k.boolean(
           label: 'isUpvoted',
@@ -105,14 +103,6 @@ List<Story> getStories(WonderThemeData theme) {
             : null,
       ),
     ),
-    Story.simple(
-      name: 'Loading Indicator',
-      section: 'Indicators',
-      child: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 200.0),
-        child: LoadingIndicator(),
-      ),
-    ),
     Story(
       name: 'QuoteCard',
       section: 'Quote',
@@ -122,9 +112,10 @@ List<Story> getStories(WonderThemeData theme) {
           initial: false,
         ),
         statement: k.text(
-            label: 'Statement',
-            initial:
-                'Wherever you go, no matter what the weather, always bring your own sunshine.'),
+          label: 'Statement',
+          initial:
+              'Wherever you go, no matter what the weather, always bring your own sunshine.',
+        ),
         author: k.text(
           label: 'Author',
           initial: 'Author name',
@@ -176,6 +167,10 @@ List<Story> getStories(WonderThemeData theme) {
           initial: 'Author name',
         ),
       ),
+    ),
+    Story.simple(
+      name: 'Centered Circular Progress Indicator',
+      child: const CenteredCircularProgressIndicator(),
     ),
     Story(
       name: 'Rounded Choice Chip',

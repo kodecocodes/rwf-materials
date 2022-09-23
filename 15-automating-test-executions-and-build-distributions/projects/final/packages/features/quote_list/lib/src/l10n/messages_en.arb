@@ -1,5 +1,6 @@
 {
   "quoteListRefreshErrorMessage": "We couldn't refresh your items.\nPlease, check your internet connection and try again later.",
+  "favoritesTagLabel": "Favorites",
   "lifeTagLabel": "Life",
   "happinessTagLabel": "Happiness",
   "workTagLabel": "Work",

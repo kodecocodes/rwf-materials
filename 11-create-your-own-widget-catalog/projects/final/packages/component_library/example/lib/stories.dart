@@ -117,6 +117,10 @@ List<Story> getStories(WonderThemeData theme) {
       builder: (_, k) => UpvoteIconButton(
         count: k.sliderInt(
           label: 'count',
+          max: 10,
+          min: 0,
+          initial: 0,
+          divisions: 9,
         ),
         onTap: () {},
         isUpvoted: k.boolean(
@@ -143,14 +147,6 @@ List<Story> getStories(WonderThemeData theme) {
         )
             ? () {}
             : null,
-      ),
-    ),
-    Story.simple(
-      name: 'Loading Indicator',
-      section: 'Indicators',
-      child: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 200.0),
-        child: LoadingIndicator(),
       ),
     ),
     Story(
@@ -180,8 +176,8 @@ List<Story> getStories(WonderThemeData theme) {
         child: ListView.separated(
           itemCount: 15,
           itemBuilder: (_, __) => child,
-          separatorBuilder: (_, __) => Divider(
-            height: theme.listSpacing,
+          separatorBuilder: (_, __) => const Divider(
+            height: 16.0,
           ),
         ),
       ),
@@ -226,6 +222,10 @@ List<Story> getStories(WonderThemeData theme) {
           initial: 'Author name',
         ),
       ),
+    ),
+    Story.simple(
+      name: 'Centered Circular Progress Indicator',
+      child: const CenteredCircularProgressIndicator(),
     ),
     Story(
       name: 'Rounded Choice Chip',

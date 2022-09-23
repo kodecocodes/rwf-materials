@@ -31,7 +31,7 @@ void main() {
       ),
     ).toJson();
 
-    // TODO: add implementation of request stubbing
+    // TODO: add an implementation of request stubbing
 
     // 4
     expect(await remoteApi.signIn(email, password), isA<UserRM>());

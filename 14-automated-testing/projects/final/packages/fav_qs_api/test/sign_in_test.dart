@@ -6,9 +6,7 @@ import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test(
-      'When sign in call completes successfully, returns an instance of UserRM',
-      () async {
+  group('Sign in:', () {
     final dio = Dio(BaseOptions());
     final dioAdapter = DioAdapter(dio: dio);
 
@@ -26,18 +24,21 @@ void main() {
         password: password,
       ),
     ).toJson();
-    dioAdapter.onPost(
-      url,
-      (server) => server.reply(
-        200,
-        {"User-Token": "token", "login": "login", "email": "email"},
-        delay: const Duration(seconds: 1),
-      ),
-      data: requestJsonBody,
-    );
 
-    expect(await remoteApi.signIn(email, password), isA<UserRM>());
+    test(
+        'When sign in call completes successfully, returns an instance of UserRM',
+        () async {
+      dioAdapter.onPost(
+        url,
+        (server) => server.reply(
+          200,
+          {"User-Token": "token", "login": "login", "email": "email"},
+          delay: const Duration(seconds: 1),
+        ),
+        data: requestJsonBody,
+      );
+
+      expect(await remoteApi.signIn(email, password), isA<UserRM>());
+    });
   });
-
-  // Challenge
 }

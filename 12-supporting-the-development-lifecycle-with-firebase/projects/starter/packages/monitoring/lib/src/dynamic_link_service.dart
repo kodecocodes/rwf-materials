@@ -1,12 +1,18 @@
+import 'dart:async';
+
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/foundation.dart';
-import 'package:package_info/package_info.dart';
+
+export 'package:firebase_dynamic_links/firebase_dynamic_links.dart'
+    show SocialMetaTagParameters;
 
 typedef OnNewDynamicLinkPath = void Function(String newDynamicLinkPath);
 
 /// Wrapper around [FirebaseDynamicLinks].
 class DynamicLinkService {
-  static const _domainUriPrefix = 'https://wonderwords.page.link';
+  static const _domainUriPrefix = 'https://wonderwords1.page.link';
+  static const _iOSBundleId = 'com.raywenderlich.wonderWords';
+  static const _androidPackageName = 'com.raywenderlich.wonder_words';
 
   DynamicLinkService({
     @visibleForTesting FirebaseDynamicLinks? dynamicLinks,
@@ -14,52 +20,41 @@ class DynamicLinkService {
 
   final FirebaseDynamicLinks _dynamicLinks;
 
-  Future<String?> getInitialDeepLinkPath() async {
+  Future<String> generateDynamicLinkUrl({
+    required String path,
+    SocialMetaTagParameters? socialMetaTagParameters,
+  }) async {
+    final parameters = DynamicLinkParameters(
+      uriPrefix: _domainUriPrefix,
+      link: Uri.parse(
+        '$_domainUriPrefix$path',
+      ),
+      androidParameters: const AndroidParameters(
+        packageName: _androidPackageName,
+      ),
+      iosParameters: const IOSParameters(
+        bundleId: _iOSBundleId,
+      ),
+      socialMetaTagParameters: socialMetaTagParameters,
+    );
+
+    final shortLink = await _dynamicLinks.buildShortLink(parameters);
+    return shortLink.shortUrl.toString();
+  }
+
+  Future<String?> getInitialDynamicLinkPath() async {
     final data = await _dynamicLinks.getInitialLink();
     final link = data?.link;
     return link?.path;
   }
 
-  void setListener(
-    OnNewDynamicLinkPath onNewDynamicLinkPath,
-  ) {
-    _dynamicLinks.onLink(
-      onSuccess: (
-        PendingDynamicLinkData? data,
-      ) async {
-        final link = data?.link;
-        final path = link?.path;
-
-        if (path != null) {
-          onNewDynamicLinkPath(path);
-        }
+  Stream<String> onNewDynamicLinkPath() {
+    return _dynamicLinks.onLink.map(
+      (PendingDynamicLinkData data) {
+        final link = data.link;
+        final path = link.path;
+        return path;
       },
     );
-  }
-
-  Future<String> generateDynamicLinkUrl({
-    required String path,
-    SocialMetaTagParameters? socialMetaTagParameters,
-  }) async {
-    final packageInfo = await PackageInfo.fromPlatform();
-    final packageName = packageInfo.packageName;
-    final DynamicLinkParameters parameters = DynamicLinkParameters(
-      uriPrefix: _domainUriPrefix,
-      link: Uri.parse(
-        '$_domainUriPrefix$path',
-      ),
-      androidParameters: AndroidParameters(
-        packageName: packageName,
-        minimumVersion: 0,
-      ),
-      iosParameters: IosParameters(
-        bundleId: packageName,
-        minimumVersion: '0',
-      ),
-      socialMetaTagParameters: socialMetaTagParameters,
-    );
-
-    final shortLink = await parameters.buildShortLink();
-    return shortLink.shortUrl.toString();
   }
 }

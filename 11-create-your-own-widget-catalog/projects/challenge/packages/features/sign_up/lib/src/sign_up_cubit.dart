@@ -15,41 +15,61 @@ class SignUpCubit extends Cubit<SignUpState> {
 
   final UserRepository userRepository;
 
-  void onUsernameChanged(String newValue) {
-    final previousUsername = state.username;
-    final shouldValidate = previousUsername.invalid;
-    final newState = state.copyWith(
-      username: shouldValidate
-          ? Username.dirty(
-              newValue,
-              isAlreadyRegistered: newValue == previousUsername.value
-                  ? previousUsername.isAlreadyRegistered
-                  : false,
-            )
-          : Username.pure(
-              newValue,
-            ),
-      error: null,
-    );
-    emit(newState);
-  }
-
   void onEmailChanged(String newValue) {
     final previousEmail = state.email;
     final shouldValidate = previousEmail.invalid;
     final newState = state.copyWith(
       email: shouldValidate
-          ? Email.dirty(
+          ? Email.validated(
               newValue,
               isAlreadyRegistered: newValue == previousEmail.value
                   ? previousEmail.isAlreadyRegistered
                   : false,
             )
-          : Email.pure(
+          : Email.unvalidated(
               newValue,
             ),
-      error: null,
     );
+    emit(newState);
+  }
+
+  void onEmailUnfocused() {
+    final newState = state.copyWith(
+      email: Email.validated(
+        state.email.value,
+        isAlreadyRegistered: state.email.isAlreadyRegistered,
+      ),
+    );
+
+    emit(newState);
+  }
+
+  void onUsernameChanged(String newValue) {
+    final previousUsername = state.username;
+    final shouldValidate = previousUsername.invalid;
+    final newState = state.copyWith(
+      username: shouldValidate
+          ? Username.validated(
+              newValue,
+              isAlreadyRegistered: newValue == previousUsername.value
+                  ? previousUsername.isAlreadyRegistered
+                  : false,
+            )
+          : Username.unvalidated(
+              newValue,
+            ),
+    );
+    emit(newState);
+  }
+
+  void onUsernameUnfocused() {
+    final newState = state.copyWith(
+      username: Username.validated(
+        state.username.value,
+        isAlreadyRegistered: state.username.isAlreadyRegistered,
+      ),
+    );
+
     emit(newState);
   }
 
@@ -58,15 +78,23 @@ class SignUpCubit extends Cubit<SignUpState> {
     final shouldValidate = previousPassword.invalid;
     final newState = state.copyWith(
       password: shouldValidate
-          ? Password.dirty(
+          ? Password.validated(
               newValue,
             )
-          : Password.pure(
+          : Password.unvalidated(
               newValue,
             ),
-      error: null,
     );
 
+    emit(newState);
+  }
+
+  void onPasswordUnfocused() {
+    final newState = state.copyWith(
+      password: Password.validated(
+        state.password.value,
+      ),
+    );
     emit(newState);
   }
 
@@ -75,79 +103,47 @@ class SignUpCubit extends Cubit<SignUpState> {
     final shouldValidate = previousPasswordConfirmation.invalid;
     final newState = state.copyWith(
       passwordConfirmation: shouldValidate
-          ? PasswordConfirmation.dirty(
+          ? PasswordConfirmation.validated(
               newValue,
               password: state.password,
             )
-          : PasswordConfirmation.pure(
+          : PasswordConfirmation.unvalidated(
               newValue,
             ),
-      error: null,
-    );
-    emit(newState);
-  }
-
-  void onUsernameUnfocused() {
-    final newState = state.copyWith(
-      username: Username.dirty(
-        state.username.value,
-        isAlreadyRegistered: state.username.isAlreadyRegistered,
-      ),
-      error: null,
-    );
-
-    emit(newState);
-  }
-
-  void onEmailUnfocused() {
-    final newState = state.copyWith(
-      email: Email.dirty(
-        state.email.value,
-        isAlreadyRegistered: state.email.isAlreadyRegistered,
-      ),
-      error: null,
-    );
-
-    emit(newState);
-  }
-
-  void onPasswordUnfocused() {
-    final newState = state.copyWith(
-      password: Password.dirty(
-        state.password.value,
-      ),
-      error: null,
     );
     emit(newState);
   }
 
   void onPasswordConfirmationUnfocused() {
     final newState = state.copyWith(
-      passwordConfirmation: PasswordConfirmation.dirty(
+      passwordConfirmation: PasswordConfirmation.validated(
         state.passwordConfirmation.value,
         password: state.password,
       ),
-      error: null,
     );
     emit(newState);
   }
 
   void onSubmit() async {
-    final username = Username.dirty(
+    final username = Username.validated(
       state.username.value,
       isAlreadyRegistered: state.username.isAlreadyRegistered,
     );
-    final email = Email.dirty(
+
+    final email = Email.validated(
       state.email.value,
       isAlreadyRegistered: state.email.isAlreadyRegistered,
     );
-    final password = Password.dirty(
+
+    final password = Password.validated(
       state.password.value,
     );
-    final passwordConfirmation = PasswordConfirmation.dirty(
+
+    final passwordConfirmation = PasswordConfirmation.validated(
       state.passwordConfirmation.value,
       password: password,
     );
+
     final isFormValid = Formz.validate([
           username,
           email,
@@ -155,15 +151,17 @@ class SignUpCubit extends Cubit<SignUpState> {
           passwordConfirmation,
         ]) ==
         FormzStatus.valid;
+
     final newState = state.copyWith(
       username: username,
       email: email,
       password: password,
       passwordConfirmation: passwordConfirmation,
-      status: isFormValid ? FormzStatus.submissionInProgress : state.status,
-      error: null,
+      submissionStatus: isFormValid ? SubmissionStatus.inProgress : null,
     );
+
     emit(newState);
+
     if (isFormValid) {
       try {
         await userRepository.signUp(
@@ -172,29 +170,27 @@ class SignUpCubit extends Cubit<SignUpState> {
           password.value,
         );
         final newState = state.copyWith(
-          status: FormzStatus.submissionSuccess,
-          error: null,
+          submissionStatus: SubmissionStatus.success,
         );
         emit(newState);
       } catch (error) {
         final newState = state.copyWith(
-          error: error is! UsernameAlreadyTakenException &&
+          submissionStatus: error is! UsernameAlreadyTakenException &&
                   error is! EmailAlreadyRegisteredException
-              ? error
-              : null,
-          status: FormzStatus.submissionFailure,
+              ? SubmissionStatus.error
+              : SubmissionStatus.idle,
           username: error is UsernameAlreadyTakenException
-              ? Username.dirty(
+              ? Username.validated(
                   username.value,
                   isAlreadyRegistered: true,
                 )
-              : null,
+              : state.username,
           email: error is EmailAlreadyRegisteredException
-              ? Email.dirty(
+              ? Email.validated(
                   email.value,
                   isAlreadyRegistered: true,
                 )
-              : null,
+              : state.email,
         );
 
         emit(newState);

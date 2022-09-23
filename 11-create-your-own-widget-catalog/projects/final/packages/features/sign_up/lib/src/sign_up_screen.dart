@@ -31,7 +31,7 @@ class SignUpScreen extends StatelessWidget {
 }
 
 @visibleForTesting
-class SignUpView extends StatefulWidget {
+class SignUpView extends StatelessWidget {
   const SignUpView({
     required this.onSignUpSuccess,
     Key? key,
@@ -40,10 +40,46 @@ class SignUpView extends StatefulWidget {
   final VoidCallback onSignUpSuccess;
 
   @override
-  _SignUpViewState createState() => _SignUpViewState();
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _releaseFocus(context),
+      child: Scaffold(
+        appBar: AppBar(
+          systemOverlayStyle: SystemUiOverlayStyle.light,
+          title: Text(
+            SignUpLocalizations.of(context).appBarTitle,
+          ),
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.only(
+            left: Spacing.mediumLarge,
+            right: Spacing.mediumLarge,
+            top: Spacing.mediumLarge,
+          ),
+          child: _SignUpForm(
+            onSignUpSuccess: onSignUpSuccess,
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _releaseFocus(BuildContext context) => FocusScope.of(context).unfocus();
 }
 
-class _SignUpViewState extends State<SignUpView> {
+class _SignUpForm extends StatefulWidget {
+  const _SignUpForm({
+    required this.onSignUpSuccess,
+    Key? key,
+  }) : super(key: key);
+
+  final VoidCallback onSignUpSuccess;
+
+  @override
+  State<_SignUpForm> createState() => _SignUpFormState();
+}
+
+class _SignUpFormState extends State<_SignUpForm> {
   final _usernameFocusNode = FocusNode();
   final _emailFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
@@ -52,24 +88,40 @@ class _SignUpViewState extends State<SignUpView> {
   @override
   void initState() {
     super.initState();
-    _usernameFocusNode.addListener(() {
-      if (!_usernameFocusNode.hasFocus) {
-        final cubit = context.read<SignUpCubit>();
-        cubit.onUsernameUnfocused();
-      }
-    });
+    _setUpEmailFieldFocusListener();
+    _setUpUsernameFieldFocusListener();
+    _setUpPasswordFieldFocusListener();
+    _setUpPasswordConfirmationFieldFocusListener();
+  }
+
+  void _setUpEmailFieldFocusListener() {
     _emailFocusNode.addListener(() {
       if (!_emailFocusNode.hasFocus) {
         final cubit = context.read<SignUpCubit>();
         cubit.onEmailUnfocused();
       }
     });
+  }
+
+  void _setUpUsernameFieldFocusListener() {
+    _usernameFocusNode.addListener(() {
+      if (!_usernameFocusNode.hasFocus) {
+        final cubit = context.read<SignUpCubit>();
+        cubit.onUsernameUnfocused();
+      }
+    });
+  }
+
+  void _setUpPasswordFieldFocusListener() {
     _passwordFocusNode.addListener(() {
       if (!_passwordFocusNode.hasFocus) {
         final cubit = context.read<SignUpCubit>();
         cubit.onPasswordUnfocused();
       }
     });
+  }
+
+  void _setUpPasswordConfirmationFieldFocusListener() {
     _passwordConfirmationFocusNode.addListener(() {
       if (!_passwordConfirmationFocusNode.hasFocus) {
         final cubit = context.read<SignUpCubit>();
@@ -80,14 +132,16 @@ class _SignUpViewState extends State<SignUpView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SignUpCubit, SignUpState>(
+    return BlocConsumer<SignUpCubit, SignUpState>(
+      listenWhen: (oldState, newState) =>
+          oldState.submissionStatus != newState.submissionStatus,
       listener: (context, state) {
-        if (state.status == FormzStatus.submissionSuccess) {
+        if (state.submissionStatus == SubmissionStatus.success) {
           widget.onSignUpSuccess();
           return;
         }
 
-        if (state.error != null) {
+        if (state.submissionStatus == SubmissionStatus.error) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
@@ -95,94 +149,26 @@ class _SignUpViewState extends State<SignUpView> {
             );
         }
       },
-      child: GestureDetector(
-        onTap: () => _releaseFocus(context),
-        child: Scaffold(
-          appBar: AppBar(
-            systemOverlayStyle: SystemUiOverlayStyle.light,
-            title: Text(
-              SignUpLocalizations.of(context).appBarTitle,
-            ),
-          ),
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.only(
-              left: Spacing.mediumLarge,
-              right: Spacing.mediumLarge,
-              top: Spacing.mediumLarge,
-            ),
-            child: _SignUpForm(
-              usernameFocusNode: _usernameFocusNode,
-              emailFocusNode: _emailFocusNode,
-              passwordFocusNode: _passwordFocusNode,
-              passwordConfirmationFocusNode: _passwordConfirmationFocusNode,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _releaseFocus(BuildContext context) => FocusScope.of(context).unfocus();
-}
-
-class _SignUpForm extends StatelessWidget {
-  const _SignUpForm({
-    required this.usernameFocusNode,
-    required this.emailFocusNode,
-    required this.passwordFocusNode,
-    required this.passwordConfirmationFocusNode,
-    Key? key,
-  }) : super(key: key);
-
-  final FocusNode usernameFocusNode;
-  final FocusNode emailFocusNode;
-  final FocusNode passwordFocusNode;
-  final FocusNode passwordConfirmationFocusNode;
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<SignUpCubit, SignUpState>(
       builder: (context, state) {
         final l10n = SignUpLocalizations.of(context);
         final cubit = context.read<SignUpCubit>();
+        final emailError = state.email.invalid ? state.email.error : null;
         final usernameError =
             state.username.invalid ? state.username.error : null;
-        final emailError = state.email.invalid ? state.email.error : null;
         final passwordError =
             state.password.invalid ? state.password.error : null;
         final passwordConfirmationError = state.passwordConfirmation.invalid
             ? state.passwordConfirmation.error
             : null;
         final isSubmissionInProgress =
-            state.status == FormzStatus.submissionInProgress;
+            state.submissionStatus == SubmissionStatus.inProgress;
         return Column(
           children: <Widget>[
             TextField(
-              focusNode: usernameFocusNode,
-              onChanged: cubit.onUsernameChanged,
-              textInputAction: TextInputAction.next,
-              decoration: InputDecoration(
-                suffixIcon: const Icon(
-                  Icons.person,
-                ),
-                enabled: !isSubmissionInProgress,
-                labelText: l10n.usernameTextFieldLabel,
-                errorText: usernameError == null
-                    ? null
-                    : (usernameError == UsernameValidationError.empty
-                        ? l10n.usernameTextFieldEmptyErrorMessage
-                        : (usernameError == UsernameValidationError.alreadyTaken
-                            ? l10n.usernameTextFieldAlreadyTakenErrorMessage
-                            : l10n.usernameTextFieldInvalidErrorMessage)),
-              ),
-            ),
-            const SizedBox(
-              height: Spacing.mediumLarge,
-            ),
-            TextField(
-              focusNode: emailFocusNode,
+              focusNode: _emailFocusNode,
               onChanged: cubit.onEmailChanged,
               textInputAction: TextInputAction.next,
+              autocorrect: false,
               decoration: InputDecoration(
                 suffixIcon: const Icon(
                   Icons.alternate_email,
@@ -202,7 +188,30 @@ class _SignUpForm extends StatelessWidget {
               height: Spacing.mediumLarge,
             ),
             TextField(
-              focusNode: passwordFocusNode,
+              focusNode: _usernameFocusNode,
+              onChanged: cubit.onUsernameChanged,
+              textInputAction: TextInputAction.next,
+              autocorrect: false,
+              decoration: InputDecoration(
+                suffixIcon: const Icon(
+                  Icons.person,
+                ),
+                enabled: !isSubmissionInProgress,
+                labelText: l10n.usernameTextFieldLabel,
+                errorText: usernameError == null
+                    ? null
+                    : (usernameError == UsernameValidationError.empty
+                        ? l10n.usernameTextFieldEmptyErrorMessage
+                        : (usernameError == UsernameValidationError.alreadyTaken
+                            ? l10n.usernameTextFieldAlreadyTakenErrorMessage
+                            : l10n.usernameTextFieldInvalidErrorMessage)),
+              ),
+            ),
+            const SizedBox(
+              height: Spacing.mediumLarge,
+            ),
+            TextField(
+              focusNode: _passwordFocusNode,
               onChanged: cubit.onPasswordChanged,
               textInputAction: TextInputAction.next,
               obscureText: true,
@@ -223,7 +232,7 @@ class _SignUpForm extends StatelessWidget {
               height: Spacing.mediumLarge,
             ),
             TextField(
-              focusNode: passwordConfirmationFocusNode,
+              focusNode: _passwordConfirmationFocusNode,
               onChanged: cubit.onPasswordConfirmationChanged,
               onEditingComplete: cubit.onSubmit,
               obscureText: true,
@@ -260,5 +269,14 @@ class _SignUpForm extends StatelessWidget {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _emailFocusNode.dispose();
+    _usernameFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    _passwordConfirmationFocusNode.dispose();
+    super.dispose();
   }
 }

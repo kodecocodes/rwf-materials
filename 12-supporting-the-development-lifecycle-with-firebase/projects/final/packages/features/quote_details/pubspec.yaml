@@ -2,14 +2,14 @@ name: quote_details
 publish_to: none
 
 environment:
-  sdk: ">=2.14.0 <4.0.0"
+  sdk: ">=2.14.0 <3.0.0"
 
 dependencies:
   component_library:
     path: ../../component_library
   equatable: ^2.0.3
   flutter_bloc: ^8.0.1
-  share_plus: ^2.1.4
+  share_plus: ^4.0.10
   flutter:
     sdk: flutter
   quote_repository:

@@ -13,14 +13,5 @@ void main() {
 
       expect(preference.toDomainModel(), DarkModePreference.alwaysDark);
     });
-
-    // Challange
-    test(
-        'When mapping DarkModePreference.alwaysDark to cache, return DarkModePreferenceCM.alwaysDark',
-        () {
-      final preference = DarkModePreference.alwaysDark;
-
-      expect(preference.toCacheModel(), DarkModePreferenceCM.alwaysDark);
-    });
   });
 }

@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 class AnalyticsService {
   AnalyticsService({
     @visibleForTesting FirebaseAnalytics? analytics,
-  }) : _analytics = analytics ?? FirebaseAnalytics();
+  }) : _analytics = analytics ?? FirebaseAnalytics.instance;
 
   final FirebaseAnalytics _analytics;
 

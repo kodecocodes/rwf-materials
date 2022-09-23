@@ -1,4 +1,5 @@
 name: component_library_storybook
+version: 1.0.0+1
 publish_to: none
 
 environment:
