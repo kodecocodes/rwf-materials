@@ -6,8 +6,8 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:quote_list/quote_list.dart';
 import 'package:quote_list/src/quote_list_bloc.dart';
 
-class QuoteSliverList extends StatelessWidget {
-  const QuoteSliverList({
+class QuotePagedListView extends StatelessWidget {
+  const QuotePagedListView({
     required this.pagingController,
     this.onQuoteSelected,
     Key? key,
@@ -22,11 +22,11 @@ class QuoteSliverList extends StatelessWidget {
     final onQuoteSelected = this.onQuoteSelected;
     final bloc = context.read<QuoteListBloc>();
 
-    return SliverPadding(
+    return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: theme.screenMargin,
       ),
-      sliver: PagedSliverList.separated(
+      child: PagedListView.separated(
           pagingController: pagingController,
           builderDelegate: PagedChildBuilderDelegate<Quote>(
             itemBuilder: (context, quote, index) {

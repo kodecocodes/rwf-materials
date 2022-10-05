@@ -6,10 +6,10 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:quote_list/quote_list.dart';
 import 'package:quote_list/src/quote_list_bloc.dart';
 
-class QuoteSliverGrid extends StatelessWidget {
+class QuotePagedGridView extends StatelessWidget {
   static const _gridColumnCount = 2;
 
-  const QuoteSliverGrid({
+  const QuotePagedGridView({
     required this.pagingController,
     this.onQuoteSelected,
     Key? key,
@@ -24,12 +24,12 @@ class QuoteSliverGrid extends StatelessWidget {
     final onQuoteSelected = this.onQuoteSelected;
     final bloc = context.read<QuoteListBloc>();
 
-    return SliverPadding(
+    return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: theme.screenMargin,
       ),
       // For a deep dive on how the pagination works, refer to: https://www.raywenderlich.com/14214369-infinite-scrolling-pagination-in-flutter
-      sliver: PagedStaggeredSliverGrid.count(
+      child: PagedMasonryGridView.count(
         pagingController: pagingController,
         builderDelegate: PagedChildBuilderDelegate<Quote>(
           itemBuilder: (context, quote, index) {
@@ -76,9 +76,6 @@ class QuoteSliverGrid extends StatelessWidget {
         crossAxisCount: _gridColumnCount,
         crossAxisSpacing: theme.gridSpacing,
         mainAxisSpacing: theme.gridSpacing,
-        staggeredTileBuilder: (_) => const StaggeredTile.fit(
-          1,
-        ),
       ),
     );
   }
